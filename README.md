@@ -126,7 +126,7 @@ func doAuth() {
 Input:
 - `userId: String`
 - `sectorId: Int`
-- `region: JupiterVMRegion` (this demo uses `JupiterVMRegion.KOREA`)
+- `region: JupiterVMRegion` (default: `JupiterVMRegion.SAUDI`)
 
 Output:
 - `onInitSuccess(isSuccess, code)`
@@ -135,7 +135,6 @@ Output:
 vmView.delegate = self
 vmView.initialize(
     userId: "vm-test",
-    region: JupiterVMRegion.KOREA.rawValue,
     sectorId: 20
 )
 ```

@@ -586,7 +586,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     
     func initVMView() {
         vmView.delegate = self
-        vmView.initialize(userId: "vm-test", region: JupiterVMRegion.KOREA.rawValue, sectorId: 20)
+        vmView.initialize(userId: "vm-test", sectorId: 20)
     }
     
     func setupVMView() {
