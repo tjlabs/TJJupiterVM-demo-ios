@@ -34,8 +34,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     private var isInitializingMap = false
     private var isShowingMap = false
     private var lastPresentedPermissionIssue: PermissionValidationIssue?
-    private var simulationPickerView: SimulationFilePickerView?
-    private var selectedSimulationFileSet: SimulationFileSet?
 
     func onInitSuccess(_ isSuccess: Bool, _ code: TJJupiterVMSDK.InitErrorCode?) {
         isInitializingMap = false
@@ -62,7 +60,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         isShowingMap = false
 
         if isSuccess {
-            applySelectedSimulationModeIfNeeded()
             self.startService()
         } else {
             self.vmView.removeFromSuperview()
@@ -87,20 +84,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     
     private let vmView = TJJupiterVMView()
     private var selectVehicleView: SelectVehicleView?
-    
-    private let simulationPickerButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("시뮬레이션 파일 선택", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        button.backgroundColor = UIColor(hex: "#E47325")
-        button.layer.cornerRadius = 8
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.16
-        button.layer.shadowOffset = CGSize(width: 0, height: 8)
-        button.layer.shadowRadius = 16
-        return button
-    }()
     
     private let containerView: UIView = {
         let view = UIView()
@@ -174,7 +157,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
-        prepareSimulationExportsDirectoryIfNeeded()
         configurePermissionManagers()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleAppWillEnterForeground),
@@ -193,7 +175,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         
         view.addSubview(containerView)
         containerView.addSubview(buttonStackView)
-        buttonStackView.addArrangedSubview(simulationPickerButton)
         buttonStackView.addArrangedSubview(initMapButton)
         buttonStackView.addArrangedSubview(showMapButton)
 
@@ -209,7 +190,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             buttonStackView.trailingAnchor.constraint(lessThanOrEqualTo: containerView.trailingAnchor, constant: -24),
             buttonStackView.widthAnchor.constraint(equalToConstant: 220),
 
-            simulationPickerButton.heightAnchor.constraint(equalToConstant: 52),
             initMapButton.heightAnchor.constraint(equalToConstant: 52),
             showMapButton.heightAnchor.constraint(equalToConstant: 52)
         ])
@@ -219,11 +199,10 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
 
     private func bindButtonActions() {
-        simulationPickerButton.addTarget(self, action: #selector(simulationPickerTapped), for: .touchUpInside)
         initMapButton.addTarget(self, action: #selector(initMapTapped), for: .touchUpInside)
         showMapButton.addTarget(self, action: #selector(showMapTapped), for: .touchUpInside)
 
-        [simulationPickerButton, initMapButton, showMapButton].forEach { button in
+        [initMapButton, showMapButton].forEach { button in
             button.addTarget(self, action: #selector(handleButtonPressDown(_:)), for: [.touchDown, .touchDragEnter])
             button.addTarget(self, action: #selector(handleButtonPressUp(_:)), for: [.touchUpInside, .touchUpOutside, .touchCancel, .touchDragExit])
         }
@@ -267,35 +246,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
 
     @objc private func handleAppWillEnterForeground() {
         evaluateLaunchRequirements()
-    }
-
-    private func prepareSimulationExportsDirectoryIfNeeded() {
-        do {
-            try SimulationExportsDirectory.ensureExists()
-        } catch {
-            print("(MainViewController) Failed to prepare Exports directory: \(error.localizedDescription)")
-        }
-    }
-
-    @objc private func simulationPickerTapped() {
-        guard simulationPickerView == nil else { return }
-
-        do {
-            try SimulationExportsDirectory.ensureExists()
-            let fileSets = try SimulationExportsDirectory.availableFileSets()
-
-            guard !fileSets.isEmpty else {
-                presentSimpleAlert(
-                    title: "파일 세트 없음",
-                    message: "\(SimulationExportsDirectory.folderName) 폴더에 *_rfd.json / *_uvd.json / *_event.json 파일 세트를 추가해 주세요.\n\nFiles 앱에서 이 앱의 \(SimulationExportsDirectory.folderName) 폴더를 확인할 수 있습니다."
-                )
-                return
-            }
-
-            presentSimulationPicker(fileSets: fileSets)
-        } catch {
-            presentSimpleAlert(title: "Exports 폴더 오류", message: error.localizedDescription)
-        }
     }
 
     private func evaluateLaunchRequirements() {
@@ -345,58 +295,8 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             && hasInitializedMap
             && !isShowingMap
 
-        setButtonEnabled(simulationPickerButton, isEnabled: true)
         setButtonEnabled(initMapButton, isEnabled: canInit)
         setButtonEnabled(showMapButton, isEnabled: canShowMap)
-    }
-
-    private func presentSimulationPicker(fileSets: [SimulationFileSet]) {
-        let pickerView = SimulationFilePickerView()
-        pickerView.translatesAutoresizingMaskIntoConstraints = false
-        pickerView.alpha = 0
-        pickerView.configure(fileSets: fileSets, selectedFileSet: selectedSimulationFileSet)
-
-        pickerView.onCancel = { [weak self] in
-            self?.dismissSimulationPicker()
-        }
-
-        pickerView.onConfirm = { [weak self] fileSet in
-            self?.selectedSimulationFileSet = fileSet
-            self?.dismissSimulationPicker()
-        }
-
-        view.addSubview(pickerView)
-        NSLayoutConstraint.activate([
-            pickerView.topAnchor.constraint(equalTo: view.topAnchor),
-            pickerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            pickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            pickerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-
-        simulationPickerView = pickerView
-
-        UIView.animate(withDuration: 0.2) {
-            pickerView.alpha = 1
-        }
-    }
-
-    private func dismissSimulationPicker() {
-        guard let pickerView = simulationPickerView else { return }
-        simulationPickerView = nil
-
-        UIView.animate(withDuration: 0.2, animations: {
-            pickerView.alpha = 0
-        }, completion: { _ in
-            pickerView.removeFromSuperview()
-        })
-    }
-
-    private func presentSimpleAlert(title: String, message: String) {
-        guard presentedViewController == nil else { return }
-
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alert, animated: true)
     }
 
     private func missingRequiredUsageDescriptionKeys() -> [String] {
@@ -596,10 +496,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     func startService() {
         vmView.startService()
     }
-
-    func setSimulationMode(flag: Bool, rfdFileName: String, uvdFileName: String, eventFileName: String) {
-        vmView.setSimulationMode(flag: flag, rfdFileName: rfdFileName, uvdFileName: uvdFileName, eventFileName: eventFileName)
-    }
     
     func setVacantParkingLocations() {
         let idList = ["OB-1h82101id68tx3548", "OB-1h7zbmxfa10z93809", "OB-1h84se62jidlw3811"]
@@ -609,17 +505,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         }
         
         vmView.setVacantParkingLocations(levelId: 52, parkingLocationStates: states)
-    }
-
-    private func applySelectedSimulationModeIfNeeded() {
-        guard let selectedSimulationFileSet else { return }
-
-        setSimulationMode(
-            flag: true,
-            rfdFileName: selectedSimulationFileSet.rfdFileName,
-            uvdFileName: selectedSimulationFileSet.uvdFileName,
-            eventFileName: selectedSimulationFileSet.eventFileName
-        )
     }
         
     func showSelectVehicleView(parkingLocationId: String) {

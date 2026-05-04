@@ -16,7 +16,6 @@ The app demonstrates a simple VM service lifecycle with:
 - Authentication (`AUTH`)
 - Service initialize (`실내지도 초기화`)
 - VM view attach and service start (`실내지도 보기`)
-- Simulation file-set selection (`시뮬레이션 파일 선택`)
 - Parking location APIs (`setSavedParkingLocations`, `setVacantParkingLocations`)
 
 ## Features
@@ -44,8 +43,6 @@ Declare in `Info.plist`:
 - `NSBluetoothAlwaysUsageDescription`
 - `UIBackgroundModes` with `location`
 - `UIBackgroundModes` with `bluetooth-central`
-- `UIFileSharingEnabled`
-- `LSSupportsOpeningDocumentsInPlace`
 
 Runtime permission check in this demo requires:
 - Location

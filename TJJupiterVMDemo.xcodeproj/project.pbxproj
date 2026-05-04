@@ -65,15 +65,11 @@
 		};
 		B34313C22FA346AE0059A6E9 /* TJJupiterVMDemoTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = TJJupiterVMDemoTests;
 			sourceTree = "<group>";
 		};
 		B34313CC2FA346AE0059A6E9 /* TJJupiterVMDemoUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = TJJupiterVMDemoUITests;
 			sourceTree = "<group>";
 		};
@@ -321,9 +317,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -382,9 +382,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-TJJupiterVMDemo/Pods-TJJupiterVMDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-TJJupiterVMDemo/Pods-TJJupiterVMDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -443,7 +447,6 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TJJupiterVMDemo/Info.plist;
-				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow my app to bluetooth usage";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Allow my app to bluetooth peripheral usage";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow my app to location usage";
@@ -489,7 +492,6 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TJJupiterVMDemo/Info.plist;
-				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow my app to bluetooth usage";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Allow my app to bluetooth peripheral usage";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow my app to location usage";
