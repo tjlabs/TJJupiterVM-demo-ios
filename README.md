@@ -26,7 +26,6 @@ The app demonstrates a simple VM service lifecycle with:
 - Runtime location and Bluetooth permission request flow
 - Parking-space tap callback handling
 - Hardcoded vacant parking update example
-- Simulation mode file-set selection from the `Exports` folder in the iOS Files app
 
 ## Requirements
 
@@ -161,27 +160,8 @@ func onWebViewSuccess(_ isSuccess: Bool, _ code: VMErrorCode?) {
 }
 ```
 
-### 5. Simulation mode in this demo
 
-Place simulation files in the app's `Exports` folder through the iOS Files app.
-
-Required file set:
-- `*_rfd.json`
-- `*_uvd.json`
-- `*_event.json`
-
-This demo scans the `Exports` folder, shows matching file sets in `SimulationFilePickerView`, and applies the selected set before starting the VM service.
-
-```swift
-vmView.setSimulationMode(
-    flag: true,
-    rfdFileName: "sample_rfd.json",
-    uvdFileName: "sample_uvd.json",
-    eventFileName: "sample_event.json"
-)
-```
-
-### 6. Parking APIs in this demo
+### 5. Parking APIs in this demo
 
 Saved parking example:
 
