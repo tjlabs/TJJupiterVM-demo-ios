@@ -1,0 +1,7 @@
+${PODS_ROOT}/Target Support Files/Pods-TJJupiterVMDemo/Pods-TJJupiterVMDemo-frameworks.sh
+${BUILT_PRODUCTS_DIR}/TJJupiterVMSDK/TJJupiterVMSDK.framework
+${PODS_XCFRAMEWORKS_BUILD_DIR}/TJJupiterVMSDK/TJLabsAuth.framework/TJLabsAuth
+${PODS_XCFRAMEWORKS_BUILD_DIR}/TJJupiterVMSDK/TJLabsCommon.framework/TJLabsCommon
+${PODS_XCFRAMEWORKS_BUILD_DIR}/TJJupiterVMSDK/TJLabsJupiter.framework/TJLabsJupiter
+${PODS_XCFRAMEWORKS_BUILD_DIR}/TJJupiterVMSDK/TJLabsJupiterVM.framework/TJLabsJupiterVM
+${PODS_XCFRAMEWORKS_BUILD_DIR}/TJJupiterVMSDK/TJLabsResource.framework/TJLabsResource

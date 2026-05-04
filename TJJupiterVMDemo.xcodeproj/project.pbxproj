@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1697ABF395E154C87EC6EA34 /* Pods_TJJupiterVMDemo_TJJupiterVMDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D12BA562F9A9AC7D1DFD380 /* Pods_TJJupiterVMDemo_TJJupiterVMDemoUITests.framework */; };
+		DE273C139335849C9E40F80B /* Pods_TJJupiterVMDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32C0740CCB7C281FEE235918 /* Pods_TJJupiterVMDemo.framework */; };
+		E85DFA3BD05D2655681DAC4F /* Pods_TJJupiterVMDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D70FBF725820F0C6D6988C8E /* Pods_TJJupiterVMDemoTests.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B34313C02FA346AE0059A6E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,9 +30,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		080BD156C41A2A562FDF20FB /* Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		32C0740CCB7C281FEE235918 /* Pods_TJJupiterVMDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TJJupiterVMDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D12BA562F9A9AC7D1DFD380 /* Pods_TJJupiterVMDemo_TJJupiterVMDemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TJJupiterVMDemo_TJJupiterVMDemoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EFDF6600E80238D8F774A68 /* Pods-TJJupiterVMDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJJupiterVMDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-TJJupiterVMDemoTests/Pods-TJJupiterVMDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7AD540AC8802C05EABF200F7 /* Pods-TJJupiterVMDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJJupiterVMDemo.release.xcconfig"; path = "Target Support Files/Pods-TJJupiterVMDemo/Pods-TJJupiterVMDemo.release.xcconfig"; sourceTree = "<group>"; };
+		ACDD74B299B2A85AE351847B /* Pods-TJJupiterVMDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJJupiterVMDemoTests.release.xcconfig"; path = "Target Support Files/Pods-TJJupiterVMDemoTests/Pods-TJJupiterVMDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		B34313A92FA346AC0059A6E9 /* TJJupiterVMDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TJJupiterVMDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B34313BF2FA346AE0059A6E9 /* TJJupiterVMDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TJJupiterVMDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B34313C92FA346AE0059A6E9 /* TJJupiterVMDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TJJupiterVMDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D70FBF725820F0C6D6988C8E /* Pods_TJJupiterVMDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TJJupiterVMDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE939B5B477220C5EAE83CBE /* Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		F294D24A20F61B01A39A5A64 /* Pods-TJJupiterVMDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJJupiterVMDemo.debug.xcconfig"; path = "Target Support Files/Pods-TJJupiterVMDemo/Pods-TJJupiterVMDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -50,11 +65,15 @@
 		};
 		B34313C22FA346AE0059A6E9 /* TJJupiterVMDemoTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = TJJupiterVMDemoTests;
 			sourceTree = "<group>";
 		};
 		B34313CC2FA346AE0059A6E9 /* TJJupiterVMDemoUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = TJJupiterVMDemoUITests;
 			sourceTree = "<group>";
 		};
@@ -65,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE273C139335849C9E40F80B /* Pods_TJJupiterVMDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E85DFA3BD05D2655681DAC4F /* Pods_TJJupiterVMDemoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,12 +100,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1697ABF395E154C87EC6EA34 /* Pods_TJJupiterVMDemo_TJJupiterVMDemoUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		45CC9EF0E2BC185857345425 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				32C0740CCB7C281FEE235918 /* Pods_TJJupiterVMDemo.framework */,
+				3D12BA562F9A9AC7D1DFD380 /* Pods_TJJupiterVMDemo_TJJupiterVMDemoUITests.framework */,
+				D70FBF725820F0C6D6988C8E /* Pods_TJJupiterVMDemoTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B34313A02FA346AC0059A6E9 = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +124,8 @@
 				B34313C22FA346AE0059A6E9 /* TJJupiterVMDemoTests */,
 				B34313CC2FA346AE0059A6E9 /* TJJupiterVMDemoUITests */,
 				B34313AA2FA346AC0059A6E9 /* Products */,
+				C1179F9B987FB47CA833BAFF /* Pods */,
+				45CC9EF0E2BC185857345425 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,6 +139,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C1179F9B987FB47CA833BAFF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F294D24A20F61B01A39A5A64 /* Pods-TJJupiterVMDemo.debug.xcconfig */,
+				7AD540AC8802C05EABF200F7 /* Pods-TJJupiterVMDemo.release.xcconfig */,
+				DE939B5B477220C5EAE83CBE /* Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests.debug.xcconfig */,
+				080BD156C41A2A562FDF20FB /* Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests.release.xcconfig */,
+				6EFDF6600E80238D8F774A68 /* Pods-TJJupiterVMDemoTests.debug.xcconfig */,
+				ACDD74B299B2A85AE351847B /* Pods-TJJupiterVMDemoTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -112,9 +159,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B34313D22FA346AE0059A6E9 /* Build configuration list for PBXNativeTarget "TJJupiterVMDemo" */;
 			buildPhases = (
+				4CD9E14301F816BB8177DA60 /* [CP] Check Pods Manifest.lock */,
 				B34313A52FA346AC0059A6E9 /* Sources */,
 				B34313A62FA346AC0059A6E9 /* Frameworks */,
 				B34313A72FA346AC0059A6E9 /* Resources */,
+				AE7B9FBA9C1707A08B306186 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -124,8 +173,6 @@
 				B34313AB2FA346AC0059A6E9 /* TJJupiterVMDemo */,
 			);
 			name = TJJupiterVMDemo;
-			packageProductDependencies = (
-			);
 			productName = TJJupiterVMDemo;
 			productReference = B34313A92FA346AC0059A6E9 /* TJJupiterVMDemo.app */;
 			productType = "com.apple.product-type.application";
@@ -134,6 +181,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B34313D72FA346AE0059A6E9 /* Build configuration list for PBXNativeTarget "TJJupiterVMDemoTests" */;
 			buildPhases = (
+				93534D5138CD6CBE312FF971 /* [CP] Check Pods Manifest.lock */,
 				B34313BB2FA346AE0059A6E9 /* Sources */,
 				B34313BC2FA346AE0059A6E9 /* Frameworks */,
 				B34313BD2FA346AE0059A6E9 /* Resources */,
@@ -147,8 +195,6 @@
 				B34313C22FA346AE0059A6E9 /* TJJupiterVMDemoTests */,
 			);
 			name = TJJupiterVMDemoTests;
-			packageProductDependencies = (
-			);
 			productName = TJJupiterVMDemoTests;
 			productReference = B34313BF2FA346AE0059A6E9 /* TJJupiterVMDemoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -157,9 +203,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B34313DA2FA346AE0059A6E9 /* Build configuration list for PBXNativeTarget "TJJupiterVMDemoUITests" */;
 			buildPhases = (
+				136DA3E6C44C602E0BBB09F5 /* [CP] Check Pods Manifest.lock */,
 				B34313C52FA346AE0059A6E9 /* Sources */,
 				B34313C62FA346AE0059A6E9 /* Frameworks */,
 				B34313C72FA346AE0059A6E9 /* Resources */,
+				316E68AC228341B55BAA75DD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -170,8 +218,6 @@
 				B34313CC2FA346AE0059A6E9 /* TJJupiterVMDemoUITests */,
 			);
 			name = TJJupiterVMDemoUITests;
-			packageProductDependencies = (
-			);
 			productName = TJJupiterVMDemoUITests;
 			productReference = B34313C92FA346AE0059A6E9 /* TJJupiterVMDemoUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -244,6 +290,109 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		136DA3E6C44C602E0BBB09F5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		316E68AC228341B55BAA75DD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests/Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4CD9E14301F816BB8177DA60 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TJJupiterVMDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		93534D5138CD6CBE312FF971 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TJJupiterVMDemoTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE7B9FBA9C1707A08B306186 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TJJupiterVMDemo/Pods-TJJupiterVMDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TJJupiterVMDemo/Pods-TJJupiterVMDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TJJupiterVMDemo/Pods-TJJupiterVMDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B34313A52FA346AC0059A6E9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -284,19 +433,29 @@
 /* Begin XCBuildConfiguration section */
 		B34313D32FA346AE0059A6E9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F294D24A20F61B01A39A5A64 /* Pods-TJJupiterVMDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = G75UAV755N;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TJJupiterVMDemo/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow my app to bluetooth usage";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Allow my app to bluetooth peripheral usage";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow my app to location usage";
+				INFOPLIST_KEY_NSMotionUsageDescription = "Allow my app to access motion usage.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "armv7 accelerometer gyroscope magnetometer bluetooth-le";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -305,30 +464,44 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tjlabscorp.ios.TJJupiterVMDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		B34313D42FA346AE0059A6E9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AD540AC8802C05EABF200F7 /* Pods-TJJupiterVMDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = G75UAV755N;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TJJupiterVMDemo/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow my app to bluetooth usage";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Allow my app to bluetooth peripheral usage";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow my app to location usage";
+				INFOPLIST_KEY_NSMotionUsageDescription = "Allow my app to access motion usage.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "armv7 accelerometer gyroscope magnetometer bluetooth-le";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -337,12 +510,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tjlabscorp.ios.TJJupiterVMDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -399,7 +576,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -457,7 +634,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -469,6 +646,7 @@
 		};
 		B34313D82FA346AE0059A6E9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6EFDF6600E80238D8F774A68 /* Pods-TJJupiterVMDemoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -491,6 +669,7 @@
 		};
 		B34313D92FA346AE0059A6E9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACDD74B299B2A85AE351847B /* Pods-TJJupiterVMDemoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -513,6 +692,7 @@
 		};
 		B34313DB2FA346AE0059A6E9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DE939B5B477220C5EAE83CBE /* Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -533,6 +713,7 @@
 		};
 		B34313DC2FA346AE0059A6E9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 080BD156C41A2A562FDF20FB /* Pods-TJJupiterVMDemo-TJJupiterVMDemoUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

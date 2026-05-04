@@ -1,0 +1,16 @@
+PODS:
+  - TJJupiterVMSDK (0.1.0)
+
+DEPENDENCIES:
+  - TJJupiterVMSDK (from `/Users/leo/SwiftProjects/TJJupiterVMSDK`)
+
+EXTERNAL SOURCES:
+  TJJupiterVMSDK:
+    :path: "/Users/leo/SwiftProjects/TJJupiterVMSDK"
+
+SPEC CHECKSUMS:
+  TJJupiterVMSDK: a7f9f0ff4a2643bbccdb8f980a75d8788b9801f8
+
+PODFILE CHECKSUM: d3c1d292ff38ea43da888194c149906cd8b5faa8
+
+COCOAPODS: 1.16.2
