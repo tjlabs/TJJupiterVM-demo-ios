@@ -49,7 +49,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func onJupiterSuccess(_ isSuccess: Bool, _ code: TJJupiterVMSDK.JupiterErrorCode?) {
-        // TODO
+        print("(MainViewController) onJupiterSuccess -> isSuccess: \(isSuccess), code: \(code)")
     }
     
     func onJupiterResult(_ result: TJJupiterVMSDK.JupiterResult) {
@@ -60,6 +60,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         isShowingMap = false
 
         if isSuccess {
+            print("(MainViewController) onWebViewSuccess -> isSuccess: \(isSuccess), code: \(code)")
             self.startService()
         } else {
             self.vmView.removeFromSuperview()
@@ -171,7 +172,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     
     private func setupLayout() {
         view.backgroundColor = .systemBackground
-        title = "TJJupiterVM Sample"
+        title = "TJJupiterVM Demo"
         
         view.addSubview(containerView)
         containerView.addSubview(buttonStackView)

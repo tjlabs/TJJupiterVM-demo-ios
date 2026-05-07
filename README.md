@@ -60,7 +60,7 @@ platform :ios, '16.0'
 target 'TJJupiterVMDemo' do
   use_frameworks!
 
-  pod 'TJJupiterVMSDK', :path => '/Users/your_name/SwiftProjects/TJJupiterVMSDK'
+  pod 'TJJupiterVMSDK'
 end
 ```
 
