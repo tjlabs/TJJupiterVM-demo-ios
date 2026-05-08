@@ -2,6 +2,7 @@
 import UIKit
 import CoreBluetooth
 import CoreLocation
+import CoreMotion
 import TJJupiterVMSDK
 
 class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManagerDelegate, CBCentralManagerDelegate {
@@ -9,9 +10,10 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     private let pressedButtonColor = UIColor(hex: "#C95D17")
     private let disabledButtonColor = UIColor(hex: "#D3D7DC")
     private let disabledTitleColor = UIColor(hex: "#7E8792")
+    private let motionUsageKey = "NSMotionUsageDescription"
     private let locationWhenInUseUsageKey = "NSLocationWhenInUseUsageDescription"
-    private let locationAlwaysUsageKey = "NSLocationAlwaysAndWhenInUseUsageDescription"
     private let bluetoothUsageKey = "NSBluetoothAlwaysUsageDescription"
+    private let bluetoothPeripheralUsageKey = "NSBluetoothPeripheralUsageDescription"
 
     private enum AuthState: Equatable {
         case idle
@@ -22,17 +24,20 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
 
     private enum PermissionValidationIssue: Equatable {
         case missingPlistKeys([String])
+        case motionDenied
         case locationDenied
         case bluetoothDenied
     }
 
     private let locationManager = CLLocationManager()
+    private let motionActivityManager = CMMotionActivityManager()
     private var bluetoothManager: CBCentralManager?
     private var authState: AuthState = .idle
     private var hasRequiredPermissions = false
     private var hasInitializedMap = false
     private var isInitializingMap = false
     private var isShowingMap = false
+    private var isRequestingMotionPermission = false
     private var lastPresentedPermissionIssue: PermissionValidationIssue?
 
     func onInitSuccess(_ isSuccess: Bool, _ code: TJJupiterVMSDK.InitErrorCode?) {
@@ -303,43 +308,40 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     private func missingRequiredUsageDescriptionKeys() -> [String] {
         var missingKeys: [String] = []
 
+        if requiresMotionPermission,
+           infoDictionaryString(forKey: motionUsageKey) == nil {
+            missingKeys.append(motionUsageKey)
+        }
+
         if requiresLocationPermission {
             if infoDictionaryString(forKey: locationWhenInUseUsageKey) == nil {
                 missingKeys.append(locationWhenInUseUsageKey)
             }
-
-            if requiresAlwaysLocationPermission,
-               infoDictionaryString(forKey: locationAlwaysUsageKey) == nil {
-                missingKeys.append(locationAlwaysUsageKey)
-            }
         }
 
-        if requiresBluetoothPermission,
-           infoDictionaryString(forKey: bluetoothUsageKey) == nil {
-            missingKeys.append(bluetoothUsageKey)
+        if requiresBluetoothPermission {
+            if infoDictionaryString(forKey: bluetoothUsageKey) == nil {
+                missingKeys.append(bluetoothUsageKey)
+            }
+
+            if infoDictionaryString(forKey: bluetoothPeripheralUsageKey) == nil {
+                missingKeys.append(bluetoothPeripheralUsageKey)
+            }
         }
 
         return missingKeys
     }
 
-    private var declaredBackgroundModes: [String] {
-        Bundle.main.object(forInfoDictionaryKey: "UIBackgroundModes") as? [String] ?? []
+    private var requiresMotionPermission: Bool {
+        true
     }
 
     private var requiresLocationPermission: Bool {
-        declaredBackgroundModes.contains("location")
-            || infoDictionaryString(forKey: locationWhenInUseUsageKey) != nil
-            || infoDictionaryString(forKey: locationAlwaysUsageKey) != nil
-    }
-
-    private var requiresAlwaysLocationPermission: Bool {
-        declaredBackgroundModes.contains("location")
-            || infoDictionaryString(forKey: locationAlwaysUsageKey) != nil
+        true
     }
 
     private var requiresBluetoothPermission: Bool {
-        declaredBackgroundModes.contains("bluetooth-central")
-            || infoDictionaryString(forKey: bluetoothUsageKey) != nil
+        true
     }
 
     private func infoDictionaryString(forKey key: String) -> String? {
@@ -352,9 +354,22 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
 
     private func evaluatePermissions() -> (allGranted: Bool, isPending: Bool, issue: PermissionValidationIssue?) {
+        let motionPermission = evaluateMotionPermission()
+        if case .denied = motionPermission {
+            return (false, false, .motionDenied)
+        }
+
+        if motionPermission == .pending {
+            return (false, true, nil)
+        }
+
         let locationPermission = evaluateLocationPermission()
         if case .denied = locationPermission {
             return (false, false, .locationDenied)
+        }
+
+        if locationPermission == .pending {
+            return (false, true, nil)
         }
 
         let bluetoothPermission = evaluateBluetoothPermission()
@@ -362,8 +377,10 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             return (false, false, .bluetoothDenied)
         }
 
-        let allGranted = locationPermission == .granted && bluetoothPermission == .granted
-        let isPending = locationPermission == .pending || bluetoothPermission == .pending
+        let allGranted = motionPermission == .granted
+            && locationPermission == .granted
+            && bluetoothPermission == .granted
+        let isPending = bluetoothPermission == .pending
         return (allGranted, isPending, nil)
     }
 
@@ -371,6 +388,26 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         case granted
         case pending
         case denied
+    }
+
+    private func evaluateMotionPermission() -> PermissionState {
+        guard requiresMotionPermission else { return .granted }
+
+        guard CMMotionActivityManager.isActivityAvailable() else {
+            return .granted
+        }
+
+        switch CMMotionActivityManager.authorizationStatus() {
+        case .authorized:
+            return .granted
+        case .notDetermined:
+            requestMotionPermissionIfNeeded()
+            return .pending
+        case .restricted, .denied:
+            return .denied
+        @unknown default:
+            return .pending
+        }
     }
 
     private func evaluateLocationPermission() -> PermissionState {
@@ -381,17 +418,9 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         case .authorizedAlways:
             return .granted
         case .authorizedWhenInUse:
-            if requiresAlwaysLocationPermission {
-                locationManager.requestAlwaysAuthorization()
-                return .pending
-            }
             return .granted
         case .notDetermined:
-            if requiresAlwaysLocationPermission {
-                locationManager.requestAlwaysAuthorization()
-            } else {
-                locationManager.requestWhenInUseAuthorization()
-            }
+            locationManager.requestWhenInUseAuthorization()
             return .pending
         case .restricted, .denied:
             return .denied
@@ -421,6 +450,22 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         }
     }
 
+    private func requestMotionPermissionIfNeeded() {
+        guard !isRequestingMotionPermission else { return }
+        guard CMMotionActivityManager.isActivityAvailable() else { return }
+
+        isRequestingMotionPermission = true
+
+        let now = Date()
+        let startDate = now.addingTimeInterval(-60)
+
+        motionActivityManager.queryActivityStarting(from: startDate, to: now, to: .main) { [weak self] _, _ in
+            guard let self else { return }
+            self.isRequestingMotionPermission = false
+            self.evaluateLaunchRequirements()
+        }
+    }
+
     private func presentPermissionIssueIfNeeded(_ issue: PermissionValidationIssue) {
         guard presentedViewController == nil else { return }
         guard issue != lastPresentedPermissionIssue else { return }
@@ -434,6 +479,9 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         case .missingPlistKeys(let keys):
             title = "권한 설정 필요"
             message = "Info.plist에 필요한 권한 설명이 없습니다.\n\(keys.joined(separator: "\n"))"
+        case .motionDenied:
+            title = "모션 권한 필요"
+            message = "실내지도 기능을 사용하려면 모션 및 피트니스 권한을 허용해야 합니다. 설정에서 권한을 허용해 주세요."
         case .locationDenied:
             title = "위치 권한 필요"
             message = "실내지도 기능을 사용하려면 위치 권한을 허용해야 합니다. 설정에서 위치 권한을 허용해 주세요."
@@ -445,16 +493,13 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default))
 
-        if case .locationDenied = issue {
+        switch issue {
+        case .motionDenied, .locationDenied, .bluetoothDenied:
             alert.addAction(UIAlertAction(title: "설정으로 이동", style: .default) { _ in
                 self.openAppSettings()
             })
-        }
-
-        if case .bluetoothDenied = issue {
-            alert.addAction(UIAlertAction(title: "설정으로 이동", style: .default) { _ in
-                self.openAppSettings()
-            })
+        case .missingPlistKeys:
+            break
         }
 
         present(alert, animated: true)

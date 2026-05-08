@@ -22,7 +22,7 @@ The app demonstrates a simple VM service lifecycle with:
 
 - VM SDK auth/init/start flow example
 - UIKit-based VM view attach flow
-- Runtime location and Bluetooth permission request flow
+- Runtime motion, location, and Bluetooth permission request flow
 - Parking-space tap callback handling
 - Hardcoded vacant parking update example
 
@@ -34,18 +34,30 @@ The app demonstrates a simple VM service lifecycle with:
 - UIKit
 - CocoaPods
 
-### Required permissions
+### Required plist entries
 
 Declare in `Info.plist`:
 
-- `NSLocationWhenInUseUsageDescription`
-- `NSLocationAlwaysAndWhenInUseUsageDescription`
-- `NSBluetoothAlwaysUsageDescription`
-- `UIBackgroundModes` with `location`
-- `UIBackgroundModes` with `bluetooth-central`
+- `Privacy - Motion Usage Description` (`NSMotionUsageDescription`)
+- `Privacy - Bluetooth Peripheral Usage Description` (`NSBluetoothPeripheralUsageDescription`)
+- `Privacy - Bluetooth Always Usage Description` (`NSBluetoothAlwaysUsageDescription`)
+- `Privacy - Location When In Use Usage Description` (`NSLocationWhenInUseUsageDescription`)
+
+### Required device capabilities
+
+- `item : Accelerometer`
+- `item : Gyroscope`
+- `item : Magnetometer`
+- `item : Bluetooth Low Energy`
+
+### Required background modes
+
+- `App communicates using CoreBluetooth` (`bluetooth-central`)
+- `App registers for location updates` (`location`)
 
 Runtime permission check in this demo requires:
-- Location
+- Motion
+- Location When In Use
 - Bluetooth
 
 ## Setup
