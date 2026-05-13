@@ -847,7 +847,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func startService() {
-        vmView.setSimulationMode(flag: true, rfdFileName: "sample_rfd.json", uvdFileName: "sample_uvd.json", eventFileName: "sample_event.json")
         vmView.startService()
     }
 
