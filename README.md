@@ -9,22 +9,26 @@ Jupiter SDK version: 2.0.0
 <!-- JUPITER_SDK_VERSION_END -->
 
 <!-- JUPITER_VM_SDK_VERSION_START -->
-Jupiter VM SDK (CocoaPods): TJJupiterVMSDK 1.0.0
+Jupiter VM SDK (CocoaPods): TJJupiterVMSDK 1.0.1
 <!-- JUPITER_VM_SDK_VERSION_END -->
 
-The app demonstrates a simple VM service lifecycle with:
+The app demonstrates the VM SDK lifecycle step by step:
 - Authentication (`AUTH`)
-- Service initialize (`실내지도 초기화`)
-- VM view attach and service start (`실내지도 보기`)
+- Service initialize (`initialize`)
+- VM frame attach (`configureFrame`)
+- VM frame detach (`closeFrame`)
+- Service start (`startService`)
+- Service stop (`stopService`)
 - Parking location APIs (`setSavedParkingLocations`, `setVacantParkingLocations`)
 
 ## Features
 
-- VM SDK auth/init/start flow example
-- UIKit-based VM view attach flow
+- Permission check and auth flow on launch
+- Step-by-step lifecycle controls for `initialize`, `configureFrame`, `closeFrame`, `startService`, and `stopService`
+- UIKit-based VM frame attach/detach flow
 - Runtime motion, location, and Bluetooth permission request flow
 - Parking-space tap callback handling
-- Hardcoded vacant parking update example
+- Hardcoded vacant parking update example after initialization
 
 ## Requirements
 
@@ -114,9 +118,9 @@ TJJupiterVMAuth.shared.auth(
 }
 ```
 
-### 2. Authenticate
+In this demo, the auth call is implemented in `MainViewController.doAuth()`.
 
-This demo authenticates before enabling the initialize/show buttons.
+### 2. Launch flow: permissions -> auth
 
 ```swift
 func doAuth() {
@@ -129,7 +133,24 @@ func doAuth() {
 }
 ```
 
-### 3. Initialize service
+When the app launches:
+- Motion, location, and Bluetooth permissions are checked first.
+- After all required permissions are granted, auth runs automatically.
+- `initialize` becomes enabled only after auth succeeds.
+
+### 3. Step-by-step lifecycle test flow
+
+After auth succeeds, the demo lets you test each stage separately.
+
+1. Tap `initialize`
+2. Tap `configureFrame` if you want to attach the VM web frame to the on-screen container
+3. Tap `startService`
+4. Tap `stopService`
+5. Tap `closeFrame` when you want to detach the frame
+
+`configureFrame` / `closeFrame` and `startService` / `stopService` are intentionally separated so you can verify frame lifecycle and service lifecycle independently.
+
+### 4. Initialize service
 
 Input:
 - `userId: String`
@@ -147,30 +168,44 @@ vmView.initialize(
 )
 ```
 
-### 4. Show VM view and start service
+Behavior in this demo:
+- `initialize` is enabled only once after successful auth
+- On successful initialization, vacant parking sample data is applied
 
-This demo first attaches the VM view, then starts the service after `onWebViewSuccess`.
+### 5. Attach VM frame with `configureFrame`
 
 Input:
 - host `UIView`
 
 Output:
 - `onWebViewSuccess(isSuccess, code)`
-- `onJupiterSuccess(isSuccess, code)`
-- `onJupiterResult(result)`
+- `didWebViewRemoved()`
 
 ```swift
 vmView.configureFrame(to: containerView)
+```
 
-func onWebViewSuccess(_ isSuccess: Bool, _ code: VMErrorCode?) {
-    if isSuccess {
-        vmView.startService()
-    }
+Behavior in this demo:
+- `configureFrame` attaches the VM frame to the dedicated container view
+- `closeFrame` removes the attached frame
+- Frame attach/detach does not automatically start or stop the service
+
+### 6. Start and stop service
+
+```swift
+vmView.startService()
+
+vmView.stopService { isSuccess, message in
+    // update UI state
 }
 ```
 
+Behavior in this demo:
+- `startService` is triggered explicitly by the button
+- `stopService` is also triggered explicitly and updates button state in its completion
+- Service start/stop is documented separately from frame attach/detach so each SDK step can be tested on its own
 
-### 5. Parking APIs in this demo
+### 7. Parking APIs in this demo
 
 Saved parking example:
 
