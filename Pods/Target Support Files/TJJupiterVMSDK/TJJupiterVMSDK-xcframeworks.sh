@@ -165,9 +165,9 @@ install_xcframework() {
   echo "Copied $source to $destination"
 }
 
-install_xcframework "${PODS_ROOT}/../../TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsAuth.xcframework" "TJJupiterVMSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsCommon.xcframework" "TJJupiterVMSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsJupiter.xcframework" "TJJupiterVMSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsJupiterVM.xcframework" "TJJupiterVMSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsResource.xcframework" "TJJupiterVMSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsAuth.xcframework" "TJJupiterVMSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsCommon.xcframework" "TJJupiterVMSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsJupiter.xcframework" "TJJupiterVMSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsJupiterVM.xcframework" "TJJupiterVMSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsResource.xcframework" "TJJupiterVMSDK" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
 
