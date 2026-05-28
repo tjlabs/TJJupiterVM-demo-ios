@@ -54,7 +54,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
 
         if isSuccess {
             hasInitializedMap = true
-            setVacantParkingLocations()
+            setParkingLocationStates()
         } else {
             hasInitializedMap = false
         }
@@ -100,8 +100,9 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         // TODO
     }
     
-    func isParkingLocationTapped(_ parkingLocationId: String) {
-        self.showSelectVehicleView(parkingLocationId: parkingLocationId)
+ 
+    func isParkingLocationTapped(levelId level_id: Int, parkingLocationId: String) {
+        self.showSelectVehicleView(levelId: level_id, parkingLocationId: parkingLocationId)
     }
     
     
@@ -864,32 +865,37 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         }
     }
     
-    func setVacantParkingLocations() {
+    func setSavedParkingLocations() {
+        let levelId = 52
+        let idList = ["OB-rhaj0t4ctwzb4491"]
+        vmView.setSavedParkingLocations(parkingLocations: [levelId: idList])
+    }
+    
+    func setParkingLocationStates() {
+        let levelId = 52
         let idList = ["OB-1h82101id68tx3548", "OB-1h7zbmxfa10z93809", "OB-1h84se62jidlw3811"]
         var states = [String: ParkingLocationState]()
         for id in idList {
             states[id] = .VACANT
         }
-        
-        vmView.setVacantParkingLocations(levelId: 52, parkingLocationStates: states)
+        vmView.setParkingLocationStates(parkingLocationStates: [levelId: states])
     }
         
-    func showSelectVehicleView(parkingLocationId: String) {
+    func showSelectVehicleView(levelId: Int, parkingLocationId: String) {
         removeSelectVehicleView()
 
-        let selectVehicleView = SelectVehicleView(parkingLocationId: parkingLocationId)
+        let selectVehicleView = SelectVehicleView(levelId: levelId, parkingLocationId: parkingLocationId)
         selectVehicleView.translatesAutoresizingMaskIntoConstraints = false
 
         selectVehicleView.onTapOK = { [weak self] in
             print("(MainViewController) SelectVehicleView OK tapped")
-            self?.vmView.setSavedParkingLocations(parkingLocationIds: [parkingLocationId])
+            self?.vmView.updateSavedParkingLocations(parkingLocations: [levelId: [parkingLocationId]])
             self?.selectVehicleView?.removeFromSuperview()
             self?.selectVehicleView = nil
         }
 
         selectVehicleView.onTapClose = { [weak self] in
             print("(MainViewController) SelectVehicleView closed")
-            self?.vmView.setSavedParkingLocations(parkingLocationIds: [])
             self?.selectVehicleView?.removeFromSuperview()
             self?.selectVehicleView = nil
         }
