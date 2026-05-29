@@ -1,0 +1,6 @@
+${PODS_ROOT}/Target Support Files/TJJupiterVMSDK/TJJupiterVMSDK-xcframeworks.sh
+${PODS_ROOT}/TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsAuth.xcframework
+${PODS_ROOT}/TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsCommon.xcframework
+${PODS_ROOT}/TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsJupiter.xcframework
+${PODS_ROOT}/TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsJupiterVM.xcframework
+${PODS_ROOT}/TJJupiterVMSDK/TJJupiterVMSDK/Frameworks/TJLabsResource.xcframework
