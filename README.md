@@ -9,26 +9,28 @@ Jupiter SDK version: 2.0.0
 <!-- JUPITER_SDK_VERSION_END -->
 
 <!-- JUPITER_VM_SDK_VERSION_START -->
-Jupiter VM SDK (CocoaPods): TJJupiterVMSDK 1.0.1
+Jupiter VM SDK (CocoaPods): TJJupiterVMSDK 1.0.2
 <!-- JUPITER_VM_SDK_VERSION_END -->
 
 The app demonstrates the VM SDK lifecycle step by step:
 - Authentication (`AUTH`)
 - Service initialize (`initialize`)
+- Mock mode apply (`setMockMode`)
 - VM frame attach (`configureFrame`)
 - VM frame detach (`closeFrame`)
 - Service start (`startService`)
 - Service stop (`stopService`)
-- Parking location APIs (`setSavedParkingLocations`, `setVacantParkingLocations`)
+- Parking location APIs (`setSavedParkingLocations`, `setParkingLocationStates`, `updateSavedParkingLocations`)
 
 ## Features
 
 - Permission check and auth flow on launch
-- Step-by-step lifecycle controls for `initialize`, `configureFrame`, `closeFrame`, `startService`, and `stopService`
+- Step-by-step lifecycle controls for `initialize`, `setMockMode`, `configureFrame`, `closeFrame`, `startService`, and `stopService`
 - UIKit-based VM frame attach/detach flow
 - Runtime motion, location, and Bluetooth permission request flow
+- Mock Mode selector for switching VM scenarios after initialization
 - Parking-space tap callback handling
-- Hardcoded vacant parking update example after initialization
+- Hardcoded saved parking / parking-state example after initialization
 
 ## Requirements
 
@@ -143,10 +145,11 @@ When the app launches:
 After auth succeeds, the demo lets you test each stage separately.
 
 1. Tap `initialize`
-2. Tap `configureFrame` if you want to attach the VM web frame to the on-screen container
-3. Tap `startService`
-4. Tap `stopService`
-5. Tap `closeFrame` when you want to detach the frame
+2. Optionally choose a scenario from `Mock Mode`
+3. Tap `configureFrame` if you want to attach the VM web frame to the on-screen container
+4. Tap `startService`
+5. Tap `stopService`
+6. Tap `closeFrame` when you want to detach the frame
 
 `configureFrame` / `closeFrame` and `startService` / `stopService` are intentionally separated so you can verify frame lifecycle and service lifecycle independently.
 
@@ -170,9 +173,28 @@ vmView.initialize(
 
 Behavior in this demo:
 - `initialize` is enabled only once after successful auth
-- On successful initialization, vacant parking sample data is applied
+- On successful initialization, sample saved parking and parking-state data are applied
 
-### 5. Attach VM frame with `configureFrame`
+### 5. Apply Mock Mode
+
+Input:
+- `mode: JupiterMockMode`
+
+Output:
+- completion `(isSuccess: Bool)`
+
+```swift
+vmView.setMockMode(mode: .VEHICLE_OUTDOOR_PARKING) { isSuccess in
+    // update UI state
+}
+```
+
+Behavior in this demo:
+- `Mock Mode` becomes available after `initialize`
+- Available options are `None`, `Vehicle Outdoor Start`, `Vehicle Indoor Start`, `Pedestrian Indoor Start`, and `Pedestrian POI Start`
+- `startService` stays disabled while a Mock Mode change is being applied
+
+### 6. Attach VM frame with `configureFrame`
 
 Input:
 - host `UIView`
@@ -190,7 +212,7 @@ Behavior in this demo:
 - `closeFrame` removes the attached frame
 - Frame attach/detach does not automatically start or stop the service
 
-### 6. Start and stop service
+### 7. Start and stop service
 
 ```swift
 vmView.startService()
@@ -205,15 +227,17 @@ Behavior in this demo:
 - `stopService` is also triggered explicitly and updates button state in its completion
 - Service start/stop is documented separately from frame attach/detach so each SDK step can be tested on its own
 
-### 7. Parking APIs in this demo
+### 8. Parking APIs in this demo
 
 Saved parking example:
 
 ```swift
-vmView.setSavedParkingLocations(parkingLocationIds: ["OB-..."])
+vmView.setSavedParkingLocations(parkingLocations: [
+    52: ["OB-uvbd7yeu7zab3948"]
+])
 ```
 
-Vacant parking update example:
+Parking-state example:
 
 ```swift
 let states: [String: ParkingLocationState] = [
@@ -222,5 +246,15 @@ let states: [String: ParkingLocationState] = [
     "OB-1h84se62jidlw3811": .VACANT
 ]
 
-vmView.setVacantParkingLocations(levelId: 52, parkingLocationStates: states)
+vmView.setParkingLocationStates(parkingLocationStates: [
+    52: states
+])
+```
+
+Parking-space tap handling in this demo:
+
+```swift
+vmView.updateSavedParkingLocations(parkingLocations: [
+    levelId: [parkingLocationId]
+])
 ```
