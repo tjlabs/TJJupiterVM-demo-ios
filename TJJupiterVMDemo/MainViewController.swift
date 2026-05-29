@@ -3,6 +3,7 @@ import UIKit
 import CoreBluetooth
 import CoreLocation
 import CoreMotion
+import TJLabsJupiter
 import TJJupiterVMSDK
 
 class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManagerDelegate, CBCentralManagerDelegate {
@@ -46,19 +47,34 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     private var isClosingFrame = false
     private var isServiceRunning = false
     private var isStoppingService = false
+    private var isApplyingMockMode = false
     private var isRequestingMotionPermission = false
     private var lastPresentedPermissionIssue: PermissionValidationIssue?
+    private var mockModeRequestID = 0
+    private var selectedMockMode: JupiterMockMode = .NONE
+    private let availableMockModes: [JupiterMockMode] = [
+        .NONE,
+        .VEHICLE_OUTDOOR_PARKING,
+        .VEHICLE_INDOOR_OUTDOOR,
+        .PEDESTRIAN_INDOOR_PARKING,
+        .PEDESTRIAN_PARKING_INDOOR
+    ]
 
     func onInitSuccess(_ isSuccess: Bool, _ code: TJJupiterVMSDK.InitErrorCode?) {
         isInitializingMap = false
 
         if isSuccess {
             hasInitializedMap = true
+            setSavedParkingLocations()
             setParkingLocationStates()
         } else {
             hasInitializedMap = false
+            isApplyingMockMode = false
+            mockModeRequestID += 1
+            selectedMockMode = .NONE
         }
 
+        refreshMockModeMenu()
         refreshButtonAvailability()
     }
     
@@ -151,6 +167,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }()
 
     private lazy var initializeButton = makeActionButton(title: "initialize")
+    private lazy var mockModeButton = makeMockModeButton()
     private lazy var configureFrameButton = makeActionButton(title: "configureFrame")
     private lazy var closeFrameButton = makeActionButton(title: "closeFrame")
     private lazy var startServiceButton = makeActionButton(title: "startService")
@@ -161,7 +178,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
-        stackView.spacing = 12
+        stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -171,7 +188,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
-        stackView.spacing = 12
+        stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -181,7 +198,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
-        stackView.spacing = 12
+        stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -191,7 +208,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fill
-        stackView.spacing = 12
+        stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -253,6 +270,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         frameContainerView.addSubview(framePlaceholderLabel)
 
         buttonStackView.addArrangedSubview(initializeButton)
+        buttonStackView.addArrangedSubview(mockModeButton)
         buttonStackView.addArrangedSubview(groupedControlStackView)
 
         frameControlStackView.addArrangedSubview(configureFrameButton)
@@ -273,12 +291,12 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             buttonPanelView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             buttonPanelView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
 
-            buttonStackView.topAnchor.constraint(equalTo: buttonPanelView.topAnchor, constant: 16),
-            buttonStackView.bottomAnchor.constraint(equalTo: buttonPanelView.bottomAnchor, constant: -16),
-            buttonStackView.leadingAnchor.constraint(equalTo: buttonPanelView.leadingAnchor, constant: 16),
-            buttonStackView.trailingAnchor.constraint(equalTo: buttonPanelView.trailingAnchor, constant: -16),
+            buttonStackView.topAnchor.constraint(equalTo: buttonPanelView.topAnchor, constant: 12),
+            buttonStackView.bottomAnchor.constraint(equalTo: buttonPanelView.bottomAnchor, constant: -12),
+            buttonStackView.leadingAnchor.constraint(equalTo: buttonPanelView.leadingAnchor, constant: 12),
+            buttonStackView.trailingAnchor.constraint(equalTo: buttonPanelView.trailingAnchor, constant: -12),
 
-            frameContainerView.topAnchor.constraint(equalTo: buttonPanelView.bottomAnchor, constant: 18),
+            frameContainerView.topAnchor.constraint(equalTo: buttonPanelView.bottomAnchor, constant: 14),
             frameContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             frameContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             frameContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
@@ -288,12 +306,13 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             framePlaceholderLabel.leadingAnchor.constraint(greaterThanOrEqualTo: frameContainerView.leadingAnchor, constant: 24),
             framePlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: frameContainerView.trailingAnchor, constant: -24),
 
-            initializeButton.heightAnchor.constraint(equalToConstant: 48),
-            configureFrameButton.heightAnchor.constraint(equalToConstant: 48),
-            closeFrameButton.heightAnchor.constraint(equalToConstant: 48),
-            startServiceButton.heightAnchor.constraint(equalToConstant: 48),
-            stopServiceButton.heightAnchor.constraint(equalToConstant: 48),
-            groupedControlStackView.heightAnchor.constraint(equalToConstant: 108)
+            initializeButton.heightAnchor.constraint(equalToConstant: 42),
+            mockModeButton.heightAnchor.constraint(equalToConstant: 42),
+            configureFrameButton.heightAnchor.constraint(equalToConstant: 42),
+            closeFrameButton.heightAnchor.constraint(equalToConstant: 42),
+            startServiceButton.heightAnchor.constraint(equalToConstant: 42),
+            stopServiceButton.heightAnchor.constraint(equalToConstant: 42),
+            groupedControlStackView.heightAnchor.constraint(equalToConstant: 92)
         ])
 
         bindButtonActions()
@@ -319,12 +338,57 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         return button
     }
 
+    private func makeMockModeButton() -> UIButton {
+        var configuration = UIButton.Configuration.filled()
+        configuration.baseBackgroundColor = disabledButtonColor
+        configuration.baseForegroundColor = disabledTitleColor
+        configuration.cornerStyle = .medium
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 9, leading: 14, bottom: 9, trailing: 14)
+        configuration.image = UIImage(systemName: "chevron.down")
+        configuration.imagePlacement = .trailing
+        configuration.imagePadding = 8
+
+        let button = UIButton(type: .system)
+        button.configuration = configuration
+        button.showsMenuAsPrimaryAction = true
+        button.layer.cornerRadius = 12
+        button.layer.borderWidth = 1
+        button.layer.borderColor = panelBorderColor.cgColor
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.16
+        button.layer.shadowOffset = CGSize(width: 0, height: 8)
+        button.layer.shadowRadius = 16
+        button.isEnabled = false
+        button.configurationUpdateHandler = { [weak self] actionButton in
+            guard let self, var updatedConfiguration = actionButton.configuration else { return }
+
+            let isActive = actionButton.isEnabled || self.isApplyingMockMode
+            updatedConfiguration.title = self.isApplyingMockMode
+                ? "Mock Mode..."
+                : "Mock Mode: \(self.displayName(for: self.selectedMockMode))"
+            updatedConfiguration.baseBackgroundColor = isActive ? self.enabledButtonColor : self.disabledButtonColor
+            updatedConfiguration.baseForegroundColor = isActive ? .white : self.disabledTitleColor
+            updatedConfiguration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+                return outgoing
+            }
+
+            actionButton.configuration = updatedConfiguration
+            actionButton.alpha = isActive ? 1.0 : 0.72
+            actionButton.layer.shadowOpacity = isActive ? 0.16 : 0.0
+            actionButton.layer.borderColor = (isActive ? self.enabledButtonColor : self.panelBorderColor).cgColor
+        }
+        return button
+    }
+
     private func bindButtonActions() {
         initializeButton.addTarget(self, action: #selector(initializeTapped), for: .touchUpInside)
         configureFrameButton.addTarget(self, action: #selector(configureFrameTapped), for: .touchUpInside)
         closeFrameButton.addTarget(self, action: #selector(closeFrameTapped), for: .touchUpInside)
         startServiceButton.addTarget(self, action: #selector(startServiceTapped), for: .touchUpInside)
         stopServiceButton.addTarget(self, action: #selector(stopServiceTapped), for: .touchUpInside)
+        refreshMockModeMenu()
 
         [
             initializeButton,
@@ -536,14 +600,19 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             && isFrameConfigured
             && !isConfiguringFrame
             && !isClosingFrame
+        let canSelectMockMode = isReadyAfterInitialize
+            && !isApplyingMockMode
         let canStartService = isReadyAfterInitialize
             && !isServiceRunning
             && !isStoppingService
+            && !isApplyingMockMode
         let canStopService = isReadyAfterInitialize
             && isServiceRunning
             && !isStoppingService
 
         updateActionButton(initializeButton, title: "initialize", isEnabled: canInit, isLoading: isInitializingMap)
+        mockModeButton.isEnabled = canSelectMockMode
+        mockModeButton.setNeedsUpdateConfiguration()
         updateActionButton(configureFrameButton, title: "configureFrame", isEnabled: canConfigureFrame, isLoading: isConfiguringFrame)
         updateActionButton(closeFrameButton, title: "closeFrame", isEnabled: canCloseFrame, isLoading: isClosingFrame)
         updateActionButton(startServiceButton, title: "startService", isEnabled: canStartService)
@@ -586,7 +655,11 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             serviceText = "서비스 중지됨"
         }
 
-        statusLabel.text = "\(permissionText)  |  \(authText)\n\(initializeText)  |  \(frameText)  |  \(serviceText)"
+        let mockModeText = isApplyingMockMode
+            ? "Mock Mode 적용 중"
+            : "Mock Mode: \(displayName(for: selectedMockMode))"
+
+        statusLabel.text = "\(permissionText)  |  \(authText)\n\(initializeText)  |  \(mockModeText)\n\(frameText)  |  \(serviceText)"
         frameContainerView.layer.borderColor = (isFrameConfigured || isConfiguringFrame ? frameActiveBorderColor : frameIdleBorderColor).cgColor
         framePlaceholderLabel.isHidden = isFrameConfigured || isConfiguringFrame
     }
@@ -864,10 +937,69 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             self.refreshButtonAvailability()
         }
     }
+
+    private func refreshMockModeMenu() {
+        let actions = availableMockModes.map { mode in
+            UIAction(
+                title: displayName(for: mode),
+                state: selectedMockMode == mode ? .on : .off
+            ) { [weak self] _ in
+                self?.applyMockMode(mode)
+            }
+        }
+
+        mockModeButton.menu = UIMenu(title: "", children: actions)
+        mockModeButton.setNeedsUpdateConfiguration()
+    }
+
+    private func applyMockMode(_ mode: JupiterMockMode) {
+        guard hasRequiredPermissions,
+              authState == .succeeded,
+              hasInitializedMap else {
+            return
+        }
+
+        isApplyingMockMode = true
+        mockModeRequestID += 1
+        let requestID = mockModeRequestID
+        refreshButtonAvailability()
+
+        vmView.setMockMode(mode: mode) { [weak self] isSuccess in
+            DispatchQueue.main.async {
+                guard let self, self.mockModeRequestID == requestID else { return }
+
+                self.isApplyingMockMode = false
+                if isSuccess {
+                    self.selectedMockMode = mode
+                }
+
+                print("(MainViewController) setMockMode -> isSuccess: \(isSuccess), mode: \(mode.rawValue)")
+                self.refreshMockModeMenu()
+                self.refreshButtonAvailability()
+            }
+        }
+    }
+
+    private func displayName(for mode: JupiterMockMode) -> String {
+        switch mode {
+        case .NONE:
+            return "None"
+        case .VEHICLE_OUTDOOR_PARKING:
+            return "Vehicle Outdoor Start"
+        case .VEHICLE_INDOOR_OUTDOOR:
+            return "Vehicle Indoor Start"
+        case .PEDESTRIAN_INDOOR_PARKING:
+            return "Pedestrian Indoor Start"
+        case .PEDESTRIAN_PARKING_INDOOR:
+            return "Pedestrian POI Start"
+        @unknown default:
+            return mode.rawValue
+        }
+    }
     
     func setSavedParkingLocations() {
         let levelId = 52
-        let idList = ["OB-rhaj0t4ctwzb4491"]
+        let idList = ["OB-uvbd7yeu7zab3948"]
         vmView.setSavedParkingLocations(parkingLocations: [levelId: idList])
     }
     

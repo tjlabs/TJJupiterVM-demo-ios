@@ -42,6 +42,7 @@ class SelectVehicleView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
+        label.numberOfLines = 0
         label.font = .systemFont(ofSize: 16, weight: .regular)
         label.textColor = .darkGray
         return label
@@ -130,7 +131,10 @@ class SelectVehicleView: UIView {
         buttonStackView.addArrangedSubview(closeButton)
         buttonStackView.addArrangedSubview(okButton)
         
-        parkingLocationLabel.text = parkingLocationId
+        parkingLocationLabel.text = """
+        parkingLocationLevelId: \(parkingLocationLevelId)
+        parkingLocationId: \(parkingLocationId)
+        """
 
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: bottomSheetView.topAnchor, constant: 30),
