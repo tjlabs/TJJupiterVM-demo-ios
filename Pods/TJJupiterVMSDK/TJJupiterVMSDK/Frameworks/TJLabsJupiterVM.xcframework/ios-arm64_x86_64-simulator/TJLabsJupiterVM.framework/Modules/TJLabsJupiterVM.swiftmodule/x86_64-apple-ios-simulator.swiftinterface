@@ -1,0 +1,132 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2 effective-5.10 (swiftlang-6.2.0.19.9 clang-1700.3.19.1)
+// swift-module-flags: -target x86_64-apple-ios16.6-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name TJLabsJupiterVM
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
+import Foundation
+import Swift
+import TJLabsAuth
+import TJLabsCommon
+import TJLabsJupiter
+import TJLabsResource
+import UIKit
+import WebKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_hasMissingDesignatedInitializers public class JupiterVMLogger {
+  public static func setDebugOption(set: Swift.Bool)
+  public static func setInfoOption(set: Swift.Bool)
+  @objc deinit
+}
+public enum VMRegion : Swift.String {
+  case KOREA
+  case US_EAST
+  case CANADA
+  case SAUDI
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum VMErrorCode : Swift.Int {
+  case VM_VIEW_FAIL
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.Int)
+  #endif
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct EnteringInfo : Swift.Codable {
+  public let id: Swift.Int
+  public let number: Swift.Int
+  public let name: Swift.String
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum ParkingLocationState : Swift.Int {
+  case VACANT
+  case OCCUPIED
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.Int)
+  #endif
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public protocol JupiterVMDelegate : AnyObject {
+  #if compiler(>=5.3) && $NonescapableTypes
+  func onInitSuccess(_ isSuccess: Swift.Bool, _ code: TJLabsJupiter.InitErrorCode?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  func onJupiterSuccess(_ isSuccess: Swift.Bool, _ code: TJLabsJupiter.JupiterErrorCode?)
+  #endif
+  func onJupiterResult(_ result: TJLabsJupiter.JupiterResult)
+  #if compiler(>=5.3) && $NonescapableTypes
+  func onWebViewSuccess(_ isSuccess: Swift.Bool, _ code: TJLabsJupiterVM.VMErrorCode?)
+  #endif
+  func didWebViewRemoved()
+  func isEnteringWardDeteced(info: TJLabsJupiterVM.EnteringInfo)
+  func isParkingLocationTapped(levelId: Swift.Int, parkingLocationId: Swift.String)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class JupiterVMView : UIKit.UIView, WebKit.WKUIDelegate, WebKit.WKScriptMessageHandler, TJLabsJupiter.NavigationManagerDelegate {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency public func onInitSuccess(_ isSuccess: Swift.Bool, _ code: TJLabsJupiter.InitErrorCode?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency public func onJupiterSuccess(_ isSuccess: Swift.Bool, _ code: TJLabsJupiter.JupiterErrorCode?)
+  #endif
+  @_Concurrency.MainActor @preconcurrency public func onJupiterReport(_ code: TJLabsJupiter.JupiterServiceCode, _ msg: Swift.String)
+  @_Concurrency.MainActor @preconcurrency public func onJupiterResult(_ result: TJLabsJupiter.JupiterResult)
+  @_Concurrency.MainActor @preconcurrency public func isJupiterInOutStateChanged(_ state: TJLabsJupiter.InOutState)
+  @_Concurrency.MainActor @preconcurrency public func isUserGuidanceOut()
+  @_Concurrency.MainActor @preconcurrency public func isUserArrived()
+  @_Concurrency.MainActor @preconcurrency public func isNavigationRouteChanged(_ routes: [(Swift.String, Swift.String, Swift.Int, Swift.Float, Swift.Float)])
+  @_Concurrency.MainActor @preconcurrency public func isNavigationRouteFailed(_ reason: TJLabsJupiter.NavigationRouteFailureReason)
+  @_Concurrency.MainActor @preconcurrency public func isWaypointChanged(_ waypoints: [[Swift.Double]])
+  @_Concurrency.MainActor @preconcurrency @objc public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
+  @_Concurrency.MainActor @preconcurrency weak public var delegate: (any TJLabsJupiterVM.JupiterVMDelegate)?
+  @objc deinit
+  @_Concurrency.MainActor @preconcurrency public func initialize(userId: Swift.String, region: Swift.String, sectorId: Swift.Int)
+  @_Concurrency.MainActor @preconcurrency public func startService()
+  @_Concurrency.MainActor @preconcurrency public func stopService(completion: @escaping (Swift.Bool, Swift.String) -> Swift.Void)
+  @_Concurrency.MainActor @preconcurrency public func setMockMode(mode: TJLabsJupiter.JupiterMockMode, completion: @escaping (Swift.Bool) -> Swift.Void)
+  @_Concurrency.MainActor @preconcurrency public func closeFrame()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func removeFromSuperview()
+  @_Concurrency.MainActor @preconcurrency public func configureFrame(to matchView: UIKit.UIView)
+  @_Concurrency.MainActor @preconcurrency public func setSavedParkingLocations(_ parkingLocations: [Swift.Int : [Swift.String]])
+  @_Concurrency.MainActor @preconcurrency public func updateSavedParkingLocations(_ parkingLocations: [Swift.Int : [Swift.String]])
+  @_Concurrency.MainActor @preconcurrency public func setParkingLocationStates(parkingLocationStates: [Swift.Int : [Swift.String : TJLabsJupiterVM.ParkingLocationState]])
+  @_Concurrency.MainActor @preconcurrency public func updateParkingLocationStates(parkingLocationStates: [Swift.Int : [Swift.String : TJLabsJupiterVM.ParkingLocationState]])
+}
+extension TJLabsJupiterVM.JupiterVMView : WebKit.WKNavigationDelegate {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didStartProvisionalNavigation navigation: WebKit.WKNavigation!)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didCommit navigation: WebKit.WKNavigation!)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFinish navigation: WebKit.WKNavigation!)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFailProvisionalNavigation navigation: WebKit.WKNavigation!, withError error: any Swift.Error)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFail navigation: WebKit.WKNavigation!, withError error: any Swift.Error)
+  #endif
+}
+extension TJLabsJupiterVM.VMRegion : Swift.Equatable {}
+extension TJLabsJupiterVM.VMRegion : Swift.Hashable {}
+extension TJLabsJupiterVM.VMRegion : Swift.RawRepresentable {}
+extension TJLabsJupiterVM.VMErrorCode : Swift.Equatable {}
+extension TJLabsJupiterVM.VMErrorCode : Swift.Hashable {}
+extension TJLabsJupiterVM.VMErrorCode : Swift.RawRepresentable {}
+extension TJLabsJupiterVM.ParkingLocationState : Swift.Equatable {}
+extension TJLabsJupiterVM.ParkingLocationState : Swift.Hashable {}
+extension TJLabsJupiterVM.ParkingLocationState : Swift.RawRepresentable {}
