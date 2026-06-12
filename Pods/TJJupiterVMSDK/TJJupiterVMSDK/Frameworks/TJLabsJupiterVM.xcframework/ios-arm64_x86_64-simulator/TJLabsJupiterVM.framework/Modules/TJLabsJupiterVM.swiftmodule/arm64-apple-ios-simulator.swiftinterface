@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 6.2 effective-5.10 (swiftlang-6.2.0.19.9 clang-1700.3.19.1)
-// swift-module-flags: -target arm64-apple-ios16.6-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name TJLabsJupiterVM
+// swift-module-flags: -target arm64-apple-ios15.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name TJLabsJupiterVM
 // swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
 import Foundation
 import Swift
@@ -86,15 +86,16 @@ public protocol JupiterVMDelegate : AnyObject {
   @_Concurrency.MainActor @preconcurrency public func isJupiterInOutStateChanged(_ state: TJLabsJupiter.InOutState)
   @_Concurrency.MainActor @preconcurrency public func isUserGuidanceOut()
   @_Concurrency.MainActor @preconcurrency public func isUserArrived()
-  @_Concurrency.MainActor @preconcurrency public func isNavigationRouteChanged(_ routes: [(Swift.String, Swift.String, Swift.Int, Swift.Float, Swift.Float)])
+  @_Concurrency.MainActor @preconcurrency public func isNavigationRouteChanged(_ routes: [(Swift.String, Swift.String, Swift.Float, Swift.Float)])
   @_Concurrency.MainActor @preconcurrency public func isNavigationRouteFailed(_ reason: TJLabsJupiter.NavigationRouteFailureReason)
   @_Concurrency.MainActor @preconcurrency public func isWaypointChanged(_ waypoints: [[Swift.Double]])
   @_Concurrency.MainActor @preconcurrency @objc public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
   @_Concurrency.MainActor @preconcurrency weak public var delegate: (any TJLabsJupiterVM.JupiterVMDelegate)?
   @objc deinit
-  @_Concurrency.MainActor @preconcurrency public func initialize(userId: Swift.String, region: Swift.String, sectorId: Swift.Int)
+  @_Concurrency.MainActor @preconcurrency public func initialize(userId: Swift.String, region: Swift.String, sectorId: Swift.Int, debugOption: Swift.Bool = true)
   @_Concurrency.MainActor @preconcurrency public func startService()
   @_Concurrency.MainActor @preconcurrency public func stopService(completion: @escaping (Swift.Bool, Swift.String) -> Swift.Void)
+  @_Concurrency.MainActor @preconcurrency public func setReplayMode(flag: Swift.Bool, rfdFileName: Swift.String, uvdFileName: Swift.String, eventFileName: Swift.String)
   @_Concurrency.MainActor @preconcurrency public func setMockMode(mode: TJLabsJupiter.JupiterMockMode, completion: @escaping (Swift.Bool) -> Swift.Void)
   @_Concurrency.MainActor @preconcurrency public func closeFrame()
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public func removeFromSuperview()
