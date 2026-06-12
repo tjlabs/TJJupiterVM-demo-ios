@@ -6,7 +6,6 @@ import TJLabsJupiter
 import TJLabsJupiterVM
 
 public class TJJupiterVMView: UIView, JupiterVMDelegate {
-    
     public func onInitSuccess(_ isSuccess: Bool, _ code: TJLabsJupiter.InitErrorCode?) {
         delegate?.onInitSuccess(isSuccess, code?.toWrap())
     }
@@ -46,8 +45,9 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func initialize(userId: String, region: String = VMRegion.SAUDI.rawValue, sectorId: Int) {
-        self.vmView.initialize(userId: userId, region: region, sectorId: sectorId)
+    public func initialize(userId: String, region: String = VMRegion.SAUDI.rawValue, sectorId: Int, debugOption: Bool = true) {
+        JupiterNetworkConstants.setServerBranch(prod: true)
+        self.vmView.initialize(userId: userId, region: region, sectorId: sectorId, debugOption: debugOption)
         self.vmView.delegate = self
     }
     
@@ -57,6 +57,10 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
     
     public func stopService(completion: @escaping (Bool, String) -> Void) {
         self.vmView.stopService(completion: completion)
+    }
+    
+    public func setReplayMode(flag: Bool, rfdFileName: String, uvdFileName: String, eventFileName: String) {
+        self.vmView.setReplayMode(flag: flag, rfdFileName: rfdFileName, uvdFileName: uvdFileName, eventFileName: eventFileName)
     }
     
     public func setMockMode(mode: JupiterMockMode, completion: @escaping (Bool) -> Void) {
