@@ -88,7 +88,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func onJupiterResult(_ result: TJJupiterVMSDK.JupiterResult) {
-        // TODO
+        print("(MainViewController) onJupiterResult -> result: \(result)")
     }
     
     func onWebViewSuccess(_ isSuccess: Bool, _ code: TJJupiterVMSDK.VMErrorCode?) {
