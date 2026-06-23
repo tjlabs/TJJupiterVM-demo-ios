@@ -97,6 +97,7 @@ public protocol JupiterVMDelegate : AnyObject {
   @_Concurrency.MainActor @preconcurrency public func stopService(completion: @escaping (Swift.Bool, Swift.String) -> Swift.Void)
   @_Concurrency.MainActor @preconcurrency public func setReplayMode(flag: Swift.Bool, rfdFileName: Swift.String, uvdFileName: Swift.String, eventFileName: Swift.String)
   @_Concurrency.MainActor @preconcurrency public func setMockMode(mode: TJLabsJupiter.JupiterMockMode, completion: @escaping (Swift.Bool) -> Swift.Void)
+  @_Concurrency.MainActor @preconcurrency public func setLSEAppName(name: Swift.String)
   @_Concurrency.MainActor @preconcurrency public func closeFrame()
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public func removeFromSuperview()
   @_Concurrency.MainActor @preconcurrency public func configureFrame(to matchView: UIKit.UIView)

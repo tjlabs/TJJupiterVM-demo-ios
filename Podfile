@@ -7,7 +7,7 @@ target 'TJJupiterVMDemo' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'TJJupiterVMSDK', '1.0.3'
+  pod 'TJJupiterVMSDK', '1.0.6'
 
   target 'TJJupiterVMDemoTests' do
     inherit! :search_paths
