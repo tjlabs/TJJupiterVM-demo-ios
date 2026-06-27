@@ -47,6 +47,7 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
     }
     
     public func initialize(userId: String, region: String = VMRegion.SAUDI.rawValue, sectorId: Int, debugOption: Bool = true) {
+        JupiterLogger.setDebugOption(set: false)
         JupiterNetworkConstants.setServerBranch(prod: true)
         self.vmView.initialize(userId: userId, region: region, sectorId: sectorId, debugOption: debugOption)
         self.vmView.delegate = self
