@@ -18,10 +18,19 @@ import _SwiftConcurrencyShims
   public static func setInfoOption(set: Swift.Bool)
   @objc deinit
 }
+public enum VMCloud : Swift.String {
+  case AWS
+  case GCP
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
 public enum VMRegion : Swift.String {
   case KOREA
-  case US_EAST
-  case CANADA
   case SAUDI
   #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
@@ -74,6 +83,12 @@ public protocol JupiterVMDelegate : AnyObject {
   func isEnteringWardDeteced(info: TJLabsJupiterVM.EnteringInfo)
   func isParkingLocationTapped(levelId: Swift.Int, parkingLocationId: Swift.String)
 }
+@_hasMissingDesignatedInitializers public class JupiterVMNetworkConstants {
+  public static func setServerURL(cloud: Swift.String, region: Swift.String, dev: Swift.Bool = false)
+  public static func getVMBaseURL() -> Swift.String
+  public static func getVMMapURL() -> Swift.String
+  @objc deinit
+}
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class JupiterVMView : UIKit.UIView, WebKit.WKUIDelegate, WebKit.WKScriptMessageHandler, TJLabsJupiter.NavigationManagerDelegate {
   #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency public func onInitSuccess(_ isSuccess: Swift.Bool, _ code: TJLabsJupiter.InitErrorCode?)
@@ -92,7 +107,7 @@ public protocol JupiterVMDelegate : AnyObject {
   @_Concurrency.MainActor @preconcurrency @objc public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
   @_Concurrency.MainActor @preconcurrency weak public var delegate: (any TJLabsJupiterVM.JupiterVMDelegate)?
   @objc deinit
-  @_Concurrency.MainActor @preconcurrency public func initialize(userId: Swift.String, region: Swift.String, sectorId: Swift.Int, debugOption: Swift.Bool = true)
+  @_Concurrency.MainActor @preconcurrency public func initialize(userId: Swift.String, region: Swift.String, sectorId: Swift.Int, debugOption: Swift.Bool = true, dev: Swift.Bool = false)
   @_Concurrency.MainActor @preconcurrency public func startService()
   @_Concurrency.MainActor @preconcurrency public func stopService(completion: @escaping (Swift.Bool, Swift.String) -> Swift.Void)
   @_Concurrency.MainActor @preconcurrency public func setReplayMode(flag: Swift.Bool, rfdFileName: Swift.String, uvdFileName: Swift.String, eventFileName: Swift.String)
@@ -123,6 +138,9 @@ extension TJLabsJupiterVM.JupiterVMView : WebKit.WKNavigationDelegate {
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFail navigation: WebKit.WKNavigation!, withError error: any Swift.Error)
   #endif
 }
+extension TJLabsJupiterVM.VMCloud : Swift.Equatable {}
+extension TJLabsJupiterVM.VMCloud : Swift.Hashable {}
+extension TJLabsJupiterVM.VMCloud : Swift.RawRepresentable {}
 extension TJLabsJupiterVM.VMRegion : Swift.Equatable {}
 extension TJLabsJupiterVM.VMRegion : Swift.Hashable {}
 extension TJLabsJupiterVM.VMRegion : Swift.RawRepresentable {}

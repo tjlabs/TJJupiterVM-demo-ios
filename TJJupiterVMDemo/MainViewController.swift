@@ -898,7 +898,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     func doAuth() {
         authState = .inProgress
         refreshButtonAvailability()
-
         TJJupiterVMAuth.shared.auth(accessKey: "", secretAccessKey: "", completion: { [weak self] statusCode, success in
             guard let self else { return }
             let successRange = 200..<300
@@ -921,6 +920,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func startService() {
+        vmView.setReplayMode(flag: true, rfdFileName: "20260617_songdo_test2_rfd.json", uvdFileName: "20260617_songdo_test2_uvd.json", eventFileName: "20260617_songdo_test2_event.json")
         vmView.startService()
     }
 

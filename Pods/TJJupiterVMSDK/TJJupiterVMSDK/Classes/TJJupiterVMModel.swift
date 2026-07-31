@@ -11,10 +11,15 @@ public protocol TJJupiterVMDelegate: AnyObject {
     func isParkingLocationTapped(levelId: Int, parkingLocationId: String)
 }
 
+var tjBranch: ServerBranch = .PROD
+var tjRegion: JupiterVMRegion = .SAUDI
+
+public enum ServerBranch {
+    case DEV, PROD
+}
+
 public enum JupiterVMRegion: String {
     case KOREA = "KOREA"
-    case US_EAST = "US_EAST"
-    case CANADA = "CANADA"
     case SAUDI = "SAUDI"
 }
 

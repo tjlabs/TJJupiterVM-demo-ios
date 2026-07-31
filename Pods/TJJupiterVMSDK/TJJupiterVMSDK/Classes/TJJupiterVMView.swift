@@ -6,7 +6,6 @@ import TJLabsJupiter
 import TJLabsJupiterVM
 
 public class TJJupiterVMView: UIView, JupiterVMDelegate {
-    
     public func onInitSuccess(_ isSuccess: Bool, _ code: TJLabsJupiter.InitErrorCode?) {
         delegate?.onInitSuccess(isSuccess, code?.toWrap())
     }
@@ -46,15 +45,16 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func initialize(userId: String, region: String = VMRegion.SAUDI.rawValue, sectorId: Int, debugOption: Bool = true) {
+    public func initialize(userId: String, sectorId: Int, debugOption: Bool = true) {
+        let dev = tjBranch == .DEV
         JupiterLogger.setDebugOption(set: false)
-        JupiterNetworkConstants.setServerBranch(prod: true)
-        self.vmView.initialize(userId: userId, region: region, sectorId: sectorId, debugOption: debugOption)
+        self.vmView.initialize(userId: userId, region: tjRegion.rawValue, sectorId: sectorId, debugOption: debugOption, dev: dev)
         self.vmView.delegate = self
     }
     
     public func startService() {
-        let appName = JupiterReplayer.shared.replayMode ? "ios_vm_replay" : "ios_vm_prod"
+        let suffix = tjBranch == .DEV ? "dev" : "prod"
+        let appName = JupiterReplayer.shared.replayMode ? "ios_vm_replay" : "ios_vm_\(suffix)"
         self.vmView.setLSEAppName(name: appName)
         self.vmView.startService()
     }

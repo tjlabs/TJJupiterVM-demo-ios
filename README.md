@@ -5,22 +5,23 @@
 TJJupiterVM-demo-ios is a minimal iOS sample app for integrating **TJLabs Jupiter VM SDK** with `UIKit`.
 
 <!-- JUPITER_SDK_VERSION_START -->
-Jupiter SDK version: 2.0.7
+Jupiter SDK version: 2.0.14
 <!-- JUPITER_SDK_VERSION_END -->
 
 <!-- JUPITER_VM_SDK_VERSION_START -->
-Jupiter VM SDK (CocoaPods): TJJupiterVMSDK 1.0.6
+Jupiter VM SDK (CocoaPods): TJJupiterVMSDK 1.0.9
 <!-- JUPITER_VM_SDK_VERSION_END -->
 
 The app demonstrates the VM SDK lifecycle step by step:
-- Authentication (`AUTH`)
+- Server configuration (`setServerConfig`)
+- Authentication (`auth`)
 - Service initialize (`initialize`)
 - Mock mode apply (`setMockMode`)
 - VM frame attach (`configureFrame`)
 - VM frame detach (`closeFrame`)
 - Service start (`startService`)
 - Service stop (`stopService`)
-- Parking location APIs (`setSavedParkingLocations`, `setParkingLocationStates`, `updateSavedParkingLocations`)
+- Parking location APIs (`setSavedParkingLocations`, `updateSavedParkingLocations`, `setParkingLocationStates`, `updateParkingLocationStates`)
 
 ## Features
 
@@ -111,7 +112,13 @@ Input:
 Output:
 - callback `(code: Int, success: Bool)`
 
+Optionally set the service `region` and server `branch` **before** `auth` with `setServerConfig`.
+Skip it to use the default (`.SAUDI` region on the `.PROD` branch).
+
 ```swift
+// Optional: must be called before auth() and initialize()
+TJJupiterVMAuth.shared.setServerConfig(region: .KOREA, branch: .PROD)
+
 TJJupiterVMAuth.shared.auth(
     accessKey: "YOUR_ACCESS_KEY",
     secretAccessKey: "YOUR_SECRET_ACCESS_KEY"
@@ -126,6 +133,7 @@ In this demo, the auth call is implemented in `MainViewController.doAuth()`.
 
 ```swift
 func doAuth() {
+    TJJupiterVMAuth.shared.setServerConfig(region: .KOREA, branch: .PROD)
     TJJupiterVMAuth.shared.auth(
         accessKey: "YOUR_ACCESS_KEY",
         secretAccessKey: "YOUR_SECRET_ACCESS_KEY"
@@ -158,7 +166,10 @@ After auth succeeds, the demo lets you test each stage separately.
 Input:
 - `userId: String`
 - `sectorId: Int`
-- `region: JupiterVMRegion` (default: `JupiterVMRegion.SAUDI`)
+- `debugOption: Bool` (optional, default: `true`)
+
+> The service `region` / server `branch` are configured separately via
+> `TJJupiterVMAuth.shared.setServerConfig(region:branch:)` (see step 1), not on `initialize`.
 
 Output:
 - `onInitSuccess(isSuccess, code)`
@@ -248,6 +259,14 @@ let states: [String: ParkingLocationState] = [
 
 vmView.setParkingLocationStates(parkingLocationStates: [
     52: states
+])
+```
+
+Update parking-state example:
+
+```swift
+vmView.updateParkingLocationStates(parkingLocationStates: [
+    52: ["OB-1h82101id68tx3548": .OCCUPIED]
 ])
 ```
 
