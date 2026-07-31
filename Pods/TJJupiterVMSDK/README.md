@@ -1,5 +1,5 @@
 # TJJupiterVMSDK
-### Version 1.0.7
+### Version 1.0.9
 
 [![Version](https://img.shields.io/cocoapods/v/TJJupiterVMSDK.svg?style=flat)](https://cocoapods.org/pods/TJJupiterVMSDK)
 [![License](https://img.shields.io/cocoapods/l/TJJupiterVMSDK.svg?style=flat)](https://cocoapods.org/pods/TJJupiterVMSDK)
@@ -65,7 +65,18 @@ source 'https://github.com/CocoaPods/Specs.git'
 import TJJupiterVMSDK
 ```
 
-### 2. Authentication
+### 2. Server Configuration (Optional)
+
+- Sets the service `region` and server `branch` (PROD / DEV) for **all** SDK components (Auth, Jupiter, VM).
+- This is the single source of truth: `TJJupiterVMView.initialize` reads the same `region`/`branch`, so you only configure it here.
+- If called, it **must** be called **before** `auth` and `initialize`.
+- Default is `.SAUDI` region on the `.PROD` branch, so you can skip this step for that configuration.
+
+```swift
+TJJupiterVMAuth.shared.setServerConfig(region: .SAUDI, branch: .PROD)
+```
+
+### 3. Authentication
 
 - Authentication is required before using the SDK.
 - You must authenticate first using your issued `accessKey` and `secretAccessKey`.
@@ -79,7 +90,7 @@ TJJupiterVMAuth.shared.auth(
 }
 ```
 
-### 3. Create VM View
+### 4. Create VM View
 
 ```swift
 import UIKit
@@ -101,7 +112,7 @@ final class ViewController: UIViewController {
 }
 ```
 
-### 3. Remove VM View
+### 5. Remove VM View
 
 ```swift
 import UIKit
@@ -127,13 +138,13 @@ final class ViewController: UIViewController {
 }
 ```
 
-### 5. Start Service
+### 6. Start Service
 
 ```swift
 vmView.startService()
 ```
 
-### 6. Stop Service
+### 7. Stop Service
 
 ```swift
 vmView.stopService { success, message in

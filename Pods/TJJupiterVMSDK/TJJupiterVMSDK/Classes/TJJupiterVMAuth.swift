@@ -10,11 +10,13 @@ public class TJJupiterVMAuth {
     var deviceOsInfo: String = ""
     var deviceOsVersion: Int = 0
     var sdkVersion: String = ""
-    
+
     init () {
         setDeviceInfo()
+
+        let dev = tjBranch == .DEV
         let clientMeta = makeClientMeta()
-        TJLabsAuthConstants.setServerURL(cloud: "GCP", region: AuthRegion.SAUDI.rawValue, serverType: "jupiter")
+        TJLabsAuthConstants.setServerURL(cloud: "GCP", region: tjRegion.rawValue, serverType: "jupiter", dev: dev)
         SecretConfig.set(customerKey: "JUPITER_VM", clientMeta: clientMeta)
     }
     
@@ -27,11 +29,11 @@ public class TJJupiterVMAuth {
     
     private func makeClientMeta() -> ClientMeta {
         let clientSdks = [
-            SdkMeta(name: "TJLabsAuth", version: "1.0.4"),
-            SdkMeta(name: "TJLabsCommon", version: "0.1.5"),
-            SdkMeta(name: "TJLabsResource", version: "0.1.5"),
-            SdkMeta(name: "TJLabsJupiter", version: "2.0.8"),
-            SdkMeta(name: "TJLabsJupiterVM", version: "1.0.7")
+            SdkMeta(name: "TJLabsAuth", version: "1.0.5"),
+            SdkMeta(name: "TJLabsCommon", version: "1.0.6"),
+            SdkMeta(name: "TJLabsResource", version: "0.1.7"),
+            SdkMeta(name: "TJLabsJupiter", version: "2.0.14"),
+            SdkMeta(name: "TJLabsJupiterVM", version: "2.0.9")
         ]
         
         let bundleIdentifier = Bundle.main.bundleIdentifier ?? ""
@@ -55,5 +57,12 @@ public class TJJupiterVMAuth {
     
     public func auth(accessKey: String, secretAccessKey: String, completion: @escaping (Int, Bool) -> Void) {
         TJLabsAuthManager.shared.auth(accessKey: accessKey, secretAccessKey: secretAccessKey, completion: completion)
+    }
+    
+    public func setServerConfig(region: JupiterVMRegion, branch: ServerBranch) {
+        tjRegion = region
+        tjBranch = branch
+        let dev = tjBranch == .DEV
+        TJLabsAuthConstants.setServerURL(cloud: "GCP", region: tjRegion.rawValue, serverType: "jupiter", dev: dev)
     }
 }

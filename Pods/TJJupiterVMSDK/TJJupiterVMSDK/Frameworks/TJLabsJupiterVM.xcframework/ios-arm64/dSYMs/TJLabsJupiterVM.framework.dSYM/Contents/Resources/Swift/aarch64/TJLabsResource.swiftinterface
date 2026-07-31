@@ -77,7 +77,8 @@ public enum ResourceRegion : Swift.String {
 public struct SectorIdOsInput : Swift.Codable {
   public var sector_id: Swift.Int
   public var operating_system: Swift.String
-  public init(sector_id: Swift.Int, operating_system: Swift.String = "iOS")
+  public init(sector_id: Swift.Int)
+  public init(sector_id: Swift.Int, operating_system: Swift.String)
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
@@ -437,7 +438,7 @@ public class TJLabsResourceManager {
   public static let shared: TJLabsResource.TJLabsResourceManager
   weak public var delegate: (any TJLabsResource.TJLabsResourceManagerDelegate)?
   public init()
-  public func loadResources(cloud: Swift.String, region: Swift.String, sectorId: Swift.Int, landmarkTh: Swift.Float = -90, forceUpdate: Swift.Bool = false, completion: @escaping (Swift.Bool) -> Swift.Void)
+  public func loadResources(cloud: Swift.String, region: Swift.String, sectorId: Swift.Int, landmarkTh: Swift.Float = -90, forceUpdate: Swift.Bool = false, dev: Swift.Bool = false, completion: @escaping (Swift.Bool) -> Swift.Void)
   public func isDebug() -> Swift.Bool
   #if compiler(>=5.3) && $NonescapableTypes
   public func loadSectorBundle(region: Swift.String, sectorId: Swift.Int, forceUpdate: Swift.Bool = false, completion: @escaping (TJLabsResource.BundleOutput?) -> Swift.Void)
@@ -491,7 +492,7 @@ public class TJLabsResourceManager {
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class TJLabsResourceNetworkConstants {
-  public static func setServerURL(cloud: Swift.String, region: Swift.String)
+  public static func setServerURL(cloud: Swift.String, region: Swift.String, dev: Swift.Bool = false)
   public static func setOnpremiseURL(sectorBundleURL: Swift.String)
   public static func getUserBaseURL() -> Swift.String
   public static func getUserSectorVersion() -> Swift.String

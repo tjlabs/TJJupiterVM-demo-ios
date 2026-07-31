@@ -129,6 +129,7 @@ public enum JupiterServiceCode : Swift.Int {
   case NETWORK_DISCONNECT
   case GET_FIRST_RESULT
   case PEAK_DETECTED
+  case UVD_STOPPED
   #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.Int)
   #endif
@@ -198,6 +199,23 @@ public struct LLH : Swift.Codable {
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
+public struct LSELinkDebugInfo {
+  public var link_number: Swift.Int
+  public var start_node: Swift.Int
+  public var end_node: Swift.Int
+  public var start_coord: [Swift.Float]
+  public var end_coord: [Swift.Float]
+  public var lse_coord: [Swift.Float]
+  public var lse_uvd_index: Swift.Int
+  public var confidence: Swift.Float
+  public var confidence_level: Swift.String
+  public var posterior_probability: Swift.Float
+  public var log_likelihood_margin: Swift.Float
+  public var mean_fit_distance: Swift.Float
+  public var path_consistency: Swift.Float
+  public var observation_count: Swift.Int
+  public var candidate_count: Swift.Int
+}
 public struct JupiterDebugResult {
   public var mobile_time: Swift.Int
   public var building_name: Swift.String
@@ -208,11 +226,17 @@ public struct JupiterDebugResult {
   public var absolute_heading: Swift.Float
   public var index: Swift.Int
   public var velocity: Swift.Float
+  public var uvd_speed_mps: Swift.Float?
+  public var lse_speed_mps: Swift.Float?
   public var mode: Swift.String
   public var ble_only_position: Swift.Bool
   public var isIndoor: Swift.Bool
   public var validity: Swift.Bool
   public var validity_flag: Swift.Int
+  public var cur_lse_result: TJLabsJupiter.FineLocationTrackingOutput?
+  public var confidence_info: Swift.String?
+  public var mapmatch: TJLabsJupiter.LSEMapMatch?
+  public var lse_link: TJLabsJupiter.LSELinkDebugInfo?
   public var calc_xyh: [Swift.Float]
   public var tu_xyh: [Swift.Float]
   public var landmark: TJLabsResource.LandmarkData?
@@ -220,6 +244,13 @@ public struct JupiterDebugResult {
   public var recon_raw_traj: [[Swift.Double]]?
   public var recon_corr_traj: [TJLabsJupiter.FineLocationTrackingOutput]?
   public var selected_cand: TJLabsJupiter.SelectedCandidate?
+  public var selected_cand_second: TJLabsJupiter.SelectedCandidate?
+  public var select_cand_reason: Swift.String?
+  public var apply2peak_skip_reason: Swift.String?
+  public var head_lse_dist: Swift.Float?
+  public var show_lse_reason: Swift.String?
+  public var phase_downgrade_reason: Swift.String?
+  public var lse_mapmatch_missing: Swift.Bool?
   public var selected_search: TJLabsJupiter.SelectedSearch?
   public var ratio: Swift.Float?
   public var navi_xyh: [Swift.Float]
@@ -252,6 +283,7 @@ public struct SearchResult {
   public let loss_g_h: Swift.Float
   public let loss_lse: Swift.Float
   public let loss_lse_heading: Swift.Float
+  public let loss_lse_link: Swift.Float
 }
 public struct SelectedSearch {
   public let older: TJLabsResource.PeakData?
@@ -290,6 +322,8 @@ public struct SelectedCandidate {
   public let head: TJLabsJupiter.ixyhs
   public let headResult: TJLabsJupiter.FineLocationTrackingOutput
   public let loss: Swift.Float
+  public let penalty: Swift.Float
+  public let divideNum: Swift.Float
 }
 public enum InOutState : Swift.Int, Swift.Codable {
   case OUT_TO_IN
@@ -520,6 +554,30 @@ public struct JupiterNaviResult : Swift.Codable {
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
+public enum JSONValue : Swift.Codable {
+  case string(Swift.String)
+  case int(Swift.Int)
+  case double(Swift.Double)
+  case bool(Swift.Bool)
+  case object([Swift.String : TJLabsJupiter.JSONValue])
+  case array([TJLabsJupiter.JSONValue])
+  case null
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct LSEMapMatch : Swift.Decodable {
+  public let snapped_x: Swift.Double?
+  public let snapped_y: Swift.Double?
+  public let floor: Swift.String?
+  public let level_id: Swift.Int?
+  public let edge_id: Swift.String?
+  public let distance_to_link_m: Swift.Double?
+  public let match_score: Swift.Double?
+  public let bearing: Swift.Double?
+  public let heading: Swift.Double?
+  public let candidates: [TJLabsJupiter.JSONValue]?
+  public init(from decoder: any Swift.Decoder) throws
+}
 public protocol NavigationManagerDelegate : AnyObject {
   #if compiler(>=5.3) && $NonescapableTypes
   func onInitSuccess(_ isSuccess: Swift.Bool, _ code: TJLabsJupiter.InitErrorCode?)
@@ -559,7 +617,7 @@ public class NavigationManager : TJLabsJupiter.JupiterManagerDelegate {
   public func isJupiterPhaseChanged(index: Swift.Int, phase: TJLabsJupiter.JupiterPhase, xyh: [Swift.Float]?)
   #endif
   weak public var delegate: (any TJLabsJupiter.NavigationManagerDelegate)?
-  public init(id: Swift.String, cloud: Swift.String = JupiterCloud.GCP.rawValue, region: Swift.String = JupiterRegion.KOREA.rawValue, sectorId: Swift.Int, debugOption: Swift.Bool = false)
+  public init(id: Swift.String, cloud: Swift.String = JupiterCloud.GCP.rawValue, region: Swift.String = JupiterRegion.KOREA.rawValue, sectorId: Swift.Int, debugOption: Swift.Bool = false, dev: Swift.Bool = false)
   @objc deinit
   public func startService(mode: TJLabsCommon.UserMode)
   public func stopService(completion: @escaping (Swift.Bool, Swift.String) -> Swift.Void)
@@ -609,12 +667,10 @@ public class NavigationManager : TJLabsJupiter.JupiterManagerDelegate {
   #endif
 }
 @_hasMissingDesignatedInitializers public class JupiterNetworkConstants {
-  public static func setServerBranch(prod: Swift.Bool)
-  public static func setServerURL(cloud: Swift.String, region: Swift.String)
+  public static func setServerURL(cloud: Swift.String, region: Swift.String, dev: Swift.Bool = false)
   public static func getUserBaseURL() -> Swift.String
   public static func getRecBaseURL() -> Swift.String
   public static func getCalcBaseURL() -> Swift.String
-  public static func getClientBaseURL() -> Swift.String
   public static func getUserLoginVersion() -> Swift.String
   public static func getUserFileUploadServerVersion() -> Swift.String
   public static func getRecRfdServerVersion() -> Swift.String
