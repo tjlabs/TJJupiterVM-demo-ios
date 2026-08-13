@@ -898,6 +898,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     func doAuth() {
         authState = .inProgress
         refreshButtonAvailability()
+        TJJupiterVMAuth.shared.setServerConfig(region: .KOREA, branch: .DEV)
         TJJupiterVMAuth.shared.auth(accessKey: "", secretAccessKey: "", completion: { [weak self] statusCode, success in
             guard let self else { return }
             let successRange = 200..<300
@@ -908,7 +909,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     
     func initVMView() {
         vmView.delegate = self
-        vmView.initialize(userId: "vm-test", sectorId: 20)
+        vmView.initialize(userId: "vm-test", sectorId: 112)
     }
     
     func configureVMView() {
@@ -920,7 +921,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func startService() {
-        vmView.setReplayMode(flag: true, rfdFileName: "20260617_songdo_test2_rfd.json", uvdFileName: "20260617_songdo_test2_uvd.json", eventFileName: "20260617_songdo_test2_event.json")
         vmView.startService()
     }
 

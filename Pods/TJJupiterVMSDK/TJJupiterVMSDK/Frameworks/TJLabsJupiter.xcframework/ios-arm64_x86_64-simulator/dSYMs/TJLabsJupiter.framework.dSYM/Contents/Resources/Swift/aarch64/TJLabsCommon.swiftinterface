@@ -22,10 +22,10 @@ import simd
   @objc override dynamic public init()
   @objc deinit
 }
-@objc public class RFDGenerator : ObjectiveC.NSObject {
+@objc @_inheritsConvenienceInitializers public class RFDGenerator : ObjectiveC.NSObject {
   weak public var delegate: (any TJLabsCommon.RFDGeneratorDelegate)?
   public var pressureProvider: () -> Swift.Float
-  public init(userId: Swift.String)
+  @objc override dynamic public init()
   public func setScanMode(scanMode: TJLabsCommon.ScanMode)
   public func checkIsAvailableRfd() -> (Swift.Bool, Swift.String)
   #if compiler(>=5.3) && $NonescapableTypes
@@ -51,11 +51,10 @@ public enum ScanMode {
   }
 }
 public struct ReceivedForce : Swift.Encodable {
-  public let tenant_user_name: Swift.String
   public let mobile_time: Swift.Int
   public let rfs: [Swift.String : Swift.Double]
   public let pressure: Swift.Float
-  public init(tenant_user_name: Swift.String, mobile_time: Swift.Int, rfs: [Swift.String : Swift.Double], pressure: Swift.Float)
+  public init(mobile_time: Swift.Int, rfs: [Swift.String : Swift.Double], pressure: Swift.Float)
   public func encode(to encoder: any Swift.Encoder) throws
 }
 public protocol RFDGeneratorDelegate : AnyObject {
@@ -283,9 +282,9 @@ public enum TimeFormat {
   public func setRunMode(mode: Swift.String)
   @objc deinit
 }
-@objc public class UVDGenerator : ObjectiveC.NSObject {
+@objc @_inheritsConvenienceInitializers public class UVDGenerator : ObjectiveC.NSObject {
   weak public var delegate: (any TJLabsCommon.UVDGeneratorDelegate)?
-  public init(userId: Swift.String)
+  @objc override dynamic public init()
   public func setRflow(rflow: Swift.Double, rflowForVelocity: Swift.Double, rflowForAutoMode: Swift.Double, isSufficient: Swift.Bool, isSufficientForVelocity: Swift.Bool, isSufficientForAutoMode: Swift.Bool)
   public func setRouteTrackFinishTime(value: Swift.Double)
   public func setIsInEntranceLevel(flag: Swift.Bool)
@@ -319,13 +318,12 @@ public struct SensorData {
   public init()
 }
 public struct UserVelocity : Swift.Encodable {
-  public let tenant_user_name: Swift.String
   public let mobile_time: Swift.Int
   public let index: Swift.Int
   public var length: Swift.Double
   public var heading: Swift.Double
   public let looking: Swift.Bool
-  public init(tenant_user_name: Swift.String, mobile_time: Swift.Int, index: Swift.Int, length: Swift.Double, heading: Swift.Double, looking: Swift.Bool)
+  public init(mobile_time: Swift.Int, index: Swift.Int, length: Swift.Double, heading: Swift.Double, looking: Swift.Bool)
   public func encode(to encoder: any Swift.Encoder) throws
 }
 public enum UserMode : Swift.String, Swift.Codable {

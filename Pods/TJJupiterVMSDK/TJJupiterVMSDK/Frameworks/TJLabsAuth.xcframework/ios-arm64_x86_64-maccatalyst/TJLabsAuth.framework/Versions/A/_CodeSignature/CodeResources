@@ -10,7 +10,7 @@
 		</data>
 		<key>Resources/TJLabsAuthSecretConfig.plist</key>
 		<data>
-		vDDv1sILudeRYEqP9W6rUI9IHXw=
+		edNvMAM19bNTQu5ArnCLUA3oVnI=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -26,14 +26,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			MoN9VZ4tTZbXs2pAs8six8yd/3rQwgftkLg6/lU0xTI=
+			qy6e8DQLFMTI2GRTo2ws1iC+DIZnNyLqzQRw0Y9Jy1Q=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/arm64-apple-ios-macabi.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			+44yKZuxSdcGhMGiMJmiRporp50RBeQDoYACd9q+ZwM=
+			FvssvSxYCI6Fen7w7xETNbAPHGRJVlMAAcKPi4QB31c=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/arm64-apple-ios-macabi.swiftdoc</key>
@@ -47,28 +47,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			+44yKZuxSdcGhMGiMJmiRporp50RBeQDoYACd9q+ZwM=
+			FvssvSxYCI6Fen7w7xETNbAPHGRJVlMAAcKPi4QB31c=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/arm64-apple-ios-macabi.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			QiuSILOHrg8VHl4GXOXWbvAaBtvXHsyMyFz/sxF0saE=
+			kkfNVoUM2tqVcYYLQOQ2tPWtfuYVaE6wDlzvEnr/Eq8=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-macabi.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			MoN9VZ4tTZbXs2pAs8six8yd/3rQwgftkLg6/lU0xTI=
+			qy6e8DQLFMTI2GRTo2ws1iC+DIZnNyLqzQRw0Y9Jy1Q=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-macabi.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			lrhvpub5hD0L+DmQhYkvNclOGU7Qoi3W6zCnLYITaw0=
+			xjTmOb8vSJGOeCr+I86Ox+pZrEnR4jqbLi5AtIdnxJQ=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-macabi.swiftdoc</key>
@@ -82,14 +82,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			lrhvpub5hD0L+DmQhYkvNclOGU7Qoi3W6zCnLYITaw0=
+			xjTmOb8vSJGOeCr+I86Ox+pZrEnR4jqbLi5AtIdnxJQ=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-macabi.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			c6MOMf7ui402Vc08QIENW+tF+vzNuAypCBqW7Rd07bY=
+			z18elTG57Lf4RU1iWzIBEdHJA3HfG/+fmo7BYl+GOBA=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -110,7 +110,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			qzrhMwH7liDhfoKd4TF7NKdDRuTc1ZLKnxLGsubwH2M=
+			oXzu06qipVZAumR3/uYgcaLA23E60/OxXKmv6FN4XcY=
 			</data>
 		</dict>
 	</dict>
