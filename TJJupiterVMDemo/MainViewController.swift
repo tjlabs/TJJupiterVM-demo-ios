@@ -898,7 +898,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     func doAuth() {
         authState = .inProgress
         refreshButtonAvailability()
-        TJJupiterVMAuth.shared.setServerConfig(region: .KOREA, branch: .DEV)
+        TJJupiterVMAuth.shared.setServerConfig(region: .SAUDI, branch: .DEV)
         TJJupiterVMAuth.shared.auth(accessKey: "", secretAccessKey: "", completion: { [weak self] statusCode, success in
             guard let self else { return }
             let successRange = 200..<300
@@ -909,7 +909,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     
     func initVMView() {
         vmView.delegate = self
-        vmView.initialize(userId: "vm-test", sectorId: 112)
+        vmView.initialize(userId: "vm-test", sectorId: 20)
     }
     
     func configureVMView() {
