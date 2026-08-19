@@ -61,6 +61,11 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     ]
 
     func onInitSuccess(_ isSuccess: Bool, _ code: TJJupiterVMSDK.InitErrorCode?) {
+        if let start = initVMViewStartTime {
+            let elapsed = CFAbsoluteTimeGetCurrent() - start
+            print(String(format: "(MainViewController) [TIMING] initVMView -> 종료, 경과: %.3f초", elapsed))
+            initVMViewStartTime = nil
+        }
         isInitializingMap = false
 
         if isSuccess {
@@ -92,6 +97,11 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func onWebViewSuccess(_ isSuccess: Bool, _ code: TJJupiterVMSDK.VMErrorCode?) {
+        if let start = configureVMViewStartTime {
+            let elapsed = CFAbsoluteTimeGetCurrent() - start
+            print(String(format: "(MainViewController) [TIMING] configureVMView -> 종료, 경과: %.3f초", elapsed))
+            configureVMViewStartTime = nil
+        }
         isConfiguringFrame = false
 
         if isSuccess {
@@ -124,6 +134,11 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     
     private let vmView = TJJupiterVMView()
     private var selectVehicleView: SelectVehicleView?
+
+    // 각 단계 수행 시작 시각 (경과 시간 측정용)
+    private var authStartTime: CFAbsoluteTime?
+    private var initVMViewStartTime: CFAbsoluteTime?
+    private var configureVMViewStartTime: CFAbsoluteTime?
     
     private let statusLabel: UILabel = {
         let label = UILabel()
@@ -903,9 +918,16 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     func doAuth() {
         authState = .inProgress
         refreshButtonAvailability()
-        TJJupiterVMAuth.shared.setServerConfig(region: .SAUDI, branch: .PROD)
+        TJJupiterVMAuth.shared.setServerConfig(region: .KOREA, branch: .DEV)
+        authStartTime = CFAbsoluteTimeGetCurrent()
+        print("(MainViewController) [TIMING] auth -> 시작")
         TJJupiterVMAuth.shared.auth(accessKey: "", secretAccessKey: "", completion: { [weak self] statusCode, success in
             guard let self else { return }
+            if let start = self.authStartTime {
+                let elapsed = CFAbsoluteTimeGetCurrent() - start
+                print(String(format: "(MainViewController) [TIMING] auth -> 종료, 경과: %.3f초", elapsed))
+                self.authStartTime = nil
+            }
             let successRange = 200..<300
             self.authState = success && successRange.contains(statusCode) ? .succeeded : .failed
             self.refreshButtonAvailability()
@@ -914,10 +936,14 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     
     func initVMView() {
         vmView.delegate = self
+        initVMViewStartTime = CFAbsoluteTimeGetCurrent()
+        print("(MainViewController) [TIMING] initVMView -> 시작")
         vmView.initialize(userId: "vm-test", sectorId: 112)
     }
-    
+
     func configureVMView() {
+        configureVMViewStartTime = CFAbsoluteTimeGetCurrent()
+        print("(MainViewController) [TIMING] configureVMView -> 시작")
         vmView.configureFrame(to: self.frameContainerView)
     }
 
