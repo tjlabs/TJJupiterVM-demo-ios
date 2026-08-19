@@ -588,25 +588,30 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         let isReadyAfterInitialize = hasRequiredPermissions
             && authState == .succeeded
             && hasInitializedMap
+        // TEMP: init 없이 auth만으로 아래 버튼들을 활성화하기 위한 임시 조건.
+        // 원복 시 configureFrame/closeFrame/startService/stopService 게이트를
+        // 다시 isReadyAfterInitialize 로 되돌리면 됩니다.
+        let isReadyAfterAuth = hasRequiredPermissions
+            && authState == .succeeded
         let canInit = hasRequiredPermissions
             && authState == .succeeded
             && !isInitializingMap
             && !hasInitializedMap
-        let canConfigureFrame = isReadyAfterInitialize
+        let canConfigureFrame = isReadyAfterAuth
             && !isFrameConfigured
             && !isConfiguringFrame
             && !isClosingFrame
-        let canCloseFrame = isReadyAfterInitialize
+        let canCloseFrame = isReadyAfterAuth
             && isFrameConfigured
             && !isConfiguringFrame
             && !isClosingFrame
         let canSelectMockMode = isReadyAfterInitialize
             && !isApplyingMockMode
-        let canStartService = isReadyAfterInitialize
+        let canStartService = isReadyAfterAuth
             && !isServiceRunning
             && !isStoppingService
             && !isApplyingMockMode
-        let canStopService = isReadyAfterInitialize
+        let canStopService = isReadyAfterAuth
             && isServiceRunning
             && !isStoppingService
 
@@ -898,6 +903,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     func doAuth() {
         authState = .inProgress
         refreshButtonAvailability()
+        TJJupiterVMAuth.shared.setServerConfig(region: .SAUDI, branch: .PROD)
         TJJupiterVMAuth.shared.auth(accessKey: "", secretAccessKey: "", completion: { [weak self] statusCode, success in
             guard let self else { return }
             let successRange = 200..<300
@@ -908,7 +914,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     
     func initVMView() {
         vmView.delegate = self
-        vmView.initialize(userId: "vm-test", sectorId: 20)
+        vmView.initialize(userId: "vm-test", sectorId: 112)
     }
     
     func configureVMView() {
@@ -920,7 +926,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func startService() {
-        vmView.setReplayMode(flag: true, rfdFileName: "20260617_songdo_test2_rfd.json", uvdFileName: "20260617_songdo_test2_uvd.json", eventFileName: "20260617_songdo_test2_event.json")
         vmView.startService()
     }
 

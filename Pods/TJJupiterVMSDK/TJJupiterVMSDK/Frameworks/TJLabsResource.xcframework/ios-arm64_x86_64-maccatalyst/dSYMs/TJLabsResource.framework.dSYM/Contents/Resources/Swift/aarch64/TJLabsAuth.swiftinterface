@@ -82,6 +82,7 @@ public enum SecretConfig {
   public static func getUserBaseURL() -> Swift.String
   public static func getUserTokenVersion() -> Swift.String
   public static func getUserTokenURL() -> Swift.String
+  public static func getServerConfig() -> (region: Swift.String, dev: Swift.Bool)
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class TJLabsAuthManager {

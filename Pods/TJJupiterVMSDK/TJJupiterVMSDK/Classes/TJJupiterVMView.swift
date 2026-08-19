@@ -47,7 +47,7 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
     
     public func initialize(userId: String, sectorId: Int, debugOption: Bool = true) {
         let dev = tjBranch == .DEV
-        JupiterLogger.setDebugOption(set: false)
+        JupiterLogger.setDebugOption(set: true)
         self.vmView.initialize(userId: userId, region: tjRegion.rawValue, sectorId: sectorId, debugOption: debugOption, dev: dev)
         self.vmView.delegate = self
     }

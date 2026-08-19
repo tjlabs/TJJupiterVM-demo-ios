@@ -50,6 +50,11 @@ public enum VMErrorCode : Swift.Int {
     get
   }
 }
+@_hasMissingDesignatedInitializers public class JupiterVMEventCode {
+  public static let WEBVIEW_LOAD_SUCCESS: Swift.Int
+  public static let WEBVIEW_LOAD_ERROR: Swift.Int
+  @objc deinit
+}
 public struct EnteringInfo : Swift.Codable {
   public let id: Swift.Int
   public let number: Swift.Int
@@ -91,14 +96,15 @@ public protocol JupiterVMDelegate : AnyObject {
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class JupiterVMView : UIKit.UIView, WebKit.WKUIDelegate, WebKit.WKScriptMessageHandler, TJLabsJupiter.NavigationManagerDelegate {
   #if compiler(>=5.3) && $NonescapableTypes
-  @_Concurrency.MainActor @preconcurrency public func onInitSuccess(_ isSuccess: Swift.Bool, _ code: TJLabsJupiter.InitErrorCode?)
+  @_Concurrency.MainActor @preconcurrency public func onInitSuccess(_ isSuccess: Swift.Bool, _ code: TJLabsJupiter.InitErrorCode?, _ result: TJLabsJupiter.JupiterServiceResult)
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
-  @_Concurrency.MainActor @preconcurrency public func onJupiterSuccess(_ isSuccess: Swift.Bool, _ code: TJLabsJupiter.JupiterErrorCode?)
+  @_Concurrency.MainActor @preconcurrency public func onJupiterSuccess(_ isSuccess: Swift.Bool, _ code: TJLabsJupiter.JupiterErrorCode?, _ result: TJLabsJupiter.JupiterServiceResult)
   #endif
   @_Concurrency.MainActor @preconcurrency public func onJupiterReport(_ code: TJLabsJupiter.JupiterServiceCode, _ msg: Swift.String)
   @_Concurrency.MainActor @preconcurrency public func onJupiterResult(_ result: TJLabsJupiter.JupiterResult)
   @_Concurrency.MainActor @preconcurrency public func isJupiterInOutStateChanged(_ state: TJLabsJupiter.InOutState)
+  @_Concurrency.MainActor @preconcurrency public func onBuildingLevelChangeStateChanged(state: TJLabsJupiter.BuildingLevelChangeState, fromBuilding: Swift.String, fromLevel: Swift.String, toBuilding: Swift.String, toLevel: Swift.String, index: Swift.Int)
   @_Concurrency.MainActor @preconcurrency public func isUserGuidanceOut()
   @_Concurrency.MainActor @preconcurrency public func isUserArrived()
   @_Concurrency.MainActor @preconcurrency public func isNavigationRouteChanged(_ routes: [(Swift.String, Swift.String, Swift.Float, Swift.Float)])
