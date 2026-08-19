@@ -29,11 +29,11 @@ public class TJJupiterVMAuth {
     
     private func makeClientMeta() -> ClientMeta {
         let clientSdks = [
-            SdkMeta(name: "TJLabsAuth", version: "1.0.5"),
+            SdkMeta(name: "TJLabsAuth", version: "1.0.6"),
             SdkMeta(name: "TJLabsCommon", version: "1.0.7"),
-            SdkMeta(name: "TJLabsResource", version: "0.1.8"),
+            SdkMeta(name: "TJLabsResource", version: "0.1.9"),
             SdkMeta(name: "TJLabsJupiter", version: "2.0.14"),
-            SdkMeta(name: "TJLabsJupiterVM", version: "2.0.10")
+            SdkMeta(name: "TJLabsJupiterVM", version: "2.0.11")
         ]
         
         let bundleIdentifier = Bundle.main.bundleIdentifier ?? ""
