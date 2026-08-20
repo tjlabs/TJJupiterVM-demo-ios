@@ -47,9 +47,10 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
     
     public func initialize(userId: String, sectorId: Int, debugOption: Bool = true) {
         let dev = tjBranch == .DEV
-        JupiterLogger.setDebugOption(set: true)
-        self.vmView.initialize(userId: userId, region: tjRegion.rawValue, sectorId: sectorId, debugOption: debugOption, dev: dev)
+        JupiterLogger.setDebugOption(set: false)
+        JupiterVMLogger.setDebugOption(set: false)
         self.vmView.delegate = self
+        self.vmView.initialize(userId: userId, region: tjRegion.rawValue, sectorId: sectorId, debugOption: debugOption, dev: dev)
     }
     
     public func startService() {
@@ -73,8 +74,17 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
         })
     }
     
-    public func configureFrame(to matchView: UIView) {
+    private func initializeWebView() {
+        self.vmView.initializeWebView()
+    }
+
+    private func attachView(to matchView: UIView) {
         self.vmView.configureFrame(to: matchView)
+    }
+
+    public func configureFrame(to matchView: UIView) {
+        self.initializeWebView()
+        self.attachView(to: matchView)
     }
 
     public func closeFrame() {

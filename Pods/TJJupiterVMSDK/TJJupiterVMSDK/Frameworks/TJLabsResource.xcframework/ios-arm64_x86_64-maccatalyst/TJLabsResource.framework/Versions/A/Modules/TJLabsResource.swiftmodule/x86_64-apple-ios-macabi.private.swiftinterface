@@ -87,8 +87,8 @@ public struct ResourceLoadInput {
   public init(cloud: Swift.String, region: Swift.String, sectorId: Swift.Int, landmarkTh: Swift.Float, forceUpdate: Swift.Bool, dev: Swift.Bool)
 }
 public struct ResourceLoadResult {
-  public let eventCode: Swift.Int?
-  public let bundleEventCode: Swift.Int
+  public let eventCode: Swift.Int
+  public let message: Swift.String
   public let isSuccess: Swift.Bool
   public let failedStage: TJLabsResource.ResourceLoadStage?
   public let failures: [TJLabsResource.ResourceLoadStageFailure]
@@ -97,7 +97,7 @@ public struct ResourceLoadResult {
   public static let unknownVersionId: Swift.String
   public let isCached: Swift.Bool
   #if compiler(>=5.3) && $NonescapableTypes
-  public init(eventCode: Swift.Int?, bundleEventCode: Swift.Int, isSuccess: Swift.Bool, failedStage: TJLabsResource.ResourceLoadStage?, failures: [TJLabsResource.ResourceLoadStageFailure] = [], input: TJLabsResource.ResourceLoadInput, versionId: Swift.String? = nil, isCached: Swift.Bool = false)
+  public init(eventCode: Swift.Int, message: Swift.String, isSuccess: Swift.Bool, failedStage: TJLabsResource.ResourceLoadStage?, failures: [TJLabsResource.ResourceLoadStageFailure] = [], input: TJLabsResource.ResourceLoadInput, versionId: Swift.String? = nil, isCached: Swift.Bool = false)
   #endif
 }
 public enum ResourceCloud : Swift.String {
@@ -537,8 +537,9 @@ public struct PeakData : Swift.Codable {
   public static let cacheHitStatus: Swift.Int
   public static let unclassifiedFailureStatus: Swift.Int
   public static let resourceFrameworkId: Swift.Int
-  public static let bundleLoadSuccessEventCode: Swift.Int
-  public static let bundleLoadFailureEventCode: Swift.Int
+  public static let loadResourcesSuccessEventCode: Swift.Int
+  public static let loadResourcesFailureEventCode: Swift.Int
+  public static let operatingSystem: Swift.String
   @objc deinit
 }
 public class TJLabsResourceManager {

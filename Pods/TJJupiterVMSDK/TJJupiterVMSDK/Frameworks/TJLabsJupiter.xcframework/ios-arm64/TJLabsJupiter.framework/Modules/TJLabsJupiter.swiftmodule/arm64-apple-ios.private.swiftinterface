@@ -137,6 +137,7 @@ public enum JupiterErrorCode : Swift.Int {
   public static let stopNotStartedWarn: Swift.Int
   public static let appForeground: Swift.Int
   public static let appBackground: Swift.Int
+  public static let rfdGenerator: Swift.Int
   @objc deinit
 }
 public enum JupiterServiceStage : Swift.Equatable {

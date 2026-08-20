@@ -15,7 +15,6 @@ import _StringProcessing
 import _SwiftConcurrencyShims
 @_hasMissingDesignatedInitializers public class JupiterVMLogger {
   public static func setDebugOption(set: Swift.Bool)
-  public static func setInfoOption(set: Swift.Bool)
   @objc deinit
 }
 public enum VMCloud : Swift.String {
@@ -121,6 +120,7 @@ public protocol JupiterVMDelegate : AnyObject {
   @_Concurrency.MainActor @preconcurrency public func setLSEAppName(name: Swift.String)
   @_Concurrency.MainActor @preconcurrency public func closeFrame()
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public func removeFromSuperview()
+  @_Concurrency.MainActor @preconcurrency public func initializeWebView()
   @_Concurrency.MainActor @preconcurrency public func configureFrame(to matchView: UIKit.UIView)
   @_Concurrency.MainActor @preconcurrency public func setSavedParkingLocations(_ parkingLocations: [Swift.Int : [Swift.String]])
   @_Concurrency.MainActor @preconcurrency public func updateSavedParkingLocations(_ parkingLocations: [Swift.Int : [Swift.String]])

@@ -61,8 +61,13 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     ]
 
     func onInitSuccess(_ isSuccess: Bool, _ code: TJJupiterVMSDK.InitErrorCode?) {
+        if let start = initVMViewStartTime {
+            let elapsed = CFAbsoluteTimeGetCurrent() - start
+            print(String(format: "(MainViewController) [TIMING] initVMView -> 종료, 경과: %.3f초", elapsed))
+            initVMViewStartTime = nil
+        }
         isInitializingMap = false
-
+        print("(MainViewController) onInitSuccess isSuccess:\(isSuccess), code:\(code)")
         if isSuccess {
             hasInitializedMap = true
             setSavedParkingLocations()
@@ -92,18 +97,19 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func onWebViewSuccess(_ isSuccess: Bool, _ code: TJJupiterVMSDK.VMErrorCode?) {
-        isConfiguringFrame = false
-
-        if isSuccess {
-            isFrameConfigured = true
-            print("(MainViewController) onWebViewSuccess -> isSuccess: \(isSuccess), code: \(code)")
-        } else {
-            isFrameConfigured = false
+        // configureFrame 이 웹뷰 예열·부착을 마치면 이 콜백으로 결과가 전달된다.
+        if let start = configureFrameStartTime {
+            let elapsed = CFAbsoluteTimeGetCurrent() - start
+            print(String(format: "(MainViewController) [TIMING] configureFrame -> 종료, 경과: %.3f초", elapsed))
+            configureFrameStartTime = nil
         }
+        isConfiguringFrame = false
+        isFrameConfigured = isSuccess
 
+        print("(MainViewController) onWebViewSuccess -> isSuccess: \(isSuccess), code: \(code)")
         refreshButtonAvailability()
     }
-    
+
     func didWebViewRemoved() {
         isClosingFrame = false
         isConfiguringFrame = false
@@ -124,6 +130,11 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     
     private let vmView = TJJupiterVMView()
     private var selectVehicleView: SelectVehicleView?
+
+    // 각 단계 수행 시작 시각 (경과 시간 측정용)
+    private var authStartTime: CFAbsoluteTime?
+    private var initVMViewStartTime: CFAbsoluteTime?
+    private var configureFrameStartTime: CFAbsoluteTime?
     
     private let statusLabel: UILabel = {
         let label = UILabel()
@@ -597,6 +608,8 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             && authState == .succeeded
             && !isInitializingMap
             && !hasInitializedMap
+        // configureFrame 은 웹뷰 예열(initializeWebView)과 컨테이너 부착(attachView)을
+        // 한 번에 수행한다. 로드가 끝나면 onWebViewSuccess 로 완료가 전달된다.
         let canConfigureFrame = isReadyAfterAuth
             && !isFrameConfigured
             && !isConfiguringFrame
@@ -904,8 +917,15 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         authState = .inProgress
         refreshButtonAvailability()
         TJJupiterVMAuth.shared.setServerConfig(region: .SAUDI, branch: .PROD)
+        authStartTime = CFAbsoluteTimeGetCurrent()
+        print("(MainViewController) [TIMING] auth -> 시작")
         TJJupiterVMAuth.shared.auth(accessKey: "", secretAccessKey: "", completion: { [weak self] statusCode, success in
             guard let self else { return }
+            if let start = self.authStartTime {
+                let elapsed = CFAbsoluteTimeGetCurrent() - start
+                print(String(format: "(MainViewController) [TIMING] auth -> 종료, 경과: %.3f초", elapsed))
+                self.authStartTime = nil
+            }
             let successRange = 200..<300
             self.authState = success && successRange.contains(statusCode) ? .succeeded : .failed
             self.refreshButtonAvailability()
@@ -914,10 +934,16 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     
     func initVMView() {
         vmView.delegate = self
+        initVMViewStartTime = CFAbsoluteTimeGetCurrent()
+        print("(MainViewController) [TIMING] initVMView -> 시작")
         vmView.initialize(userId: "vm-test", sectorId: 112)
     }
-    
+
     func configureVMView() {
+        configureFrameStartTime = CFAbsoluteTimeGetCurrent()
+        print("(MainViewController) [TIMING] configureFrame -> 시작")
+        // configureFrame 은 웹뷰 예열(initializeWebView)과 컨테이너 부착(attachView)을
+        // 한 번에 수행한다. 웹뷰 로드가 끝나면 onWebViewSuccess 로 완료가 전달된다.
         vmView.configureFrame(to: self.frameContainerView)
     }
 
