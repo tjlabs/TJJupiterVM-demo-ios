@@ -7,9 +7,6 @@ import TJLabsJupiterVM
 
 public class TJJupiterVMView: UIView, JupiterVMDelegate {
     public func onInitSuccess(_ isSuccess: Bool, _ code: TJLabsJupiter.InitErrorCode?) {
-        // [DIAG] 안쪽 JupiterVMView -> wrapper 까지 콜백이 도달하는지, 그리고
-        // wrapper 의 delegate(호출 앱) 가 살아있는지 확인하기 위한 임시 로그.
-        print("(TJJupiterVMView) onInitSuccess reached wrapper -> isSuccess:\(isSuccess), code:\(String(describing: code)), delegate:\(delegate == nil ? "nil" : "set")")
         delegate?.onInitSuccess(isSuccess, code?.toWrap())
     }
     
