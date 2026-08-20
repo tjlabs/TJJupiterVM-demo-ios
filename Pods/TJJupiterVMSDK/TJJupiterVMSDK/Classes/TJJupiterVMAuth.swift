@@ -31,9 +31,9 @@ public class TJJupiterVMAuth {
         let clientSdks = [
             SdkMeta(name: "TJLabsAuth", version: "1.0.6"),
             SdkMeta(name: "TJLabsCommon", version: "1.0.7"),
-            SdkMeta(name: "TJLabsResource", version: "0.1.9"),
-            SdkMeta(name: "TJLabsJupiter", version: "2.0.14"),
-            SdkMeta(name: "TJLabsJupiterVM", version: "2.0.11")
+            SdkMeta(name: "TJLabsResource", version: "0.1.10"),
+            SdkMeta(name: "TJLabsJupiter", version: "2.0.15"),
+            SdkMeta(name: "TJLabsJupiterVM", version: "2.0.12")
         ]
         
         let bundleIdentifier = Bundle.main.bundleIdentifier ?? ""
