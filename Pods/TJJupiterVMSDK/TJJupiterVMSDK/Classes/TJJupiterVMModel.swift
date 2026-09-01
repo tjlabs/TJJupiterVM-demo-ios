@@ -55,6 +55,7 @@ public enum JupiterServiceCode: Int {
 
 public enum VMErrorCode: Int {
     case UNKNOWN = -1
+    case NOT_INITIALIZED = 401
     case VM_VIEW_FAIL  = 402
 }
 

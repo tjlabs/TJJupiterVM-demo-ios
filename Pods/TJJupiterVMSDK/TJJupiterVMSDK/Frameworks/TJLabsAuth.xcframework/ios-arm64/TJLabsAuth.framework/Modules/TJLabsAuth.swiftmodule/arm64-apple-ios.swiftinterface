@@ -99,6 +99,13 @@ public enum SecretConfig {
   public func isTokenNearExpiry(threshold: Foundation.TimeInterval = 60) -> Swift.Bool
   @objc deinit
 }
+@_hasMissingDesignatedInitializers public class TJLabsAuthOnPremiseConstants {
+  public static func setBaseURL(_ url: Swift.String)
+  public static func isEnabled() -> Swift.Bool
+  public static func getUserBaseURL() -> Swift.String
+  public static func getUserTokenURL() -> Swift.String
+  @objc deinit
+}
 extension TJLabsAuth.AuthCloud : Swift.Equatable {}
 extension TJLabsAuth.AuthCloud : Swift.Hashable {}
 extension TJLabsAuth.AuthCloud : Swift.RawRepresentable {}

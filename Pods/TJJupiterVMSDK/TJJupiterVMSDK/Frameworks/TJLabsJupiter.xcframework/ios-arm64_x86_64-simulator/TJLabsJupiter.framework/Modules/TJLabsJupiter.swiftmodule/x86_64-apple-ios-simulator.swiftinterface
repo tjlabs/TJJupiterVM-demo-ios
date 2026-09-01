@@ -574,6 +574,7 @@ public struct RoutingResult : Swift.Codable {
 }
 public enum NavigationRouteFailureReason : Swift.String, Swift.Codable {
   case serverResponse
+  case networkError
   case tooClose
   #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
@@ -692,7 +693,9 @@ public class NavigationManager : TJLabsJupiter.JupiterManagerDelegate {
   public func isJupiterPhaseChanged(index: Swift.Int, phase: TJLabsJupiter.JupiterPhase, xyh: [Swift.Float]?)
   #endif
   weak public var delegate: (any TJLabsJupiter.NavigationManagerDelegate)?
-  public init(id: Swift.String, cloud: Swift.String = JupiterCloud.GCP.rawValue, region: Swift.String = JupiterRegion.KOREA.rawValue, sectorId: Swift.Int, debugOption: Swift.Bool = false, dev: Swift.Bool = false)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(id: Swift.String, cloud: Swift.String = JupiterCloud.GCP.rawValue, region: Swift.String = JupiterRegion.KOREA.rawValue, sectorId: Swift.Int, debugOption: Swift.Bool = false, dev: Swift.Bool = false, onPremiseBaseURL: Swift.String? = nil)
+  #endif
   public func initialize()
   @objc deinit
   public func startService(mode: TJLabsCommon.UserMode)
@@ -717,6 +720,8 @@ public class NavigationManager : TJLabsJupiter.JupiterManagerDelegate {
   public func getLevelRoutes() -> [TJLabsJupiter.NavigationLevelRoute]
   public func setReplayMode(flag: Swift.Bool, rfdFileName: Swift.String, uvdFileName: Swift.String, eventFileName: Swift.String)
   public func setReplayModeLegacy(flag: Swift.Bool, bleFileName: Swift.String, sensorFileName: Swift.String)
+  @discardableResult
+  public func setMobileResultReplayMode(flag: Swift.Bool, fileName: Swift.String) -> Swift.Bool
   public func setMockMode(mode: TJLabsJupiter.JupiterMockMode, completion: @escaping (Swift.Bool) -> Swift.Void)
   public func cancelNavigation()
   public func setLSEAppName(name: Swift.String)
@@ -725,6 +730,9 @@ public class NavigationManager : TJLabsJupiter.JupiterManagerDelegate {
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
   public func getBuildingsData() -> [TJLabsResource.BuildingData]?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func getTransitionData() -> [TJLabsResource.Transition]?
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
   public func getBuildingName(buildingId: Swift.Int) -> Swift.String?
@@ -739,6 +747,9 @@ public class NavigationManager : TJLabsJupiter.JupiterManagerDelegate {
   public func getLevelId(sectorId: Swift.Int, buildingName: Swift.String, levelName: Swift.String) -> Swift.Int?
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
+  public func getParkingMatchesData(sectorId: Swift.Int, buildingName: Swift.String, levelName: Swift.String) -> [TJLabsResource.ParkingMatch]?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public func getDefaultPosition(sectorId: Swift.Int) -> TJLabsResource.DefaultPosition?
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
@@ -746,6 +757,7 @@ public class NavigationManager : TJLabsJupiter.JupiterManagerDelegate {
   #endif
 }
 @_hasMissingDesignatedInitializers public class JupiterNetworkConstants {
+  public static func setOnPremise(baseURL: Swift.String)
   public static func setServerURL(cloud: Swift.String, region: Swift.String, dev: Swift.Bool = false)
   public static func getUserBaseURL() -> Swift.String
   public static func getRecBaseURL() -> Swift.String
@@ -762,6 +774,19 @@ public class NavigationManager : TJLabsJupiter.JupiterManagerDelegate {
   public static func getRecMobileResultURL() -> Swift.String
   public static func getRecMobileEventURL() -> Swift.String
   public static func getCalcDirsServerVersion() -> Swift.String
+  public static func getCalcDirsURL() -> Swift.String
+  public static func getLocationSingleEpochURL() -> Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class JupiterOnPremiseNetworkConstants {
+  public static func setBaseURL(_ url: Swift.String)
+  public static func isEnabled() -> Swift.Bool
+  public static func getUserExternalMappingURL() -> Swift.String
+  public static func getUserFileUploadURL() -> Swift.String
+  public static func getRecRfdURL() -> Swift.String
+  public static func getRecUvdURL() -> Swift.String
+  public static func getRecMobileResultURL() -> Swift.String
+  public static func getRecMobileEventURL() -> Swift.String
   public static func getCalcDirsURL() -> Swift.String
   public static func getLocationSingleEpochURL() -> Swift.String
   @objc deinit

@@ -40,6 +40,7 @@ public enum VMRegion : Swift.String {
   }
 }
 public enum VMErrorCode : Swift.Int {
+  case NOT_INITIALIZED
   case VM_VIEW_FAIL
   #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.Int)
@@ -51,6 +52,7 @@ public enum VMErrorCode : Swift.Int {
 }
 @_hasMissingDesignatedInitializers public class JupiterVMEventCode {
   public static let WEBVIEW_LOAD_SUCCESS: Swift.Int
+  public static let VM_LOCATION_DETAIL_INFO: Swift.Int
   public static let WEBVIEW_LOAD_ERROR: Swift.Int
   @objc deinit
 }

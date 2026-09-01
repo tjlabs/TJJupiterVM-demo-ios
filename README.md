@@ -5,11 +5,11 @@
 TJJupiterVM-demo-ios is a minimal iOS sample app for integrating **TJLabs Jupiter VM SDK** with `UIKit`.
 
 <!-- JUPITER_SDK_VERSION_START -->
-Jupiter SDK version: 2.0.14
+Jupiter SDK version: 2.0.16
 <!-- JUPITER_SDK_VERSION_END -->
 
 <!-- JUPITER_VM_SDK_VERSION_START -->
-Jupiter VM SDK (CocoaPods): TJJupiterVMSDK 1.0.9
+Jupiter VM SDK (CocoaPods): TJJupiterVMSDK 1.0.15
 <!-- JUPITER_VM_SDK_VERSION_END -->
 
 The app demonstrates the VM SDK lifecycle step by step:

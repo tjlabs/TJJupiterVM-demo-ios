@@ -3,6 +3,7 @@
 // swift-module-flags: -target arm64-apple-ios15.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name TJLabsResource
 // swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
 import Foundation
+import Security
 import Swift
 import TJLabsAuth
 @_exported import TJLabsResource
@@ -25,6 +26,7 @@ public protocol TJLabsResourceManagerDelegate : AnyObject {
   func onImageData(_ manager: TJLabsResource.TJLabsResourceManager, key: Swift.String, data: UIKit.UIImage?)
   #endif
   func onWardsData(_ manager: TJLabsResource.TJLabsResourceManager, key: Swift.String, data: [TJLabsResource.LevelWard])
+  func onParkingMatchesData(_ manager: TJLabsResource.TJLabsResourceManager, key: Swift.String, data: [TJLabsResource.ParkingMatch])
   func onAffineParam(_ manager: TJLabsResource.TJLabsResourceManager, data: TJLabsResource.WGS84Transform)
   func onLandmarkData(_ manager: TJLabsResource.TJLabsResourceManager, key: Swift.String, data: [Swift.String : TJLabsResource.LandmarkData])
   func onSimulationData(_ manager: TJLabsResource.TJLabsResourceManager, sectorId: Swift.Int, data: [TJLabsResource.SimulationInfo])
@@ -45,6 +47,7 @@ public enum ResourceError {
   case Affine
   case Landmark
   case Simulation
+  case ParkingMatches
   public static func == (a: TJLabsResource.ResourceError, b: TJLabsResource.ResourceError) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
@@ -62,6 +65,7 @@ public enum ResourceLoadStage : Swift.Equatable {
   case nodeLink
   case pathPixel
   case wards
+  case parkingMatches
   public static func == (a: TJLabsResource.ResourceLoadStage, b: TJLabsResource.ResourceLoadStage) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
@@ -103,6 +107,7 @@ public struct ResourceLoadResult {
 public enum ResourceCloud : Swift.String {
   case AWS
   case GCP
+  case onPremise
   #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
   #endif
@@ -228,6 +233,7 @@ public struct Level : Swift.Codable {
   public let units: [TJLabsResource.UnitData]
   public let graphs: [TJLabsResource.Graph]
   public let wards: [TJLabsResource.Ward]
+  public let parkingMatches: TJLabsResource.ParkingMatchesInfo?
   #if compiler(>=5.3) && $NonescapableTypes
   public var graph: TJLabsResource.Graph? {
     get
@@ -238,6 +244,22 @@ public struct Level : Swift.Codable {
   }
   public init(from decoder: any Swift.Decoder) throws
   public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct ParkingMatchesInfo : Swift.Codable {
+  public let url: Swift.String
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ParkingMatch : Swift.Codable {
+  public let id: Swift.String
+  public let matchingId: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ParkingMatchesFile : Swift.Codable {
+  public let matches: [TJLabsResource.ParkingMatch]
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 public enum LevelType : Swift.String, Swift.Codable {
   case floor
@@ -531,6 +553,9 @@ public struct PeakData : Swift.Codable {
   #if compiler(>=5.3) && $NonescapableTypes
   public func downloadCSVFile(from url: Foundation.URL, fname: Swift.String, forceUpdate: Swift.Bool = false, completion: @escaping (Foundation.URL?, (any Swift.Error)?, Swift.Int?) -> Swift.Void)
   #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func downloadJSONFile(from url: Foundation.URL, fname: Swift.String, forceUpdate: Swift.Bool = false, completion: @escaping (Foundation.URL?, (any Swift.Error)?, Swift.Int?) -> Swift.Void)
+  #endif
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class TJLabsResourceCode {
@@ -547,6 +572,7 @@ public class TJLabsResourceManager {
   weak public var delegate: (any TJLabsResource.TJLabsResourceManagerDelegate)?
   public init()
   public func loadResources(cloud: Swift.String, region: Swift.String, sectorId: Swift.Int, landmarkTh: Swift.Float = -90, forceUpdate: Swift.Bool = false, dev: Swift.Bool = false, completion: @escaping (TJLabsResource.ResourceLoadResult) -> Swift.Void)
+  public func loadOnPremiseResources(baseURL: Swift.String, region: Swift.String = ResourceRegion.KOREA.rawValue, sectorId: Swift.Int, landmarkTh: Swift.Float = -90, forceUpdate: Swift.Bool = false, completion: @escaping (TJLabsResource.ResourceLoadResult) -> Swift.Void)
   public func isDebug() -> Swift.Bool
   #if compiler(>=5.3) && $NonescapableTypes
   public func loadSectorBundle(region: Swift.String, sectorId: Swift.Int, forceUpdate: Swift.Bool = false, completion: @escaping (TJLabsResource.BundleOutput?) -> Swift.Void)
@@ -591,6 +617,7 @@ public class TJLabsResourceManager {
   public func getEntranceRouteData() -> [Swift.String : TJLabsResource.EntranceRouteData]
   public func getBuildingLevelImageData() -> [Swift.String : UIKit.UIImage]
   public func getBuildingLevelWardsData() -> [Swift.String : [TJLabsResource.LevelWard]]
+  public func getBuildingLevelParkingMatchesData() -> [Swift.String : [TJLabsResource.ParkingMatch]]
   #if compiler(>=5.3) && $NonescapableTypes
   public func getWGS84Transform(sectorId: Swift.Int) -> TJLabsResource.WGS84Transform?
   #endif
@@ -619,6 +646,23 @@ public class TJLabsResourceManager {
   public static func getUserSectorBundleURL() -> Swift.String
   @objc deinit
 }
+public enum ResourceOnPremiseService : Swift.String {
+  case jupiter
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class TJLabsResourceOnPremiseNetworkConstants {
+  public static func setBaseURL(_ url: Swift.String)
+  public static func isEnabled() -> Swift.Bool
+  public static func getUserBaseURL() -> Swift.String
+  public static func getUserSectorBundleURL() -> Swift.String
+  @objc deinit
+}
 extension TJLabsResource.ResourceError : Swift.Equatable {}
 extension TJLabsResource.ResourceError : Swift.Hashable {}
 extension TJLabsResource.ResourceLoadStage : Swift.Hashable {}
@@ -636,3 +680,6 @@ extension TJLabsResource.Category : Swift.Hashable {}
 extension TJLabsResource.Category : Swift.RawRepresentable {}
 extension TJLabsResource.NodeLinkType : Swift.Equatable {}
 extension TJLabsResource.NodeLinkType : Swift.Hashable {}
+extension TJLabsResource.ResourceOnPremiseService : Swift.Equatable {}
+extension TJLabsResource.ResourceOnPremiseService : Swift.Hashable {}
+extension TJLabsResource.ResourceOnPremiseService : Swift.RawRepresentable {}
