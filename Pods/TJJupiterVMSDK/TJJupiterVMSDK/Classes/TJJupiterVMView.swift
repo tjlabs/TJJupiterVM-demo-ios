@@ -39,17 +39,20 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        // configureFrame 이 initialize 이전에 호출되어도 하위 뷰가 방출하는
+        // onWebViewSuccess(false) 콜백이 래퍼(그리고 호스트)로 전달되도록,
+        // 내부 뷰의 delegate 를 생성 시점에 연결해 둔다.
+        self.vmView.delegate = self
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public func initialize(userId: String, sectorId: Int, debugOption: Bool = true) {
         let dev = tjBranch == .DEV
         JupiterLogger.setDebugOption(set: false)
         JupiterVMLogger.setDebugOption(set: false)
-        self.vmView.delegate = self
         self.vmView.initialize(userId: userId, region: tjRegion.rawValue, sectorId: sectorId, debugOption: debugOption, dev: dev)
     }
     

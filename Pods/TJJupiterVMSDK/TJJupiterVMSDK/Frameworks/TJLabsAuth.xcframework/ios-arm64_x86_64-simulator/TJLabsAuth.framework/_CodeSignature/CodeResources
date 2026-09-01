@@ -14,43 +14,43 @@
 		</data>
 		<key>Modules/TJLabsAuth.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		Lyx9VVf00KVK81IWwU3iNA8qtFY=
+		KZnAilkcmoDdTOx0mwt7DPq1Deg=
 		</data>
 		<key>Modules/TJLabsAuth.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		3v8/roiSOcPGqJGGAj5vLlGyy70=
+		NlAyfrLup6LkDksumPfQbzQ5dY8=
 		</data>
 		<key>Modules/TJLabsAuth.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		KoyUh2P2kRX3nbO5+py+ZqKHsBs=
+		KKLsucpOh6f+r9VQf64ZxmI+rwY=
 		</data>
 		<key>Modules/TJLabsAuth.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		3v8/roiSOcPGqJGGAj5vLlGyy70=
+		NlAyfrLup6LkDksumPfQbzQ5dY8=
 		</data>
 		<key>Modules/TJLabsAuth.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		/NrUGAJzdKTRcNi93/9B/Wy4SBg=
+		0YfbZzGkUe3sINfvXLSzv7Pb9oE=
 		</data>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		Lyx9VVf00KVK81IWwU3iNA8qtFY=
+		KZnAilkcmoDdTOx0mwt7DPq1Deg=
 		</data>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		EegOSxvNm+W/jGnAgRSDet0Z1KA=
+		guefCvUomsCMNXXzWqherkCLgVU=
 		</data>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		Er40yJne97NvEdZGs7mroBMjiSo=
+		GB4OcyNx06xJYWzbPhjbkJkSOMk=
 		</data>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		EegOSxvNm+W/jGnAgRSDet0Z1KA=
+		guefCvUomsCMNXXzWqherkCLgVU=
 		</data>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		/njHGC1Qtok6s+Ckc4HHHsjR0Aw=
+		naWmQLJAu7eqNJjZtHNJV0pzxj8=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -74,70 +74,70 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			qy6e8DQLFMTI2GRTo2ws1iC+DIZnNyLqzQRw0Y9Jy1Q=
+			9RMurUWWDXBly0BTBqy6aYLxP/J1MQsMu0lHNZm2qms=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			UXTbWIXfkKNgqWxnCrox1clFxA+w+C29DkuB/xAsVDI=
+			J2KXyg1iIDI+sPTjLWrPVAWk8vWeiWspacxc++XCO4A=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			our+gm3a5L22rvZ+ai85+AqOupRZ31e9oSm5+0eth8Y=
+			YahiC3/NabE38SEK43jfbpZzgF2nB3Zg12uXnYWwPV0=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			UXTbWIXfkKNgqWxnCrox1clFxA+w+C29DkuB/xAsVDI=
+			J2KXyg1iIDI+sPTjLWrPVAWk8vWeiWspacxc++XCO4A=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Mnt+HU8DaznHKOPoQIFnvRP6ucjCdz3S3BB/fV/2OsM=
+			u1GiYk6oj76uq9K7mzjMAPejEonhnb0oj5D1b49blFM=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			qy6e8DQLFMTI2GRTo2ws1iC+DIZnNyLqzQRw0Y9Jy1Q=
+			9RMurUWWDXBly0BTBqy6aYLxP/J1MQsMu0lHNZm2qms=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			dCKfOIqssyMNAH5FV7+8BIO2nBE5MbmtFg1nxSJvmeA=
+			3zeQi7Mk02Srg+DmkhLKDbL95nkzjX6swQH3NE/9gkE=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			qE8T46qrBN1JCPU77mlnzL9YPRjkjsUI3HS/4OAXb2o=
+			aKXjiFMQjHYrHKJ1oiL0tkON3Nrspty1hhzQyPB287s=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			dCKfOIqssyMNAH5FV7+8BIO2nBE5MbmtFg1nxSJvmeA=
+			3zeQi7Mk02Srg+DmkhLKDbL95nkzjX6swQH3NE/9gkE=
 			</data>
 		</dict>
 		<key>Modules/TJLabsAuth.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			DaxzD7yd8gHN3n3jeiI7wbrbZJNExPkihID10UbuH0A=
+			5TEN95h405UZhqmYfCnq2LEtlAg2cf4Uvnny2T1pUW0=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

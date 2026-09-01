@@ -15,6 +15,8 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     private let panelBorderColor = UIColor(hex: "#E7DED3")
     private let frameIdleBorderColor = UIColor(hex: "#D6DCE3")
     private let frameActiveBorderColor = UIColor(hex: "#E47325")
+    private let sectorIdDefaultsKey = "cachedSectorId"
+    private let defaultSectorId = 112
     private let motionUsageKey = "NSMotionUsageDescription"
     private let locationWhenInUseUsageKey = "NSLocationWhenInUseUsageDescription"
     private let bluetoothUsageKey = "NSBluetoothAlwaysUsageDescription"
@@ -131,6 +133,16 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     private let vmView = TJJupiterVMView()
     private var selectVehicleView: SelectVehicleView?
 
+    private var isPanelExpanded = true
+    private var frameTopExpandedConstraint: NSLayoutConstraint!
+    private var frameTopCollapsedConstraint: NSLayoutConstraint!
+    private lazy var togglePanelButton = UIBarButtonItem(
+        image: UIImage(systemName: "chevron.up"),
+        style: .plain,
+        target: self,
+        action: #selector(togglePanelTapped)
+    )
+
     // 각 단계 수행 시작 시각 (경과 시간 측정용)
     private var authStartTime: CFAbsoluteTime?
     private var initVMViewStartTime: CFAbsoluteTime?
@@ -175,6 +187,34 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         label.text = "VM Frame Host\nconfigureFrame 버튼으로 연결"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+
+    private let sectorIdTextField: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .roundedRect
+        textField.keyboardType = .numberPad
+        textField.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        textField.textColor = UIColor(hex: "#32404D")
+        textField.placeholder = "Sector ID"
+        textField.clearButtonMode = .whileEditing
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+
+    private lazy var sectorIdRowStackView: UIStackView = {
+        let label = UILabel()
+        label.text = "Sector ID"
+        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        label.textColor = UIColor(hex: "#32404D")
+        label.setContentHuggingPriority(.required, for: .horizontal)
+
+        let stackView = UIStackView(arrangedSubviews: [label, sectorIdTextField])
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
 
     private lazy var initializeButton = makeActionButton(title: "initialize")
@@ -256,6 +296,9 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // configureFrame 을 initialize 이전에 호출하는 오류 시나리오에서도
+        // onWebViewSuccess(false) 콜백을 받을 수 있도록 delegate 를 미리 연결한다.
+        vmView.delegate = self
         setupLayout()
         configurePermissionManagers()
         NotificationCenter.default.addObserver(self,
@@ -280,6 +323,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         buttonPanelView.addSubview(buttonStackView)
         frameContainerView.addSubview(framePlaceholderLabel)
 
+        buttonStackView.addArrangedSubview(sectorIdRowStackView)
         buttonStackView.addArrangedSubview(initializeButton)
         buttonStackView.addArrangedSubview(mockModeButton)
         buttonStackView.addArrangedSubview(groupedControlStackView)
@@ -292,6 +336,9 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
 
         groupedControlStackView.addArrangedSubview(frameControlStackView)
         groupedControlStackView.addArrangedSubview(serviceControlStackView)
+
+        frameTopExpandedConstraint = frameContainerView.topAnchor.constraint(equalTo: buttonPanelView.bottomAnchor, constant: 14)
+        frameTopCollapsedConstraint = frameContainerView.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 14)
 
         NSLayoutConstraint.activate([
             statusLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
@@ -307,7 +354,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             buttonStackView.leadingAnchor.constraint(equalTo: buttonPanelView.leadingAnchor, constant: 12),
             buttonStackView.trailingAnchor.constraint(equalTo: buttonPanelView.trailingAnchor, constant: -12),
 
-            frameContainerView.topAnchor.constraint(equalTo: buttonPanelView.bottomAnchor, constant: 14),
+            frameTopExpandedConstraint,
             frameContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             frameContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             frameContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
@@ -317,6 +364,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             framePlaceholderLabel.leadingAnchor.constraint(greaterThanOrEqualTo: frameContainerView.leadingAnchor, constant: 24),
             framePlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: frameContainerView.trailingAnchor, constant: -24),
 
+            sectorIdRowStackView.heightAnchor.constraint(equalToConstant: 42),
             initializeButton.heightAnchor.constraint(equalToConstant: 42),
             mockModeButton.heightAnchor.constraint(equalToConstant: 42),
             configureFrameButton.heightAnchor.constraint(equalToConstant: 42),
@@ -326,8 +374,39 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             groupedControlStackView.heightAnchor.constraint(equalToConstant: 92)
         ])
 
+        let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        dismissKeyboardTap.cancelsTouchesInView = false
+        view.addGestureRecognizer(dismissKeyboardTap)
+
+        sectorIdTextField.text = String(cachedSectorId())
+
+        navigationItem.rightBarButtonItem = togglePanelButton
+
         bindButtonActions()
         refreshButtonAvailability()
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    @objc private func togglePanelTapped() {
+        isPanelExpanded.toggle()
+
+        view.endEditing(true)
+        if isPanelExpanded {
+            buttonPanelView.isHidden = false
+        }
+        frameTopExpandedConstraint.isActive = isPanelExpanded
+        frameTopCollapsedConstraint.isActive = !isPanelExpanded
+        togglePanelButton.image = UIImage(systemName: isPanelExpanded ? "chevron.up" : "chevron.down")
+
+        UIView.animate(withDuration: 0.25) {
+            self.buttonPanelView.alpha = self.isPanelExpanded ? 1.0 : 0.0
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            self.buttonPanelView.isHidden = !self.isPanelExpanded
+        }
     }
 
     private func makeActionButton(title: String) -> UIButton {
@@ -604,10 +683,11 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         // 다시 isReadyAfterInitialize 로 되돌리면 됩니다.
         let isReadyAfterAuth = hasRequiredPermissions
             && authState == .succeeded
+        // sectorId 를 바꿔가며 반복 테스트할 수 있도록, 초기화 성공 이후에도
+        // (초기화 진행 중이 아니라면) initialize 를 다시 호출할 수 있게 한다.
         let canInit = hasRequiredPermissions
             && authState == .succeeded
             && !isInitializingMap
-            && !hasInitializedMap
         // configureFrame 은 웹뷰 예열(initializeWebView)과 컨테이너 부착(attachView)을
         // 한 번에 수행한다. 로드가 끝나면 onWebViewSuccess 로 완료가 전달된다.
         let canConfigureFrame = isReadyAfterAuth
@@ -933,10 +1013,27 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func initVMView() {
-        vmView.delegate = self
         initVMViewStartTime = CFAbsoluteTimeGetCurrent()
-        print("(MainViewController) [TIMING] initVMView -> 시작")
-        vmView.initialize(userId: "vm-test", sectorId: 112)
+        let sectorId = resolvedSectorId()
+        print("(MainViewController) [TIMING] initVMView -> 시작, sectorId: \(sectorId)")
+        vmView.initialize(userId: "vm-test", sectorId: sectorId)
+    }
+
+    private func resolvedSectorId() -> Int {
+        let text = sectorIdTextField.text?.trimmingCharacters(in: .whitespaces) ?? ""
+        let sectorId = Int(text) ?? cachedSectorId()
+        cacheSectorId(sectorId)
+        return sectorId
+    }
+
+    private func cachedSectorId() -> Int {
+        let defaults = UserDefaults.standard
+        guard defaults.object(forKey: sectorIdDefaultsKey) != nil else { return defaultSectorId }
+        return defaults.integer(forKey: sectorIdDefaultsKey)
+    }
+
+    private func cacheSectorId(_ sectorId: Int) {
+        UserDefaults.standard.set(sectorId, forKey: sectorIdDefaultsKey)
     }
 
     func configureVMView() {
@@ -1029,17 +1126,17 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func setSavedParkingLocations() {
-        let levelId = 52
-        let idList = ["OB-uvbd7yeu7zab3948"]
+        let levelId = 135
+        let idList = ["2022"]
         vmView.setSavedParkingLocations(parkingLocations: [levelId: idList])
     }
     
     func setParkingLocationStates() {
-        let levelId = 52
-        let idList = ["OB-1h82101id68tx3548", "OB-1h7zbmxfa10z93809", "OB-1h84se62jidlw3811"]
+        let levelId = 135
+        let idList = ["2170", "2171", "2172", "2046", "2047", "2048", "2110", "2111", "2112"]
         var states = [String: ParkingLocationState]()
         for id in idList {
-            states[id] = .VACANT
+            states[id] = .OCCUPIED
         }
         vmView.setParkingLocationStates(parkingLocationStates: [levelId: states])
     }
