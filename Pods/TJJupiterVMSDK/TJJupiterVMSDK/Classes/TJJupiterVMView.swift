@@ -30,7 +30,7 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
         delegate?.isEnteringWardDeteced(info: info.toWrap())
     }
     
-    public func isParkingLocationTapped(levelId: Int, parkingLocationId: String) {
+    public func isParkingLocationTapped(levelId: String, parkingLocationId: String) {
         delegate?.isParkingLocationTapped(levelId: levelId, parkingLocationId: parkingLocationId)
     }
     
@@ -94,16 +94,16 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
         self.vmView.closeFrame()
     }
     
-    public func setSavedParkingLocations(parkingLocations: [Int: [String]]) {
+    public func setSavedParkingLocations(parkingLocations: [String: [String]]) {
         self.vmView.setSavedParkingLocations(parkingLocations)
     }
     
-    public func updateSavedParkingLocations(parkingLocations: [Int: [String]]) {
+    public func updateSavedParkingLocations(parkingLocations: [String: [String]]) {
         self.vmView.updateSavedParkingLocations(parkingLocations)
     }
     
-    public func setParkingLocationStates(parkingLocationStates: [Int: [String: ParkingLocationState]]) {
-        var statesInput = [Int : [String: TJLabsJupiterVM.ParkingLocationState]]()
+    public func setParkingLocationStates(parkingLocationStates: [String: [String: ParkingLocationState]]) {
+        var statesInput = [String : [String: TJLabsJupiterVM.ParkingLocationState]]()
         
         for (levelId, data) in parkingLocationStates {
             var wrapped = [String: TJLabsJupiterVM.ParkingLocationState]()
@@ -116,8 +116,8 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
         self.vmView.setParkingLocationStates(parkingLocationStates: statesInput)
     }
 
-    public func updateParkingLocationStates(parkingLocationStates: [Int: [String: ParkingLocationState]]) {
-        var statesInput = [Int : [String: TJLabsJupiterVM.ParkingLocationState]]()
+    public func updateParkingLocationStates(parkingLocationStates: [String: [String: ParkingLocationState]]) {
+        var statesInput = [String : [String: TJLabsJupiterVM.ParkingLocationState]]()
         
         for (levelId, data) in parkingLocationStates {
             var wrapped = [String: TJLabsJupiterVM.ParkingLocationState]()

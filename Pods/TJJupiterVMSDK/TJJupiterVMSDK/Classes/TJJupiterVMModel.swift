@@ -8,7 +8,7 @@ public protocol TJJupiterVMDelegate: AnyObject {
     func onWebViewSuccess(_ isSuccess: Bool, _ code: VMErrorCode?)
     func didWebViewRemoved()
     func isEnteringWardDeteced(info: EnteringInfo)
-    func isParkingLocationTapped(levelId: Int, parkingLocationId: String)
+    func isParkingLocationTapped(levelId: String, parkingLocationId: String)
 }
 
 var tjBranch: ServerBranch = .PROD

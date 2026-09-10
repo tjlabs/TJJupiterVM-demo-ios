@@ -5,7 +5,7 @@ class SelectVehicleView: UIView {
     var onTapOK: (() -> Void)?
     var onTapClose: (() -> Void)?
     
-    private let parkingLocationLevelId: Int
+    private let parkingLocationLevelId: String
     private let parkingLocationId: String
     
     private let containerView: UIView = {
@@ -86,7 +86,7 @@ class SelectVehicleView: UIView {
         bounds.height * bottomSheetHeightRatio
     }
     
-    init(levelId: Int, parkingLocationId: String) {
+    init(levelId: String, parkingLocationId: String) {
         self.parkingLocationLevelId = levelId
         self.parkingLocationId = parkingLocationId
         super.init(frame: .zero)

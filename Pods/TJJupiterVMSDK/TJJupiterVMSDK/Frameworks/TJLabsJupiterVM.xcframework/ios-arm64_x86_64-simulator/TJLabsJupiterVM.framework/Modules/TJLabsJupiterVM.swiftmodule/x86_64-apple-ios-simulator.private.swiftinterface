@@ -54,6 +54,7 @@ public enum VMErrorCode : Swift.Int {
   public static let WEBVIEW_LOAD_SUCCESS: Swift.Int
   public static let VM_LOCATION_DETAIL_INFO: Swift.Int
   public static let WEBVIEW_LOAD_ERROR: Swift.Int
+  public static let VM_INVALID_LEVEL: Swift.Int
   @objc deinit
 }
 public struct EnteringInfo : Swift.Codable {
@@ -87,7 +88,7 @@ public protocol JupiterVMDelegate : AnyObject {
   #endif
   func didWebViewRemoved()
   func isEnteringWardDeteced(info: TJLabsJupiterVM.EnteringInfo)
-  func isParkingLocationTapped(levelId: Swift.Int, parkingLocationId: Swift.String)
+  func isParkingLocationTapped(levelId: Swift.String, parkingLocationId: Swift.String)
 }
 @_hasMissingDesignatedInitializers public class JupiterVMNetworkConstants {
   public static func setServerURL(cloud: Swift.String, region: Swift.String, dev: Swift.Bool = false)
@@ -124,10 +125,10 @@ public protocol JupiterVMDelegate : AnyObject {
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public func removeFromSuperview()
   @_Concurrency.MainActor @preconcurrency public func initializeWebView()
   @_Concurrency.MainActor @preconcurrency public func configureFrame(to matchView: UIKit.UIView)
-  @_Concurrency.MainActor @preconcurrency public func setSavedParkingLocations(_ parkingLocations: [Swift.Int : [Swift.String]])
-  @_Concurrency.MainActor @preconcurrency public func updateSavedParkingLocations(_ parkingLocations: [Swift.Int : [Swift.String]])
-  @_Concurrency.MainActor @preconcurrency public func setParkingLocationStates(parkingLocationStates: [Swift.Int : [Swift.String : TJLabsJupiterVM.ParkingLocationState]])
-  @_Concurrency.MainActor @preconcurrency public func updateParkingLocationStates(parkingLocationStates: [Swift.Int : [Swift.String : TJLabsJupiterVM.ParkingLocationState]])
+  @_Concurrency.MainActor @preconcurrency public func setSavedParkingLocations(_ parkingLocations: [Swift.String : [Swift.String]])
+  @_Concurrency.MainActor @preconcurrency public func updateSavedParkingLocations(_ parkingLocations: [Swift.String : [Swift.String]])
+  @_Concurrency.MainActor @preconcurrency public func setParkingLocationStates(parkingLocationStates: [Swift.String : [Swift.String : TJLabsJupiterVM.ParkingLocationState]])
+  @_Concurrency.MainActor @preconcurrency public func updateParkingLocationStates(parkingLocationStates: [Swift.String : [Swift.String : TJLabsJupiterVM.ParkingLocationState]])
 }
 extension TJLabsJupiterVM.JupiterVMView : WebKit.WKNavigationDelegate {
   #if compiler(>=5.3) && $NonescapableTypes

@@ -124,24 +124,45 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         // TODO
     }
     
- 
-    func isParkingLocationTapped(levelId level_id: Int, parkingLocationId: String) {
-        self.showSelectVehicleView(levelId: level_id, parkingLocationId: parkingLocationId)
+    func isParkingLocationTapped(levelId: String, parkingLocationId: String) {
+        self.showSelectVehicleView(levelId: levelId, parkingLocationId: parkingLocationId)
     }
-    
     
     private let vmView = TJJupiterVMView()
     private var selectVehicleView: SelectVehicleView?
 
     private var isPanelExpanded = true
     private var frameTopExpandedConstraint: NSLayoutConstraint!
-    private var frameTopCollapsedConstraint: NSLayoutConstraint!
-    private lazy var togglePanelButton = UIBarButtonItem(
-        image: UIImage(systemName: "chevron.up"),
-        style: .plain,
-        target: self,
-        action: #selector(togglePanelTapped)
-    )
+    private lazy var togglePanelButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "chevron.up"), for: .normal)
+        button.tintColor = UIColor(hex: "#32404D")
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setContentHuggingPriority(.required, for: .horizontal)
+        button.addTarget(self, action: #selector(togglePanelTapped), for: .touchUpInside)
+        return button
+    }()
+
+    // 토글 버튼 옆에 Sector ID 입력 행을 붙인다. 패널이 접혀도 항상 보이며 편집 가능하다.
+    private lazy var togglePanelRowStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [togglePanelButton, sectorIdRowStackView])
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+
+    // 패널 = [토글 행(항상 표시)] + [컨트롤 묶음(접힘 대상)]
+    private let panelStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
 
     // 각 단계 수행 시작 시각 (경과 시간 측정용)
     private var authStartTime: CFAbsoluteTime?
@@ -320,10 +341,12 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         view.addSubview(buttonPanelView)
         view.addSubview(frameContainerView)
 
-        buttonPanelView.addSubview(buttonStackView)
+        buttonPanelView.addSubview(panelStackView)
         frameContainerView.addSubview(framePlaceholderLabel)
 
-        buttonStackView.addArrangedSubview(sectorIdRowStackView)
+        panelStackView.addArrangedSubview(togglePanelRowStackView)
+        panelStackView.addArrangedSubview(buttonStackView)
+
         buttonStackView.addArrangedSubview(initializeButton)
         buttonStackView.addArrangedSubview(mockModeButton)
         buttonStackView.addArrangedSubview(groupedControlStackView)
@@ -338,7 +361,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         groupedControlStackView.addArrangedSubview(serviceControlStackView)
 
         frameTopExpandedConstraint = frameContainerView.topAnchor.constraint(equalTo: buttonPanelView.bottomAnchor, constant: 14)
-        frameTopCollapsedConstraint = frameContainerView.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 14)
 
         NSLayoutConstraint.activate([
             statusLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
@@ -349,10 +371,10 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             buttonPanelView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             buttonPanelView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
 
-            buttonStackView.topAnchor.constraint(equalTo: buttonPanelView.topAnchor, constant: 12),
-            buttonStackView.bottomAnchor.constraint(equalTo: buttonPanelView.bottomAnchor, constant: -12),
-            buttonStackView.leadingAnchor.constraint(equalTo: buttonPanelView.leadingAnchor, constant: 12),
-            buttonStackView.trailingAnchor.constraint(equalTo: buttonPanelView.trailingAnchor, constant: -12),
+            panelStackView.topAnchor.constraint(equalTo: buttonPanelView.topAnchor, constant: 12),
+            panelStackView.bottomAnchor.constraint(equalTo: buttonPanelView.bottomAnchor, constant: -12),
+            panelStackView.leadingAnchor.constraint(equalTo: buttonPanelView.leadingAnchor, constant: 12),
+            panelStackView.trailingAnchor.constraint(equalTo: buttonPanelView.trailingAnchor, constant: -12),
 
             frameTopExpandedConstraint,
             frameContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -364,6 +386,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             framePlaceholderLabel.leadingAnchor.constraint(greaterThanOrEqualTo: frameContainerView.leadingAnchor, constant: 24),
             framePlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: frameContainerView.trailingAnchor, constant: -24),
 
+            togglePanelButton.heightAnchor.constraint(equalToConstant: 32),
             sectorIdRowStackView.heightAnchor.constraint(equalToConstant: 42),
             initializeButton.heightAnchor.constraint(equalToConstant: 42),
             mockModeButton.heightAnchor.constraint(equalToConstant: 42),
@@ -380,8 +403,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
 
         sectorIdTextField.text = String(cachedSectorId())
 
-        navigationItem.rightBarButtonItem = togglePanelButton
-
         bindButtonActions()
         refreshButtonAvailability()
     }
@@ -394,18 +415,14 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         isPanelExpanded.toggle()
 
         view.endEditing(true)
-        if isPanelExpanded {
-            buttonPanelView.isHidden = false
-        }
-        frameTopExpandedConstraint.isActive = isPanelExpanded
-        frameTopCollapsedConstraint.isActive = !isPanelExpanded
-        togglePanelButton.image = UIImage(systemName: isPanelExpanded ? "chevron.up" : "chevron.down")
+        togglePanelButton.setImage(UIImage(systemName: isPanelExpanded ? "chevron.up" : "chevron.down"), for: .normal)
 
+        // 토글 행은 항상 남겨두고 컨트롤 묶음(buttonStackView)만 접는다.
+        // 패널 높이가 줄면서 아래 실내지도가 그만큼 위로 확장된다.
         UIView.animate(withDuration: 0.25) {
-            self.buttonPanelView.alpha = self.isPanelExpanded ? 1.0 : 0.0
+            self.buttonStackView.isHidden = !self.isPanelExpanded
+            self.buttonStackView.alpha = self.isPanelExpanded ? 1.0 : 0.0
             self.view.layoutIfNeeded()
-        } completion: { _ in
-            self.buttonPanelView.isHidden = !self.isPanelExpanded
         }
     }
 
@@ -996,7 +1013,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     func doAuth() {
         authState = .inProgress
         refreshButtonAvailability()
-        TJJupiterVMAuth.shared.setServerConfig(region: .SAUDI, branch: .PROD)
+        TJJupiterVMAuth.shared.setServerConfig(region: .SAUDI, branch: .DEV)
         authStartTime = CFAbsoluteTimeGetCurrent()
         print("(MainViewController) [TIMING] auth -> 시작")
         TJJupiterVMAuth.shared.auth(accessKey: "", secretAccessKey: "", completion: { [weak self] statusCode, success in
@@ -1049,6 +1066,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func startService() {
+        vmView.setReplayMode(flag: true, rfdFileName: "112_test2_rfd.json", uvdFileName: "112_test2_uvd.json", eventFileName: "112_test2_event.json")
         vmView.startService()
     }
 
@@ -1126,13 +1144,13 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func setSavedParkingLocations() {
-        let levelId = 135
+        let levelId = "2"
         let idList = ["2022"]
         vmView.setSavedParkingLocations(parkingLocations: [levelId: idList])
     }
     
     func setParkingLocationStates() {
-        let levelId = 135
+        let levelId = "2"
         let idList = ["2170", "2171", "2172", "2046", "2047", "2048", "2110", "2111", "2112"]
         var states = [String: ParkingLocationState]()
         for id in idList {
@@ -1141,7 +1159,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         vmView.setParkingLocationStates(parkingLocationStates: [levelId: states])
     }
         
-    func showSelectVehicleView(levelId: Int, parkingLocationId: String) {
+    func showSelectVehicleView(levelId: String, parkingLocationId: String) {
         removeSelectVehicleView()
 
         let selectVehicleView = SelectVehicleView(levelId: levelId, parkingLocationId: parkingLocationId)
