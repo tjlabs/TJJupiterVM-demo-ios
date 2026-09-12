@@ -1066,7 +1066,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func startService() {
-        vmView.setReplayMode(flag: true, rfdFileName: "112_test2_rfd.json", uvdFileName: "112_test2_uvd.json", eventFileName: "112_test2_event.json")
         vmView.startService()
     }
 
