@@ -35193,91 +35193,91 @@
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/JupiterCalcManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 117292,
+      "offset": 116934,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/JupiterCalcManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 117333,
+      "offset": 116975,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/JupiterCalcManager.swift",
       "kind": "StringLiteral",
-      "offset": 117357,
+      "offset": 116999,
       "length": 9,
       "value": "\"unknown\""
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/JupiterCalcManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 135521,
+      "offset": 135163,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/JupiterCalcManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 135711,
+      "offset": 135353,
       "length": 2,
       "value": "50"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/JupiterCalcManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 135888,
+      "offset": 135530,
       "length": 2,
       "value": "30"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/JupiterCalcManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 136095,
+      "offset": 135737,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/JupiterCalcManager.swift",
       "kind": "FloatLiteral",
-      "offset": 138312,
+      "offset": 137954,
       "length": 3,
       "value": "0.3"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/JupiterCalcManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 155667,
+      "offset": 155309,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/JupiterCalcManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 252193,
+      "offset": 251235,
       "length": 2,
       "value": "15"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/JupiterCalcManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 252363,
+      "offset": 251405,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/JupiterCalcManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 252568,
+      "offset": 251610,
       "length": 2,
       "value": "45"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/JupiterCalcManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 252849,
+      "offset": 251891,
       "length": 2,
       "value": "40"
     },
@@ -35795,14 +35795,14 @@
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/KalmanFilter.swift",
       "kind": "FloatLiteral",
-      "offset": 17402,
+      "offset": 15859,
       "length": 4,
       "value": "10.0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Calc\/KalmanFilter.swift",
       "kind": "BooleanLiteral",
-      "offset": 40566,
+      "offset": 39023,
       "length": 5,
       "value": "false"
     },
@@ -38287,231 +38287,231 @@
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "StringLiteral",
-      "offset": 20770,
+      "offset": 22307,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "StringLiteral",
-      "offset": 20805,
+      "offset": 22342,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "StringLiteral",
-      "offset": 20841,
+      "offset": 22378,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 20874,
+      "offset": 22411,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 20912,
+      "offset": 22449,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 21343,
+      "offset": 22880,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 21423,
+      "offset": 22960,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 21559,
+      "offset": 23096,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 21625,
+      "offset": 23162,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "Array",
-      "offset": 21671,
+      "offset": 23208,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 21739,
+      "offset": 23276,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 21801,
+      "offset": 23338,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 21848,
+      "offset": 23385,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 21909,
+      "offset": 23446,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 21948,
+      "offset": 23485,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 21987,
+      "offset": 23524,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 22081,
+      "offset": 23618,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "StringLiteral",
-      "offset": 22119,
+      "offset": 23656,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 22159,
+      "offset": 23696,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 22202,
+      "offset": 23739,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "FloatLiteral",
-      "offset": 22452,
+      "offset": 23989,
       "length": 4,
       "value": "30.0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 22514,
+      "offset": 24051,
       "length": 1,
       "value": "5"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 22563,
+      "offset": 24100,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "FloatLiteral",
-      "offset": 22732,
+      "offset": 24269,
       "length": 4,
       "value": "10.0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 22850,
+      "offset": 24387,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 23088,
+      "offset": 24625,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 23133,
+      "offset": 24670,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 23420,
+      "offset": 24957,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 23448,
+      "offset": 24985,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 23467,
+      "offset": 25004,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "Array",
-      "offset": 27993,
+      "offset": 29530,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "Array",
-      "offset": 28369,
+      "offset": 29906,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiter-sdk-ios\/TJLabsJupiter\/Navi\/NavigationManager.swift",
       "kind": "StringLiteral",
-      "offset": 40036,
+      "offset": 41633,
       "length": 9,
       "value": "\"unknown\""
     },

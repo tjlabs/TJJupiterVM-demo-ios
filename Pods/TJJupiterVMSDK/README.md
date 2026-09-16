@@ -1,5 +1,5 @@
 # TJJupiterVMSDK
-### Version 1.0.20
+### Version 1.0.22
 
 [![Version](https://img.shields.io/cocoapods/v/TJJupiterVMSDK.svg?style=flat)](https://cocoapods.org/pods/TJJupiterVMSDK)
 [![License](https://img.shields.io/cocoapods/l/TJJupiterVMSDK.svg?style=flat)](https://cocoapods.org/pods/TJJupiterVMSDK)

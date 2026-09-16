@@ -115,7 +115,7 @@ public protocol JupiterVMDelegate : AnyObject {
   @_Concurrency.MainActor @preconcurrency @objc public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
   @_Concurrency.MainActor @preconcurrency weak public var delegate: (any TJLabsJupiterVM.JupiterVMDelegate)?
   @objc deinit
-  @_Concurrency.MainActor @preconcurrency public func initialize(userId: Swift.String, region: Swift.String, sectorId: Swift.Int, debugOption: Swift.Bool = true, dev: Swift.Bool = false)
+  @_Concurrency.MainActor @preconcurrency public func initialize(userId: Swift.String, region: Swift.String, sectorId: Swift.Int, debugOption: Swift.Bool = true, uploadOption: Swift.Bool = true, dev: Swift.Bool = false)
   @_Concurrency.MainActor @preconcurrency public func startService()
   @_Concurrency.MainActor @preconcurrency public func stopService(completion: @escaping (Swift.Bool, Swift.String) -> Swift.Void)
   @_Concurrency.MainActor @preconcurrency public func setReplayMode(flag: Swift.Bool, rfdFileName: Swift.String, uvdFileName: Swift.String, eventFileName: Swift.String)
