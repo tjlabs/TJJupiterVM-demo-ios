@@ -2454,7 +2454,7 @@
           {
             "kind": "Function",
             "name": "initialize",
-            "printedName": "initialize(userId:region:sectorId:debugOption:dev:)",
+            "printedName": "initialize(userId:region:sectorId:debugOption:uploadOption:dev:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -2492,11 +2492,18 @@
                 "printedName": "Swift.Bool",
                 "hasDefaultArg": true,
                 "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "hasDefaultArg": true,
+                "usr": "s:Sb"
               }
             ],
             "declKind": "Func",
-            "usr": "s:15TJLabsJupiterVM0B6VMViewC10initialize6userId6region06sectorG011debugOption3devySS_SSSiS2btF",
-            "mangledName": "$s15TJLabsJupiterVM0B6VMViewC10initialize6userId6region06sectorG011debugOption3devySS_SSSiS2btF",
+            "usr": "s:15TJLabsJupiterVM0B6VMViewC10initialize6userId6region06sectorG011debugOption06uploadK03devySS_SSSiS3btF",
+            "mangledName": "$s15TJLabsJupiterVM0B6VMViewC10initialize6userId6region06sectorG011debugOption06uploadK03devySS_SSSiS3btF",
             "moduleName": "TJLabsJupiterVM",
             "declAttributes": [
               "Preconcurrency",
@@ -3411,7 +3418,14 @@
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 2894,
+      "offset": 2903,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMManager.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2921,
       "length": 5,
       "value": "false"
     },
@@ -3810,7 +3824,14 @@
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 8950,
+      "offset": 8959,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 8977,
       "length": 5,
       "value": "false"
     }

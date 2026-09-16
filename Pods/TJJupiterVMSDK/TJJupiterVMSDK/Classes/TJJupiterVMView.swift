@@ -53,7 +53,7 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
         let dev = tjBranch == .DEV
         JupiterLogger.setDebugOption(set: false)
         JupiterVMLogger.setDebugOption(set: false)
-        self.vmView.initialize(userId: userId, region: tjRegion.rawValue, sectorId: sectorId, debugOption: debugOption, dev: dev)
+        self.vmView.initialize(userId: userId, region: tjRegion.rawValue, sectorId: sectorId, debugOption: debugOption, uploadOption: debugOption, dev: dev)
     }
     
     public func startService() {

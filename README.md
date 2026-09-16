@@ -9,7 +9,7 @@ Jupiter SDK version: 2.0.19
 <!-- JUPITER_SDK_VERSION_END -->
 
 <!-- JUPITER_VM_SDK_VERSION_START -->
-Jupiter VM SDK (CocoaPods): TJJupiterVMSDK 1.0.15
+Jupiter VM SDK (CocoaPods): TJJupiterVMSDK 1.0.22
 <!-- JUPITER_VM_SDK_VERSION_END -->
 
 The app demonstrates the VM SDK lifecycle step by step:

@@ -13222,36 +13222,43 @@
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsCommon-sdk-ios\/TJLabsCommon\/RFD\/TJLabsBluetoothManager.swift",
+      "kind": "StringLiteral",
+      "offset": 1500,
+      "length": 30,
+      "value": "\"com.tjlabs.common.bleManager\""
+    },
+    {
+      "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsCommon-sdk-ios\/TJLabsCommon\/RFD\/TJLabsBluetoothManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 1287,
+      "offset": 1629,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsCommon-sdk-ios\/TJLabsCommon\/RFD\/TJLabsBluetoothManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 1327,
+      "offset": 1669,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsCommon-sdk-ios\/TJLabsCommon\/RFD\/TJLabsBluetoothManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 1365,
+      "offset": 1707,
       "length": 4,
       "value": "1000"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsCommon-sdk-ios\/TJLabsCommon\/RFD\/TJLabsBluetoothManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 1402,
+      "offset": 1744,
       "length": 4,
       "value": "-100"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsCommon-sdk-ios\/TJLabsCommon\/RFD\/TJLabsBluetoothManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 1439,
+      "offset": 1781,
       "length": 3,
       "value": "-40"
     },
