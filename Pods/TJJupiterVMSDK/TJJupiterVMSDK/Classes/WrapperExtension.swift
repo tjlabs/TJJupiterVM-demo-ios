@@ -59,6 +59,7 @@ extension TJLabsJupiter.JupiterResult {
             level_name: self.level_name,
             jupiter_pos: self.jupiter_pos.toWrap(),
             navi_pos: self.navi_pos?.toWrap(),
+            remaining_distance: self.remaining_distance,
             llh: self.llh?.toWrap(),
             velocity: self.velocity,
             is_vehicle: self.is_vehicle,
