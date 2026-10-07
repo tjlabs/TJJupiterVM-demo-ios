@@ -15,19 +15,26 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     private let panelBorderColor = UIColor(hex: "#E7DED3")
     private let frameIdleBorderColor = UIColor(hex: "#D6DCE3")
     private let frameActiveBorderColor = UIColor(hex: "#E47325")
-    private let sectorIdDefaultsKey = "cachedSectorId"
+    // 단일 섹터: Sector ID 하나로 initialize/configureFrame/startService 를 수행한다.
+    // 다중 섹터: Init Sectors 의 리소스를 한 번에 로드하고, configureFrame/startService 는 그중 Active Sector 로 수행한다.
+    enum SectorMode {
+        case single
+        case multi
+    }
+
+    var sectorMode: SectorMode = .single
+
+    // 모드별로 입력값 의미가 달라 캐시 키를 분리한다.
+    private var sectorIdDefaultsKey: String {
+        sectorMode == .single ? "cachedSectorId" : "cachedActiveSectorId"
+    }
     private let defaultSectorId = 112
+    private let initSectorIdsDefaultsKey = "cachedInitSectorIds"
+    private let defaultInitSectorIds = [111, 112, 113]
     private let motionUsageKey = "NSMotionUsageDescription"
     private let locationWhenInUseUsageKey = "NSLocationWhenInUseUsageDescription"
     private let bluetoothUsageKey = "NSBluetoothAlwaysUsageDescription"
     private let bluetoothPeripheralUsageKey = "NSBluetoothPeripheralUsageDescription"
-
-    private enum AuthState: Equatable {
-        case idle
-        case inProgress
-        case succeeded
-        case failed
-    }
 
     private enum PermissionValidationIssue: Equatable {
         case missingPlistKeys([String])
@@ -40,7 +47,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     private let locationManager = CLLocationManager()
     private let motionActivityManager = CMMotionActivityManager()
     private var bluetoothManager: CBCentralManager?
-    private var authState: AuthState = .idle
     private var hasRequiredPermissions = false
     private var hasInitializedMap = false
     private var isInitializingMap = false
@@ -165,7 +171,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }()
 
     // 각 단계 수행 시작 시각 (경과 시간 측정용)
-    private var authStartTime: CFAbsoluteTime?
     private var initVMViewStartTime: CFAbsoluteTime?
     private var configureFrameStartTime: CFAbsoluteTime?
     
@@ -222,9 +227,38 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         return textField
     }()
 
+    // 다중 섹터 모드에서 initialize 로 로드할 섹터 목록 (쉼표 구분).
+    private let initSectorIdsTextField: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .roundedRect
+        textField.keyboardType = .numbersAndPunctuation
+        textField.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        textField.textColor = UIColor(hex: "#32404D")
+        textField.placeholder = "111,112,113"
+        textField.clearButtonMode = .whileEditing
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+
+    private lazy var initSectorIdsRowStackView: UIStackView = {
+        let label = UILabel()
+        label.text = "Init Sectors"
+        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        label.textColor = UIColor(hex: "#32404D")
+        label.setContentHuggingPriority(.required, for: .horizontal)
+
+        let stackView = UIStackView(arrangedSubviews: [label, initSectorIdsTextField])
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+
     private lazy var sectorIdRowStackView: UIStackView = {
         let label = UILabel()
-        label.text = "Sector ID"
+        label.text = sectorMode == .single ? "Sector ID" : "Active Sector"
         label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         label.textColor = UIColor(hex: "#32404D")
         label.setContentHuggingPriority(.required, for: .horizontal)
@@ -335,8 +369,8 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     
     private func setupLayout() {
         view.backgroundColor = .systemBackground
-        title = "TJJupiterVM Demo"
-        
+        title = sectorMode == .single ? "단일 섹터" : "다중 섹터"
+
         view.addSubview(statusLabel)
         view.addSubview(buttonPanelView)
         view.addSubview(frameContainerView)
@@ -347,6 +381,10 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         panelStackView.addArrangedSubview(togglePanelRowStackView)
         panelStackView.addArrangedSubview(buttonStackView)
 
+        if sectorMode == .multi {
+            buttonStackView.addArrangedSubview(initSectorIdsRowStackView)
+            initSectorIdsRowStackView.heightAnchor.constraint(equalToConstant: 42).isActive = true
+        }
         buttonStackView.addArrangedSubview(initializeButton)
         buttonStackView.addArrangedSubview(mockModeButton)
         buttonStackView.addArrangedSubview(groupedControlStackView)
@@ -402,6 +440,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         view.addGestureRecognizer(dismissKeyboardTap)
 
         sectorIdTextField.text = String(cachedSectorId())
+        initSectorIdsTextField.text = formatSectorIds(cachedInitSectorIds())
 
         bindButtonActions()
         refreshButtonAvailability()
@@ -574,7 +613,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         bluetoothAuthorization=\(bluetoothAuthorization) \
         bluetoothState=\(bluetoothState) \
         hasRequiredPermissions=\(hasRequiredPermissions) \
-        authState=\(String(describing: authState)) \
         isRequestingMotionPermission=\(isRequestingMotionPermission)
         """)
     }
@@ -677,33 +715,19 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         }
 
         lastPresentedPermissionIssue = nil
-        ensureAuthIfNeeded()
-    }
-
-    private func ensureAuthIfNeeded() {
-        guard hasRequiredPermissions else { return }
-
-        switch authState {
-        case .idle, .failed:
-            doAuth()
-        case .inProgress, .succeeded:
-            refreshButtonAvailability()
-        }
     }
 
     private func refreshButtonAvailability() {
+        // 인증은 이전 화면(ButtonSetViewController)에서 완료된 상태로 진입한다.
         let isReadyAfterInitialize = hasRequiredPermissions
-            && authState == .succeeded
             && hasInitializedMap
         // TEMP: init 없이 auth만으로 아래 버튼들을 활성화하기 위한 임시 조건.
         // 원복 시 configureFrame/closeFrame/startService/stopService 게이트를
         // 다시 isReadyAfterInitialize 로 되돌리면 됩니다.
         let isReadyAfterAuth = hasRequiredPermissions
-            && authState == .succeeded
-        // sectorId 를 바꿔가며 반복 테스트할 수 있도록, 초기화 성공 이후에도
-        // (초기화 진행 중이 아니라면) initialize 를 다시 호출할 수 있게 한다.
+        // 반복 테스트할 수 있도록, 초기화 성공 이후에도 (초기화 진행 중이 아니라면)
+        // initialize 를 다시 호출할 수 있게 한다. 다중 섹터 모드의 섹터 전환은 재초기화 없이 Active Sector 만 바꾸면 된다.
         let canInit = hasRequiredPermissions
-            && authState == .succeeded
             && !isInitializingMap
         // configureFrame 은 웹뷰 예열(initializeWebView)과 컨테이너 부착(attachView)을
         // 한 번에 수행한다. 로드가 끝나면 onWebViewSuccess 로 완료가 전달된다.
@@ -737,17 +761,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
 
     private func updateStatusDisplay() {
         let permissionText = hasRequiredPermissions ? "권한 준비됨" : "권한 대기"
-        let authText: String
-        switch authState {
-        case .idle:
-            authText = "인증 대기"
-        case .inProgress:
-            authText = "인증 중"
-        case .succeeded:
-            authText = "인증 완료"
-        case .failed:
-            authText = "인증 실패"
-        }
+        let modeText = sectorMode == .single ? "단일 섹터" : "다중 섹터"
 
         let initializeText = isInitializingMap ? "초기화 중" : (hasInitializedMap ? "초기화 완료" : "초기화 전")
         let frameText: String
@@ -774,7 +788,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
             ? "Mock Mode 적용 중"
             : "Mock Mode: \(displayName(for: selectedMockMode))"
 
-        statusLabel.text = "\(permissionText)  |  \(authText)\n\(initializeText)  |  \(mockModeText)\n\(frameText)  |  \(serviceText)"
+        statusLabel.text = "\(permissionText)  |  \(modeText)\n\(initializeText)  |  \(mockModeText)\n\(frameText)  |  \(serviceText)"
         frameContainerView.layer.borderColor = (isFrameConfigured || isConfiguringFrame ? frameActiveBorderColor : frameIdleBorderColor).cgColor
         framePlaceholderLabel.isHidden = isFrameConfigured || isConfiguringFrame
     }
@@ -1010,30 +1024,44 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         evaluateLaunchRequirements()
     }
     
-    func doAuth() {
-        authState = .inProgress
-        refreshButtonAvailability()
-        TJJupiterVMAuth.shared.setServerConfig(region: .SAUDI, branch: .DEV)
-        authStartTime = CFAbsoluteTimeGetCurrent()
-        print("(MainViewController) [TIMING] auth -> 시작")
-        TJJupiterVMAuth.shared.auth(accessKey: "", secretAccessKey: "", completion: { [weak self] statusCode, success in
-            guard let self else { return }
-            if let start = self.authStartTime {
-                let elapsed = CFAbsoluteTimeGetCurrent() - start
-                print(String(format: "(MainViewController) [TIMING] auth -> 종료, 경과: %.3f초", elapsed))
-                self.authStartTime = nil
-            }
-            let successRange = 200..<300
-            self.authState = success && successRange.contains(statusCode) ? .succeeded : .failed
-            self.refreshButtonAvailability()
-        })
-    }
-    
     func initVMView() {
         initVMViewStartTime = CFAbsoluteTimeGetCurrent()
-        let sectorId = resolvedSectorId()
-        print("(MainViewController) [TIMING] initVMView -> 시작, sectorId: \(sectorId)")
-        vmView.initialize(userId: "vm-test", sectorId: sectorId)
+        switch sectorMode {
+        case .single:
+            let sectorId = resolvedSectorId()
+            print("(MainViewController) [TIMING] initVMView -> 시작, sectorId: \(sectorId)")
+            vmView.initialize(userId: "vm-test", sectorId: sectorId)
+        case .multi:
+            let sectorIds = resolvedInitSectorIds()
+            print("(MainViewController) [TIMING] initVMView -> 시작, sectorIds: \(sectorIds)")
+            vmView.initialize(userId: "vm-test", sectorIds: sectorIds)
+        }
+    }
+
+    private func resolvedInitSectorIds() -> [Int] {
+        let parsed = parseSectorIds(initSectorIdsTextField.text ?? "")
+        let sectorIds = parsed.isEmpty ? cachedInitSectorIds() : parsed
+        UserDefaults.standard.set(sectorIds, forKey: initSectorIdsDefaultsKey)
+        initSectorIdsTextField.text = formatSectorIds(sectorIds)
+        return sectorIds
+    }
+
+    private func cachedInitSectorIds() -> [Int] {
+        let cached = UserDefaults.standard.array(forKey: initSectorIdsDefaultsKey) as? [Int] ?? []
+        return cached.isEmpty ? defaultInitSectorIds : cached
+    }
+
+    // "111, 112,113" -> [111, 112, 113] (숫자가 아닌 값은 무시, 중복 제거, 입력 순서 유지)
+    private func parseSectorIds(_ text: String) -> [Int] {
+        var seen = Set<Int>()
+        return text
+            .split(separator: ",")
+            .compactMap { Int($0.trimmingCharacters(in: .whitespaces)) }
+            .filter { seen.insert($0).inserted }
+    }
+
+    private func formatSectorIds(_ sectorIds: [Int]) -> String {
+        sectorIds.map(String.init).joined(separator: ",")
     }
 
     private func resolvedSectorId() -> Int {
@@ -1055,10 +1083,11 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
 
     func configureVMView() {
         configureFrameStartTime = CFAbsoluteTimeGetCurrent()
-        print("(MainViewController) [TIMING] configureFrame -> 시작")
+        let sectorId = resolvedSectorId()
+        print("(MainViewController) [TIMING] configureFrame -> 시작, sectorId: \(sectorId)")
         // configureFrame 은 웹뷰 예열(initializeWebView)과 컨테이너 부착(attachView)을
         // 한 번에 수행한다. 웹뷰 로드가 끝나면 onWebViewSuccess 로 완료가 전달된다.
-        vmView.configureFrame(to: self.frameContainerView)
+        vmView.configureFrame(to: self.frameContainerView, sectorId: sectorId)
     }
 
     func closeVMView() {
@@ -1066,7 +1095,10 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     }
     
     func startService() {
-        vmView.startService()
+        let sectorId = resolvedSectorId()
+        print("(MainViewController) startService -> sectorId: \(sectorId)")
+        vmView.setReplayMode(flag: true, rfdFileName: "112_test8_rfd.json", uvdFileName: "112_test8_uvd.json", eventFileName: "112_test8_event.json")
+        vmView.startService(sectorId: sectorId)
     }
 
     func stopService() {
@@ -1099,7 +1131,6 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
 
     private func applyMockMode(_ mode: JupiterMockMode) {
         guard hasRequiredPermissions,
-              authState == .succeeded,
               hasInitializedMap else {
             return
         }
@@ -1109,7 +1140,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
         let requestID = mockModeRequestID
         refreshButtonAvailability()
 
-        vmView.setMockMode(mode: mode) { [weak self] isSuccess in
+        vmView.setMockMode(mode: mode, sectorId: resolvedSectorId()) { [weak self] isSuccess in
             DispatchQueue.main.async {
                 guard let self, self.mockModeRequestID == requestID else { return }
 

@@ -49,18 +49,28 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// 단일 섹터 초기화. `initialize(userId:sectorIds: [sectorId])` 와 같다.
     public func initialize(userId: String, sectorId: Int, debugOption: Bool = true) {
+        self.initialize(userId: userId, sectorIds: [sectorId], debugOption: debugOption)
+    }
+
+    /// 멀티 섹터 초기화. `sectorIds` 의 리소스를 한 번에 로드한다. 사용할 섹터는 `configureFrame` / `startService` 에서 지정한다.
+    /// 하나라도 로드에 실패하면 init 실패(`onInitSuccess(false, .LOAD_RESOURCE_FAIL)`)다.
+    public func initialize(userId: String, sectorIds: [Int], debugOption: Bool = true) {
         let dev = tjBranch == .DEV
         JupiterLogger.setDebugOption(set: false)
         JupiterVMLogger.setDebugOption(set: false)
-        self.vmView.initialize(userId: userId, region: tjRegion.rawValue, sectorId: sectorId, debugOption: debugOption, uploadOption: debugOption, dev: dev)
+        self.vmView.initialize(userId: userId, region: tjRegion.rawValue, sectorIds: sectorIds, debugOption: debugOption, uploadOption: debugOption, dev: dev)
     }
-    
-    public func startService() {
+
+    /// 서비스를 시작한다. `sectorId` 는 필수이며 초기화 때 로드한 섹터 중 하나여야 한다.
+    /// `configureFrame` 이 먼저 섹터를 고정했다면 그 섹터와 같아야 하며, 다르거나 로드되지 않은 섹터면
+    /// `onJupiterSuccess(false, .INVALID_SECTOR)` 로 실패한다.
+    public func startService(sectorId: Int) {
         let suffix = tjBranch == .DEV ? "dev" : "prod"
         let appName = JupiterReplayer.shared.replayMode ? "ios_vm_replay" : "ios_vm_\(suffix)"
         self.vmView.setLSEAppName(name: appName)
-        self.vmView.startService()
+        self.vmView.startService(sectorId: sectorId)
     }
     
     public func stopService(completion: @escaping (Bool, String) -> Void) {
@@ -71,8 +81,11 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
         self.vmView.setReplayMode(flag: flag, rfdFileName: rfdFileName, uvdFileName: uvdFileName, eventFileName: eventFileName)
     }
     
-    public func setMockMode(mode: JupiterMockMode, completion: @escaping (Bool) -> Void) {
-        self.vmView.setMockMode(mode: mode, completion: { isSuccess in
+    /// `sectorId` 섹터의 시뮬레이션 데이터로 목업을 설정한다. 해제(`.NONE`)는 섹터를 쓰지 않는다.
+    /// 로드되지 않은 섹터이거나 이미 다른 활성 섹터가 고정되어 있으면 `completion(false)`.
+    /// 목업 모드에서는 `sectorId` 를 생략한 `configureFrame`/`startService` 가 목업 섹터를 쓰고, 다른 섹터를 지정하면 실패한다.
+    public func setMockMode(mode: JupiterMockMode, sectorId: Int, completion: @escaping (Bool) -> Void) {
+        self.vmView.setMockMode(mode: mode, sectorId: sectorId, completion: { isSuccess in
             completion(isSuccess)
         })
     }
@@ -81,13 +94,16 @@ public class TJJupiterVMView: UIView, JupiterVMDelegate {
         self.vmView.initializeWebView()
     }
 
-    private func attachView(to matchView: UIView) {
-        self.vmView.configureFrame(to: matchView)
+    private func attachView(to matchView: UIView, sectorId: Int) {
+        self.vmView.configureFrame(to: matchView, sectorId: sectorId)
     }
 
-    public func configureFrame(to matchView: UIView) {
+    /// `sectorId` 섹터의 지도를 표출한다. `sectorId` 는 필수이며 초기화 때 로드한 섹터 중 하나여야 한다.
+    /// `startService` 가 먼저 섹터를 고정했다면 그 섹터와 같아야 하며, 다르거나 로드되지 않은 섹터면
+    /// `onWebViewSuccess(false, .INVALID_SECTOR)` 로 실패한다.
+    public func configureFrame(to matchView: UIView, sectorId: Int) {
         self.initializeWebView()
-        self.attachView(to: matchView)
+        self.attachView(to: matchView, sectorId: sectorId)
     }
 
     public func closeFrame() {

@@ -37,6 +37,8 @@ public enum JupiterErrorCode: Int {
     case NOT_INITIALIZED = 0
     case DUPLICATED_SERVICE = 1
     case GENERATOR_FAIL = 2
+    // startService 의 sectorId 가 initialize 때 로드되지 않았거나 configureFrame 이 고정한 활성 섹터와 다름
+    case INVALID_SECTOR = 3
 }
 
 public enum JupiterServiceCode: Int {
@@ -57,6 +59,8 @@ public enum VMErrorCode: Int {
     case UNKNOWN = -1
     case NOT_INITIALIZED = 401
     case VM_VIEW_FAIL  = 402
+    // configureFrame 의 sectorId 가 initialize 때 로드되지 않았거나 startService 가 고정한 활성 섹터와 다름
+    case INVALID_SECTOR = 403
 }
 
 public struct JupiterResult: Codable {
@@ -66,6 +70,8 @@ public struct JupiterResult: Codable {
     public var level_name: String
     public var jupiter_pos: Position
     public var navi_pos: Position?
+    // 목적지까지 남은 경로 거리(m). 차량 모드 + 길안내 경로가 있을 때만 값이 있고, 보행자 모드·경로 없음·도착/stop 이후는 nil.
+    public var remaining_distance: Int?
     public var llh: LLH?
     public var velocity: Float
     public var is_vehicle: Bool
@@ -87,9 +93,9 @@ public struct LLH: Codable {
 
 
 public struct EnteringInfo: Codable {
-    let id: Int
-    let number: Int
-    let name: String
+    public let id: Int
+    public let number: Int
+    public let name: String
 }
 
 public enum ParkingLocationState: Int {

@@ -161,11 +161,17 @@ After auth succeeds, the demo lets you test each stage separately.
 
 `configureFrame` / `closeFrame` and `startService` / `stopService` are intentionally separated so you can verify frame lifecycle and service lifecycle independently.
 
+This demo uses multiple sectors:
+- `initialize` loads sectors `111`, `112`, `113` at once.
+- `configureFrame`, `startService`, and `setMockMode` use the **Active Sector** field on the screen (default `112`).
+- To switch sectors, tap `stopService` and `closeFrame`, change the Active Sector, then tap `configureFrame` / `startService` again. No re-initialization is needed.
+- `configureFrame` and `startService` must use the same sector. A different sector fails with `INVALID_SECTOR` (see the SDK README for the rules).
+
 ### 4. Initialize service
 
 Input:
 - `userId: String`
-- `sectorId: Int`
+- `sectorIds: [Int]` (or `sectorId: Int` for a single sector)
 - `debugOption: Bool` (optional, default: `true`)
 
 > The service `region` / server `branch` are configured separately via
@@ -178,30 +184,32 @@ Output:
 vmView.delegate = self
 vmView.initialize(
     userId: "vm-test",
-    sectorId: 20
+    sectorIds: [111, 112, 113]
 )
 ```
 
 Behavior in this demo:
-- `initialize` is enabled only once after successful auth
+- `initialize` is enabled after successful auth and can be called again when not in progress
 - On successful initialization, sample saved parking and parking-state data are applied
 
 ### 5. Apply Mock Mode
 
 Input:
 - `mode: JupiterMockMode`
+- `sectorId: Int` (the sector whose simulation data is used)
 
 Output:
 - completion `(isSuccess: Bool)`
 
 ```swift
-vmView.setMockMode(mode: .VEHICLE_OUTDOOR_PARKING) { isSuccess in
+vmView.setMockMode(mode: .VEHICLE_OUTDOOR_PARKING, sectorId: 112) { isSuccess in
     // update UI state
 }
 ```
 
 Behavior in this demo:
 - `Mock Mode` becomes available after `initialize`
+- The Active Sector is used as the mock sector. Apply Mock Mode before `configureFrame` / `startService`; it fails if a different sector is already active
 - Available options are `None`, `Vehicle Outdoor Start`, `Vehicle Indoor Start`, `Pedestrian Indoor Start`, and `Pedestrian POI Start`
 - `startService` stays disabled while a Mock Mode change is being applied
 
@@ -209,13 +217,14 @@ Behavior in this demo:
 
 Input:
 - host `UIView`
+- `sectorId: Int?` (optional; omit to use the current active sector)
 
 Output:
 - `onWebViewSuccess(isSuccess, code)`
 - `didWebViewRemoved()`
 
 ```swift
-vmView.configureFrame(to: containerView)
+vmView.configureFrame(to: containerView, sectorId: 112)
 ```
 
 Behavior in this demo:
@@ -226,7 +235,7 @@ Behavior in this demo:
 ### 7. Start and stop service
 
 ```swift
-vmView.startService()
+vmView.startService(sectorId: 112)
 
 vmView.stopService { isSuccess, message in
     // update UI state
