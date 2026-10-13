@@ -727,7 +727,7 @@ public class NavigationManager : TJLabsJupiter.JupiterManagerDelegate {
   #if compiler(>=5.3) && $NonescapableTypes
   public init(id: Swift.String, cloud: Swift.String = JupiterCloud.GCP.rawValue, region: Swift.String = JupiterRegion.KOREA.rawValue, sectorIds: [Swift.Int], debugOption: Swift.Bool = false, uploadOption: Swift.Bool = false, dev: Swift.Bool = false, onPremiseBaseURL: Swift.String? = nil)
   #endif
-  public func initialize()
+  public func initialize(includeImages: Swift.Bool = true)
   @objc deinit
   public func startService(mode: TJLabsCommon.UserMode, sectorId: Swift.Int)
   public func stopService(completion: @escaping (Swift.Bool, Swift.String, TJLabsJupiter.JupiterServiceResult) -> Swift.Void)
