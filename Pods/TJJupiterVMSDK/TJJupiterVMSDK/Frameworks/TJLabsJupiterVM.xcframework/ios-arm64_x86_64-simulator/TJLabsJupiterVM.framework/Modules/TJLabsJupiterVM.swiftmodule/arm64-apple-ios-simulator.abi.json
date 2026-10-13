@@ -2782,7 +2782,7 @@
           {
             "kind": "Function",
             "name": "startService",
-            "printedName": "startService(sectorId:)",
+            "printedName": "startService(sectorId:mode:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -2794,11 +2794,18 @@
                 "name": "Int",
                 "printedName": "Swift.Int",
                 "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UserMode",
+                "printedName": "TJLabsCommon.UserMode",
+                "hasDefaultArg": true,
+                "usr": "s:12TJLabsCommon8UserModeO"
               }
             ],
             "declKind": "Func",
-            "usr": "s:15TJLabsJupiterVM0B6VMViewC12startService8sectorIdySi_tF",
-            "mangledName": "$s15TJLabsJupiterVM0B6VMViewC12startService8sectorIdySi_tF",
+            "usr": "s:15TJLabsJupiterVM0B6VMViewC12startService8sectorId4modeySi_0A6Common8UserModeOtF",
+            "mangledName": "$s15TJLabsJupiterVM0B6VMViewC12startService8sectorId4modeySi_0A6Common8UserModeOtF",
             "moduleName": "TJLabsJupiterVM",
             "declAttributes": [
               "Preconcurrency",

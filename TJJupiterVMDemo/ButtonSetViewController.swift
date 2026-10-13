@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import WebKit
 import TJJupiterVMSDK
 
 class ButtonSetViewController: UIViewController {
@@ -52,6 +53,12 @@ class ButtonSetViewController: UIViewController {
 
         view.backgroundColor = .systemBackground
         title = "TJJupiterVM Demo"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "trash"),
+            style: .plain,
+            target: self,
+            action: #selector(clearCacheTapped)
+        )
 
         view.addSubview(modeButtonStackView)
         view.addSubview(authStatusLabel)
@@ -110,7 +117,7 @@ class ButtonSetViewController: UIViewController {
     private func doAuth() {
         authState = .inProgress
         refreshAuthDisplay()
-        TJJupiterVMAuth.shared.setServerConfig(region: .KOREA, branch: .DEV)
+        TJJupiterVMAuth.shared.setServerConfig(region: .SAUDI, branch: .DEV)
         authStartTime = CFAbsoluteTimeGetCurrent()
         print("(ButtonSetViewController) [TIMING] auth -> 시작")
         TJJupiterVMAuth.shared.auth(accessKey: "", secretAccessKey: "", completion: { [weak self] statusCode, success in
@@ -156,5 +163,57 @@ class ButtonSetViewController: UIViewController {
         guard let mainVC = storyboard.instantiateViewController(withIdentifier: "MainViewController") as? MainViewController else { return }
         mainVC.sectorMode = sectorMode
         navigationController?.pushViewController(mainVC, animated: true)
+    }
+
+    @objc private func clearCacheTapped() {
+        guard presentedViewController == nil else { return }
+
+        let alert = UIAlertController(title: "캐시 초기화", message: "앱의 모든 캐시(UserDefaults, 웹뷰 데이터, 디스크 캐시)를 삭제합니다.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        alert.addAction(UIAlertAction(title: "초기화", style: .destructive) { [weak self] _ in
+            self?.clearAllCaches()
+        })
+        present(alert, animated: true)
+    }
+
+    private func clearAllCaches() {
+        // UserDefaults (데모 입력값 + SDK 리소스 캐시 메타데이터)
+        if let bundleId = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleId)
+        }
+
+        // 네트워크 캐시 / 쿠키
+        URLCache.shared.removeAllCachedResponses()
+        HTTPCookieStorage.shared.cookies?.forEach { HTTPCookieStorage.shared.deleteCookie($0) }
+
+        // 디스크 캐시 (Caches, Application Support, tmp)
+        let fileManager = FileManager.default
+        let directories = [
+            fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first,
+            fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first,
+            fileManager.temporaryDirectory
+        ].compactMap { $0 }
+        for directory in directories {
+            let contents = (try? fileManager.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? []
+            contents.forEach { try? fileManager.removeItem(at: $0) }
+        }
+
+        // 웹뷰 데이터
+        WKWebsiteDataStore.default().removeData(
+            ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
+            modifiedSince: .distantPast
+        ) { [weak self] in
+            print("(ButtonSetViewController) clearAllCaches -> 완료")
+            self?.presentCacheClearedAlert()
+        }
+    }
+
+    private func presentCacheClearedAlert() {
+        guard presentedViewController == nil else { return }
+
+        // SDK 메모리 캐시는 프로세스가 살아있는 동안 유지되므로 재시작을 안내한다.
+        let alert = UIAlertController(title: "캐시 초기화 완료", message: "메모리에 남은 캐시까지 비우려면 앱을 재시작하세요.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(alert, animated: true)
     }
 }
