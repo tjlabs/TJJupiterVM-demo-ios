@@ -1097,6 +1097,7 @@ class MainViewController: UIViewController, TJJupiterVMDelegate, CLLocationManag
     func startService() {
         let sectorId = resolvedSectorId()
         print("(MainViewController) startService -> sectorId: \(sectorId)")
+        vmView.setReplayMode(flag: true, rfdFileName: "112_test8_rfd.json", uvdFileName: "112_test8_uvd.json", eventFileName: "112_test8_event.json")
         vmView.startService(sectorId: sectorId)
     }
 
