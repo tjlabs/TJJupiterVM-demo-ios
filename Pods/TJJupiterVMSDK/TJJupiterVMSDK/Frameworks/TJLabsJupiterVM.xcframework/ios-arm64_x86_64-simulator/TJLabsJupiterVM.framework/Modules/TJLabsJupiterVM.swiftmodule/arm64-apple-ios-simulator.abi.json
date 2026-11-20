@@ -2782,7 +2782,7 @@
           {
             "kind": "Function",
             "name": "startService",
-            "printedName": "startService(sectorId:)",
+            "printedName": "startService(sectorId:mode:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -2794,11 +2794,18 @@
                 "name": "Int",
                 "printedName": "Swift.Int",
                 "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UserMode",
+                "printedName": "TJLabsCommon.UserMode",
+                "hasDefaultArg": true,
+                "usr": "s:12TJLabsCommon8UserModeO"
               }
             ],
             "declKind": "Func",
-            "usr": "s:15TJLabsJupiterVM0B6VMViewC12startService8sectorIdySi_tF",
-            "mangledName": "$s15TJLabsJupiterVM0B6VMViewC12startService8sectorIdySi_tF",
+            "usr": "s:15TJLabsJupiterVM0B6VMViewC12startService8sectorId4modeySi_0A6Common8UserModeOtF",
+            "mangledName": "$s15TJLabsJupiterVM0B6VMViewC12startService8sectorId4modeySi_0A6Common8UserModeOtF",
             "moduleName": "TJLabsJupiterVM",
             "declAttributes": [
               "Preconcurrency",
@@ -2985,6 +2992,71 @@
               "Preconcurrency",
               "Custom",
               "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setPedestrianPathMatching",
+            "printedName": "setPedestrianPathMatching(enabled:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15TJLabsJupiterVM0B6VMViewC25setPedestrianPathMatching7enabledySb_tF",
+            "mangledName": "$s15TJLabsJupiterVM0B6VMViewC25setPedestrianPathMatching7enabledySb_tF",
+            "moduleName": "TJLabsJupiterVM",
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setPedestrianRouteMatching",
+            "printedName": "setPedestrianRouteMatching(enabled:radius:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Float",
+                "printedName": "Swift.Float",
+                "hasDefaultArg": true,
+                "usr": "s:Sf"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:15TJLabsJupiterVM0B6VMViewC26setPedestrianRouteMatching7enabled6radiusySb_SftF",
+            "mangledName": "$s15TJLabsJupiterVM0B6VMViewC26setPedestrianRouteMatching7enabled6radiusySb_SftF",
+            "moduleName": "TJLabsJupiterVM",
+            "declAttributes": [
+              "Preconcurrency",
+              "Custom",
+              "AccessControl",
+              "RawDocComment"
             ],
             "funcSelfKind": "NonMutating"
           },
@@ -3548,6 +3620,39 @@
             ],
             "isFromExtension": true,
             "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "webViewWebContentProcessDidTerminate",
+            "printedName": "webViewWebContentProcessDidTerminate(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "WKWebView",
+                "printedName": "WebKit.WKWebView",
+                "usr": "c:objc(cs)WKWebView"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@TJLabsJupiterVM@objc(cs)JupiterVMView(im)webViewWebContentProcessDidTerminate:",
+            "mangledName": "$s15TJLabsJupiterVM0B6VMViewC36webViewWebContentProcessDidTerminateyySo05WKWebF0CF",
+            "moduleName": "TJLabsJupiterVM",
+            "objc_name": "webViewWebContentProcessDidTerminate:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Preconcurrency",
+              "Custom",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
           }
         ],
         "declKind": "Class",
@@ -4019,210 +4124,238 @@
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 4182,
+      "offset": 3924,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "Dictionary",
-      "offset": 4652,
+      "offset": 4394,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "Array",
-      "offset": 4708,
+      "offset": 4450,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 4780,
+      "offset": 4522,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 4937,
+      "offset": 4679,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 4992,
+      "offset": 4734,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "IntegerLiteral",
-      "offset": 5050,
+      "offset": 4792,
       "length": 2,
       "value": "20"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "StringLiteral",
-      "offset": 5090,
+      "offset": 4832,
       "length": 18,
       "value": "\"indoorNavigation\""
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "IntegerLiteral",
-      "offset": 5275,
+      "offset": 5017,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 5317,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 5368,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 5418,
+      "length": 1,
+      "value": "3"
+    },
+    {
+      "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 5481,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "Array",
-      "offset": 5677,
+      "offset": 5883,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 6010,
+      "offset": 6216,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 6183,
+      "offset": 6389,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 6307,
+      "offset": 6513,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 6660,
+      "offset": 6866,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "IntegerLiteral",
-      "offset": 6746,
+      "offset": 6952,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 6849,
+      "offset": 7055,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "IntegerLiteral",
-      "offset": 7173,
+      "offset": 7379,
       "length": 2,
       "value": "-1"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 7209,
+      "offset": 7415,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "IntegerLiteral",
-      "offset": 8187,
+      "offset": 8393,
       "length": 3,
       "value": "111"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "IntegerLiteral",
-      "offset": 8230,
+      "offset": 8436,
       "length": 3,
       "value": "114"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "IntegerLiteral",
-      "offset": 8270,
+      "offset": 8476,
       "length": 4,
       "value": "1137"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "FloatLiteral",
-      "offset": 8310,
+      "offset": 8516,
       "length": 18,
       "value": "24.740103556554004"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "FloatLiteral",
-      "offset": 8365,
+      "offset": 8571,
       "length": 17,
       "value": "46.57034460110625"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "FloatLiteral",
-      "offset": 8417,
+      "offset": 8623,
       "length": 7,
       "value": "241.012"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 8962,
+      "offset": 9168,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 8989,
+      "offset": 9195,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 9007,
+      "offset": 9213,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 9399,
+      "offset": 9605,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 9426,
+      "offset": 9632,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/leo\/SwiftProjects\/Frameworks\/TJLabsJupiterVM\/TJLabsJupiterVM\/JupiterVMView.swift",
       "kind": "BooleanLiteral",
-      "offset": 9444,
+      "offset": 9650,
       "length": 5,
       "value": "false"
     }
