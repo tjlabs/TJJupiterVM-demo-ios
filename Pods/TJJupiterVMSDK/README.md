@@ -1,5 +1,5 @@
 # TJJupiterVMSDK
-### Version 1.0.23
+### Version 1.0.25
 
 [![Version](https://img.shields.io/cocoapods/v/TJJupiterVMSDK.svg?style=flat)](https://cocoapods.org/pods/TJJupiterVMSDK)
 [![License](https://img.shields.io/cocoapods/l/TJJupiterVMSDK.svg?style=flat)](https://cocoapods.org/pods/TJJupiterVMSDK)
@@ -54,53 +54,6 @@ If you cannot find `TJJupiterVMSDK` in CocoaPods, add the default Specs source t
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
 ```
-
----
-
-## 🔄 Migration Guide (1.0.22 → 1.0.23)
-
-If you are upgrading from 1.0.22 or earlier, check the items below. Existing single-sector code keeps working except for **Breaking Changes**.
-
-### ⚠️ Breaking Changes
-
-| Before (≤ 1.0.22) | After (1.0.23) | Action |
-|---|---|---|
-| `setMockMode(mode:completion:)` | `setMockMode(mode:sectorId:completion:)` | Pass the sector whose simulation data to use. See [Mocking Mode](#9-mocking-mode). |
-
-New enum cases were added. If you `switch` over these enums **exhaustively without `default`**, add the new cases:
-
-| Enum | Added cases |
-|---|---|
-| `JupiterErrorCode` | `INVALID_SECTOR = 3` |
-| `VMErrorCode` | `INVALID_SECTOR = 403` |
-
-### 🔁 Behavior Changes
-
-These require no code changes, but the SDK behaves differently after upgrading.
-
-- **Map zoom range follows the sector configuration.** If the sector has a zoom level configured on the server, the map opens at that default zoom and limits zooming to its min/max range. Sectors without the configuration keep the previous map defaults.
-- **`stopService` ends navigation.** The destination and route are cleared when the service stops. After restarting, request the route again from the map.
-- **Mocking mode fixes the sector.** While mocking mode is on, `configureFrame` and `startService` must be called with the mock sector's `sectorId`; another sector fails with `INVALID_SECTOR`. See [Mocking Mode](#9-mocking-mode).
-
-### ✨ New Features
-
-- **Multi-sector support.** Load several sectors once and switch between them without re-initializing. See [Initialize](#4-create-vm-view) and [Switch Sectors](#8-switch-sectors-multi-sector).
-    - `initialize(userId:sectorIds:debugOption:)`
-    - `configureFrame(to:sectorId:)` and `startService(sectorId:)` — `sectorId` is required; the SDK never picks a sector for you.
-    - The single-sector `initialize(userId:sectorId:debugOption:)` still works.
-
-### 🛠 Fixes
-
-- `EnteringInfo` fields (`id`, `number`, `name`) are now `public`. Previously they could not be read outside the SDK.
-
-### 📝 Documentation Fixes
-
-The previous README did not match the SDK in the following places. The SDK API itself did not change.
-
-- `isParkingLocationTapped(levelId:parkingLocationId:)` — `levelId` is a `String`, not `Int`.
-- Parking location APIs take `String` level keys (level_matches), not `Int`.
-- `JupiterVMRegion` has only `KOREA` and `SAUDI`.
-- `VMErrorCode` includes `NOT_INITIALIZED = 401`.
 
 ---
 

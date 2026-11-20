@@ -110,7 +110,7 @@ class ButtonSetViewController: UIViewController {
     private func doAuth() {
         authState = .inProgress
         refreshAuthDisplay()
-        TJJupiterVMAuth.shared.setServerConfig(region: .KOREA, branch: .DEV)
+        TJJupiterVMAuth.shared.setServerConfig(region: .SAUDI, branch: .PROD)
         authStartTime = CFAbsoluteTimeGetCurrent()
         print("(ButtonSetViewController) [TIMING] auth -> 시작")
         TJJupiterVMAuth.shared.auth(accessKey: "", secretAccessKey: "", completion: { [weak self] statusCode, success in

@@ -1,16 +1,16 @@
 PODS:
-  - TJJupiterVMSDK (1.0.23)
+  - TJJupiterVMSDK (1.0.25)
 
 DEPENDENCIES:
-  - TJJupiterVMSDK (= 1.0.23)
+  - TJJupiterVMSDK (= 1.0.25)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - TJJupiterVMSDK
 
 SPEC CHECKSUMS:
-  TJJupiterVMSDK: 15a24d91c6a0ebfa12194d1cd6fce03aaec6d1ea
+  TJJupiterVMSDK: 275267263d59e64bc85910d2a7ce4a0c7e28151e
 
-PODFILE CHECKSUM: c38bb7ea70cfcafe9050ffe51c0bd49f9f44c3c6
+PODFILE CHECKSUM: 26e2ba76c1df0c701d13025b368122f379137623
 
 COCOAPODS: 1.16.2

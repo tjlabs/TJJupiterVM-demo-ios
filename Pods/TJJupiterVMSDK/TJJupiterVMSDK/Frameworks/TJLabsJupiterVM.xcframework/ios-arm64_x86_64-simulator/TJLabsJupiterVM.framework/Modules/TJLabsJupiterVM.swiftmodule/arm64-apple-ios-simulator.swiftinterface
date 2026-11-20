@@ -121,11 +121,13 @@ public protocol JupiterVMDelegate : AnyObject {
   @objc deinit
   @_Concurrency.MainActor @preconcurrency public func initialize(userId: Swift.String, region: Swift.String, sectorId: Swift.Int, debugOption: Swift.Bool = true, uploadOption: Swift.Bool = true, dev: Swift.Bool = false)
   @_Concurrency.MainActor @preconcurrency public func initialize(userId: Swift.String, region: Swift.String, sectorIds: [Swift.Int], debugOption: Swift.Bool = true, uploadOption: Swift.Bool = true, dev: Swift.Bool = false)
-  @_Concurrency.MainActor @preconcurrency public func startService(sectorId: Swift.Int)
+  @_Concurrency.MainActor @preconcurrency public func startService(sectorId: Swift.Int, mode: TJLabsCommon.UserMode = .MODE_VEHICLE)
   @_Concurrency.MainActor @preconcurrency public func stopService(completion: @escaping (Swift.Bool, Swift.String) -> Swift.Void)
   @_Concurrency.MainActor @preconcurrency public func setReplayMode(flag: Swift.Bool, rfdFileName: Swift.String, uvdFileName: Swift.String, eventFileName: Swift.String)
   @_Concurrency.MainActor @preconcurrency public func setMockMode(mode: TJLabsJupiter.JupiterMockMode, sectorId: Swift.Int, completion: @escaping (Swift.Bool) -> Swift.Void)
   @_Concurrency.MainActor @preconcurrency public func setLSEAppName(name: Swift.String)
+  @_Concurrency.MainActor @preconcurrency public func setPedestrianPathMatching(enabled: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency public func setPedestrianRouteMatching(enabled: Swift.Bool, radius: Swift.Float = NavigationManager.DEFAULT_PEDESTRIAN_ROUTE_MATCHING_RADIUS)
   @_Concurrency.MainActor @preconcurrency public func closeFrame()
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public func removeFromSuperview()
   @_Concurrency.MainActor @preconcurrency public func initializeWebView()
@@ -151,6 +153,7 @@ extension TJLabsJupiterVM.JupiterVMView : WebKit.WKNavigationDelegate {
   #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFail navigation: WebKit.WKNavigation!, withError error: any Swift.Error)
   #endif
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func webViewWebContentProcessDidTerminate(_ webView: WebKit.WKWebView)
 }
 extension TJLabsJupiterVM.VMCloud : Swift.Equatable {}
 extension TJLabsJupiterVM.VMCloud : Swift.Hashable {}
